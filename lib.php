@@ -21,12 +21,36 @@
 
 defined('MOODLE_INTERNAL') || die;
 
+/**
+ * Method to insert gradebook plugin link into menu
+ * @param settings_navigation $nav
+ * @param context $context
+ * @return bool
+ * @throws coding_exception
+ */
 function local_gradebook_extend_settings_navigation(settings_navigation $nav, context $context)
 {
+
     if (! ($courseAdminNode = $nav->find('courseadmin', navigation_node::TYPE_COURSE))) {
         return false;
     }
-    $url = new moodle_url('/local/gradebook/view/view.php');
+    //Getting course id
+    $courseid = required_param('id', PARAM_INT);
+
+    $url = new moodle_url('/local/gradebook/view/view.php', array('id' => $courseid));
     $node = navigation_node::create(get_string('pluginname', 'local_gradebook'), $url, navigation_node::TYPE_CONTAINER, null, 'gradebook');
     $courseAdminNode->add_node($node);
+}
+
+/**
+ * Method to sort all activities depending on his mod
+ * @param $activities Array with activities from a given course
+ * @return array Array with activities sorted
+ */
+function sort_activities_by_mod($activities) {
+    $sortedActivities = array();
+    foreach($activities as $activity) {
+        $sortedActivities[$activity->mod][] = $activity;
+    }
+    return $sortedActivities;
 }

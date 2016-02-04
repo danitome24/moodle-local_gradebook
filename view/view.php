@@ -21,6 +21,10 @@
 
 // Include config.php
 require_once(__DIR__ . '/../../../config.php');
+require_once($CFG->dirroot . '/course/lib.php');
+require_once (__DIR__ . '/../lib.php');
+
+$courseid = required_param('id', PARAM_INT);
 
 // Set page context
 $PAGE->set_context(context_system::instance());
@@ -29,8 +33,17 @@ $PAGE->set_heading(get_string('pluginname', 'local_gradebook'));
 
 // Set page layout
 $PAGE->set_pagelayout('standard');
-$PAGE->set_url('/local/gradebook/view/view.php');
+$PAGE->set_url('/local/gradebook/view/view.php', array('id' => $courseid));
+
+/// Make sure they can even access this course
+if (!$course = $DB->get_record('course', array('id' => $courseid))) {
+    print_error('nocourseid');
+}
+
+$activities = get_array_of_activities($course->id);
+$activitiesSorted = sort_activities_by_mod($activities);
 
 echo $OUTPUT->header();
+var_dump($activitiesSorted);
 echo 'Benvinguts a la plana gradebook';
 echo $OUTPUT->footer();
