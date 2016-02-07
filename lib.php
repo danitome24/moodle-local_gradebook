@@ -22,6 +22,15 @@
 defined('MOODLE_INTERNAL') || die;
 
 /**
+ * Method to get Items in tree tab.
+ * @return array Items in tree tab to display.
+ */
+function getItemsInTreeTab()
+{
+    return array('activity', 'category');
+}
+
+/**
  * Method to insert gradebook plugin link into menu
  * @param settings_navigation $nav
  * @param context $context
@@ -31,7 +40,7 @@ defined('MOODLE_INTERNAL') || die;
 function local_gradebook_extend_settings_navigation(settings_navigation $nav, context $context)
 {
 
-    if (! ($courseAdminNode = $nav->find('courseadmin', navigation_node::TYPE_COURSE))) {
+    if (!($courseAdminNode = $nav->find('courseadmin', navigation_node::TYPE_COURSE))) {
         return false;
     }
     //Getting course id
@@ -47,10 +56,39 @@ function local_gradebook_extend_settings_navigation(settings_navigation $nav, co
  * @param $activities Array with activities from a given course
  * @return array Array with activities sorted
  */
-function sort_activities_by_mod($activities) {
+function sort_activities_by_mod($activities)
+{
     $sortedActivities = array();
-    foreach($activities as $activity) {
+    foreach ($activities as $activity) {
         $sortedActivities[$activity->mod][] = $activity;
     }
     return $sortedActivities;
+}
+
+/**
+ * Method to build tab tree
+ * @param moodle_url $currentUrl
+ * @return tabtree
+ * @throws coding_exception
+ * @throws moodle_exception
+ */
+function tab_tree_builder(moodle_url $currentUrl)
+{
+    if (!$currentUrl->param('id')) {
+        print_error('invalidcontext');
+    }
+    $currentId = $currentUrl->param('id');
+
+    $itemsInTreeTab = getItemsInTreeTab();
+    $tabs = array();
+    foreach($itemsInTreeTab as $item) {
+        $viewUrl = new moodle_url('/local/gradebook/view/view.php', array('id' => $currentId, 'display' => $item));
+        $tabs[] = new tabobject($item, $viewUrl, get_string($item, 'local_gradebook'));
+    }
+
+    $currentTab = (!$currentUrl->param('display'))
+        ? 'activity'
+        : $currentUrl->param('display');
+
+    return new tabtree($tabs, $currentTab);
 }

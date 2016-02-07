@@ -24,7 +24,8 @@ require_once(__DIR__ . '/../../../config.php');
 require_once($CFG->dirroot . '/course/lib.php');
 require_once (__DIR__ . '/../lib.php');
 
-$courseid = required_param('id', PARAM_INT);
+$courseidParam = required_param('id', PARAM_INT);
+$displayTabParam = optional_param('display', 'activity' ,PARAM_TEXT);
 
 // Set page context
 $PAGE->set_context(context_system::instance());
@@ -33,17 +34,24 @@ $PAGE->set_heading(get_string('pluginname', 'local_gradebook'));
 
 // Set page layout
 $PAGE->set_pagelayout('standard');
-$PAGE->set_url('/local/gradebook/view/view.php', array('id' => $courseid));
+$PAGE->set_url('/local/gradebook/view/view.php', array('id' => $courseidParam, 'display' => $displayTabParam));
 
 /// Make sure they can even access this course
-if (!$course = $DB->get_record('course', array('id' => $courseid))) {
+if (!$course = $DB->get_record('course', array('id' => $courseidParam))) {
     print_error('nocourseid');
 }
+// Creating variable to get url page
+$pageUrl = new moodle_url('/local/gradebook/view/view.php', array('id' => $courseidParam, 'display' => $displayTabParam));
 
 $activities = get_array_of_activities($course->id);
 $activitiesSorted = sort_activities_by_mod($activities);
 
 echo $OUTPUT->header();
-var_dump($activitiesSorted);
-echo 'Benvinguts a la plana gradebook';
+
+echo html_writer::tag('h2', get_string('pluginname', 'local_gradebook'));
+
+// Building the tab tree
+$tabTree = tab_tree_builder($PAGE->url);
+echo $OUTPUT->render($tabTree);
+
 echo $OUTPUT->footer();

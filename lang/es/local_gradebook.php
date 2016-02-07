@@ -19,3 +19,5 @@
  * @author Daniel Tome <danieltomefer@gmail.com>
  */
 $string['pluginname'] = 'Grade Book';
+$string['activity'] = 'Actividades';
+$string['category'] = 'Categorías';

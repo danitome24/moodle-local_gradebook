@@ -22,3 +22,5 @@
 defined('MOODLE_INTERNAL') || die;
 
 $string['pluginname'] = 'Grade Book';
+$string['activity'] = 'Activitats';
+$string['category'] = 'Categories';
