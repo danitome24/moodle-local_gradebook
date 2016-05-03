@@ -23,6 +23,7 @@
 require_once(__DIR__ . '/../../../config.php');
 require_once($CFG->dirroot . '/course/lib.php');
 require_once (__DIR__ . '/../lib.php');
+require_once($CFG->libdir . '/pagelib.php');
 
 $courseidParam = required_param('id', PARAM_INT);
 $displayTabParam = optional_param('display', 'activity' ,PARAM_TEXT);
@@ -47,6 +48,7 @@ $activities = get_array_of_activities($course->id);
 $activitiesSorted = sort_activities_by_mod($activities);
 
 echo $OUTPUT->header();
+$PAGE->requires->js('/local/gradebook/js/gradebook.js');
 
 echo html_writer::tag('h2', get_string('pluginname', 'local_gradebook'));
 
