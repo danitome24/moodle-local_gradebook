@@ -18,16 +18,5 @@
 /**
  * @author Daniel Tome <danieltomefer@gmail.com>
  */
-require_once($CFG->dirroot . '/local/gradebook/settings.php');
 
-function local_gradebook_extend_settings_navigation(settings_navigation $nav, context $context)
-{
-    if (!($courseAdminNode = $nav->find('courseadmin', navigation_node::TYPE_COURSE))) {
-        return false;
-    }
-    $url = new moodle_url('/local/' . PLUGIN_NAME . '/view.php');
-    $name = get_string('pluginname', 'local_gradebook');
-    $type = navigation_node::TYPE_CONTAINER;
-    $node = navigation_node::create($name, $url, $type, null, PLUGIN_NAME, new pix_icon('t/calc', $name));
-    $courseAdminNode->add_node($node);
-}
+define('PLUGIN_NAME', 'gradebook');
