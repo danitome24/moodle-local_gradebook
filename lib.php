@@ -22,6 +22,12 @@ require_once($CFG->dirroot . '/local/gradebook/settings.php');
 
 function local_gradebook_extend_settings_navigation(settings_navigation $nav, context $context)
 {
+
+    //Check capability of user
+    if (!has_capability('local/gradebook:access', $context)) {
+        return;
+    }
+
     if (!($courseAdminNode = $nav->find('courseadmin', navigation_node::TYPE_COURSE))) {
         return false;
     }
