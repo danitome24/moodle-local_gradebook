@@ -18,12 +18,16 @@
 /**
  * @author Daniel Tome <danieltomefer@gmail.com>
  */
-
-defined('MOODLE_INTERNAL') || die;
-
-$plugin->version  = 2016060900;   // The (date) version of this plugin
-$plugin->requires = 2016052300;   // Requires this Moodle version
-$plugin->cron = 0;
-$plugin->component = 'local_gradebook';
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '0.1';
+$capabilities = [
+    'local/gradebook:access' => [
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => [
+            'student' => CAP_PROHIBIT,
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+            'admin' => CAP_ALLOW,
+        ]
+    ],
+];
