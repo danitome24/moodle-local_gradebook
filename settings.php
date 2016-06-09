@@ -19,6 +19,6 @@
  * @author Daniel Tome <danieltomefer@gmail.com>
  */
 
-class constants {
+class Constants {
     const PLUGIN_NAME = 'gradebook';
 }
