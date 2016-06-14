@@ -26,13 +26,15 @@ function local_gradebook_extend_settings_navigation(settings_navigation $nav, co
 
     //Check capability of user
     if (!has_capability('local/gradebook:access', $context)) {
-        return;
+        return false;
     }
 
     if (!($courseAdminNode = $nav->find('courseadmin', navigation_node::TYPE_COURSE))) {
         return false;
     }
-    $url = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/view.php');
+    $courseId = optional_param('id', 0, PARAM_INT);
+
+    $url = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/index.php', ['id' => $courseId]);
     $name = get_string('pluginname', 'local_gradebook');
     $type = navigation_node::TYPE_CONTAINER;
     $node = navigation_node::create($name, $url, $type, null, Constants::PLUGIN_NAME, new pix_icon('t/calc', $name));
