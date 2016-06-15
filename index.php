@@ -24,6 +24,7 @@ require_once '../../config.php';
 require_once $CFG->dirroot . '/local/' . Constants::PLUGIN_NAME . '/lib.php';
 require_once $CFG->dirroot . '/grade/lib.php';
 require_once $CFG->dirroot . '/grade/edit/tree/lib.php';
+require_once $CFG->dirroot . '/local/' . Constants::PLUGIN_NAME . '/locallib.php';
 
 //Get course id from route
 $courseid = optional_param('id', 0, PARAM_INT);
@@ -51,8 +52,8 @@ $gpr = new grade_plugin_return(array('type'=>'edit', 'plugin'=>'tree', 'courseid
 $returnurl = $gpr->get_return_url(null);
 
 $gtree = new grade_tree($courseid, false, false);
-var_dump($gtree);
-$grade_edit_tree = new grade_edit_tree($gtree, false, $gpr);
+
+$grade_edit_tree = new local_gradebook_tree($gtree, false, $gpr);
 
 
 echo $OUTPUT->header();

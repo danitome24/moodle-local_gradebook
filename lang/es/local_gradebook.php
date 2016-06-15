@@ -21,3 +21,6 @@
 $string['pluginname'] = 'Grade Book';
 $string['activity'] = 'Actividades';
 $string['category'] = 'Categorías';
+$string['apply_operations'] = 'Operaciones aplicadas';
+$string['selected'] = 'Seleccionado';
+$string['advanced_actions'] = 'Acciones avanzadas';
