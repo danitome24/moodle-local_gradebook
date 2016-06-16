@@ -62,7 +62,19 @@ class grade_edit_tree_column_operation extends grade_edit_tree_column
         global $OUTPUT;
         $headercell = clone($this->headercell);
         $headercell->text = get_string('apply_operations', 'local_gradebook');
+
         return $headercell;
+    }
+
+    public function get_item_cell($item, $params)
+    {
+        $element = array_shift($params['element']);
+        $itemcell = parent::get_item_cell($item, $params);
+        if (!empty($element->parent_category)) {
+            $itemcell->text = ' - ';
+        }
+
+        return $itemcell;
     }
 }
 
@@ -74,6 +86,28 @@ class grade_edit_tree_column_selected extends grade_edit_tree_column
         $headercell = clone($this->headercell);
         $headercell->text = get_string('selected', 'local_gradebook');
         return $headercell;
+    }
+
+    public function get_item_cell($item, $params)
+    {
+        global $CFG, $OUTPUT;
+        if (empty($params['element'])) {
+            throw new Exception('Array key (element) missing from 2nd param of grade_edit_tree_column_weightorextracredit::get_item_cell($item, $params)');
+        }
+
+        $checkboxname = 'weightoverride_' . $item->id;
+
+        $checkbox = html_writer::empty_tag('input', array('name' => $checkboxname,
+            'type' => 'checkbox', 'value' => 1, 'id' => $checkboxname, 'class' => 'weightoverride',
+            'checked' => ($item->weightoverride ? 'checked' : null)));
+
+        $element = array_shift($params['element']);
+        $itemcell = parent::get_item_cell($item, $params);
+        if (!empty($element->parent_category)) {
+            $itemcell->text = $checkbox;
+        }
+
+        return $itemcell;
     }
 }
 
