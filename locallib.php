@@ -82,8 +82,27 @@ class grade_edit_tree_column_advanced_actions extends grade_edit_tree_column
     public function get_header_cell()
     {
         global $OUTPUT;
+
         $headercell = clone($this->headercell);
         $headercell->text = get_string('advanced_actions', 'local_gradebook');
         return $headercell;
+    }
+
+    public function get_item_cell($item, $params)
+    {
+        global $OUTPUT;
+
+        if (empty($params['actions'])) {
+            throw new Exception('Array key (actions) missing from 2nd param of grade_edit_tree_column_actions::get_item_cell($item, $params)');
+        }
+        $url = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/index.php', ['id' => $item->courseid]);
+        $button = new single_button($url, get_string('add', 'local_gradebook'));
+        $element = array_shift($params['element']);
+        $itemcell = parent::get_item_cell($item, $params);
+        if (!empty($element->parent_category)) {
+            $itemcell->text = $OUTPUT->render($button);
+        }
+
+        return $itemcell;
     }
 }

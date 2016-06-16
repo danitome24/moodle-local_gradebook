@@ -49,10 +49,12 @@ $PAGE->set_title(get_string('pluginname', 'local_gradebook'));
 $context = context_course::instance($course->id, MUST_EXIST);
 
 $gpr = new grade_plugin_return(array('type'=>'edit', 'plugin'=>'tree', 'courseid'=>$courseid));
-$returnurl = $gpr->get_return_url(null);
+
+//Return URL to grade tree form
+$url = '/local/' . Constants::PLUGIN_NAME . '/index.php';
+$returnurl = new moodle_url($url, ['id' => $courseid]);
 
 $gtree = new grade_tree($courseid, false, false);
-
 $grade_edit_tree = new local_gradebook_tree($gtree, false, $gpr);
 
 

@@ -24,3 +24,4 @@ $string['category'] = 'Categorías';
 $string['apply_operations'] = 'Operaciones aplicadas';
 $string['selected'] = 'Seleccionado';
 $string['advanced_actions'] = 'Acciones avanzadas';
+$string['add'] = 'Añadir';
