@@ -36,19 +36,19 @@ if (!$course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST)) 
 $context = context_course::instance($course->id);
 require_login($course);
 
+$url = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/index.php');
 // Prevent caching of this page to stop confusion when changing page after making AJAX changes
 $PAGE->set_cacheable(false);
 $PAGE->set_context($context);
-$PAGE->set_url('/local/' . Constants::PLUGIN_NAME . '/index.php', ['id' => $courseid]);
+$PAGE->set_url($url, ['id' => $courseid]);
 $PAGE->set_heading($SITE->fullname);
 $PAGE->set_pagelayout('course');
 $PAGE->get_renderer('format_' . $course->format);
 $PAGE->set_title(get_string('pluginname', 'local_gradebook'));
 
-//context_helper::preload_course($course->id);
 $context = context_course::instance($course->id, MUST_EXIST);
 
-$gpr = new grade_plugin_return(array('type'=>'edit', 'plugin'=>'tree', 'courseid'=>$courseid));
+$gpr = new grade_plugin_return(array('type' => 'edit', 'plugin' => 'tree', 'courseid' => $courseid));
 
 //Return URL to grade tree form
 $url = '/local/' . Constants::PLUGIN_NAME . '/index.php';
@@ -57,19 +57,22 @@ $returnurl = new moodle_url($url, ['id' => $courseid]);
 $gtree = new grade_tree($courseid, false, false);
 $grade_edit_tree = new local_gradebook_tree($gtree, false, $gpr);
 
+//Table to available actions
+$button = new single_button($returnurl, 'BUt');
+
 
 echo $OUTPUT->header();
 echo html_writer::tag('h2', get_string('pluginname', 'local_gradebook'));
 //// Print Table of categories and items
-echo $OUTPUT->box_start('gradetreebox generalbox');
+echo '<div class="row">'
+echo $OUTPUT->box_start('gradetreebox generalbox ');
 
 echo '<form id="gradetreeform" method="post" action="' . $returnurl . '">';
 echo '<div>';
 echo '<input type="hidden" name="sesskey" value="' . sesskey() . '" />';
-
 echo html_writer::table($grade_edit_tree->table);
-
 echo '</div></form>';
-
 echo $OUTPUT->box_end();
+
+echo '<ul><li>' . $OUTPUT->render($button) . '</li></ul>';
 echo $OUTPUT->footer();
