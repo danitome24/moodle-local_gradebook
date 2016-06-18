@@ -29,6 +29,7 @@ require_once $CFG->dirroot . '/local/' . Constants::PLUGIN_NAME . '/locallib.php
 //Get course id from route
 $courseid = optional_param('id', 0, PARAM_INT);
 
+
 //Get course given an ID from DB
 if (!$course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST)) {
     print_error('nocourseid');
@@ -57,22 +58,33 @@ $returnurl = new moodle_url($url, ['id' => $courseid]);
 $gtree = new grade_tree($courseid, false, false);
 $grade_edit_tree = new local_gradebook_tree($gtree, false, $gpr);
 
-//Table to available actions
-$button = new single_button($returnurl, 'BUt');
+$buttons = get_local_gradebook_base_options(['id' => $courseid]);
 
 
 echo $OUTPUT->header();
 echo html_writer::tag('h2', get_string('pluginname', 'local_gradebook'));
 //// Print Table of categories and items
-echo '<div class="row">'
-echo $OUTPUT->box_start('gradetreebox generalbox ');
+echo $OUTPUT->box_start('gradetreebox generalbox local-gradebook-tree');
 
 echo '<form id="gradetreeform" method="post" action="' . $returnurl . '">';
 echo '<div>';
 echo '<input type="hidden" name="sesskey" value="' . sesskey() . '" />';
+
+echo '<div class="row">';
+echo '<div class="span8">';
 echo html_writer::table($grade_edit_tree->table);
+echo '</div>';
+
+//Display option buttons
+echo '<div class="span3">';
+echo '<ul id="local-gradebook-options">';
+foreach ($buttons as $button) {
+    echo '<li>' . $OUTPUT->render($button) . '</li>';
+}
+echo '</ul>';
+echo '</div>';
+
 echo '</div></form>';
 echo $OUTPUT->box_end();
 
-echo '<ul><li>' . $OUTPUT->render($button) . '</li></ul>';
 echo $OUTPUT->footer();

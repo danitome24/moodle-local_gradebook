@@ -17,7 +17,26 @@
 /**
  * @author Daniel Tome <danieltomefer@gmail.com>
  */
+ul#local-gradebook-options {
+    list-style: none;
+}
 
-.gradebook-tree {
+ul#local-gradebook-options li {
+    display: inline;
+}
+
+.local-gradebook-tree-size {
     width: 50%;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.local-gradebook-buttons-size {
+    width: 25%;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
 }

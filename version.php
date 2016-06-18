@@ -21,7 +21,7 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->version  = 2016060902;   // The (date) version of this plugin
+$plugin->version  = 2016060906;   // The (date) version of this plugin
 $plugin->requires = 2016052300;   // Requires this Moodle version
 $plugin->cron = 0;
 $plugin->component = 'local_gradebook';

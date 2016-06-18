@@ -40,3 +40,18 @@ function local_gradebook_extend_settings_navigation(settings_navigation $nav, co
     $node = navigation_node::create($name, $url, $type, null, Constants::PLUGIN_NAME, new pix_icon('t/calc', $name));
     $courseAdminNode->add_node($node);
 }
+
+/**
+ * Function to get base options buttons
+ */
+function get_local_gradebook_base_options($params)
+{
+    $buttonNames = ['average', 'maximum', 'minimum', 'add'];
+    $url = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/index.php', $params);
+    $buttons = [];
+    foreach ($buttonNames as $buttonName) {
+        $buttons[] = new single_button($url, $buttonName);
+    }
+
+    return $buttons;
+}
