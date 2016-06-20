@@ -46,7 +46,7 @@ function local_gradebook_extend_settings_navigation(settings_navigation $nav, co
  */
 function get_local_gradebook_base_options($params)
 {
-    $buttonNames = ['average', 'maximum', 'minimum', 'add'];
+    $buttonNames = ['average', 'maximum', 'minimum', 'add_op'];
     $url = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/index.php', $params);
     $buttons = [];
     foreach ($buttonNames as $buttonName) {
