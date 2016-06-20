@@ -25,3 +25,6 @@ $string['apply_operations'] = 'Operaciones aplicadas';
 $string['selected'] = 'Seleccionado';
 $string['advanced_actions'] = 'Acciones avanzadas';
 $string['add'] = 'Añadir';
+$string['average'] = 'Media';
+$string['maximum'] = 'Máximo';
+$string['minimum'] = 'Mínimo';

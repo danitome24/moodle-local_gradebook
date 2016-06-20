@@ -25,3 +25,6 @@ $string['apply_operations'] = 'Applied options';
 $string['selected'] = 'Selected';
 $string['advanced_actions'] = 'Advanced actions';
 $string['add'] = 'Add';
+$string['average'] = 'Average';
+$string['maximum'] = 'Maximum';
+$string['minimum'] = 'Minimum';
