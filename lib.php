@@ -55,3 +55,18 @@ function get_local_gradebook_base_options($params)
 
     return $buttons;
 }
+
+/**
+ * Function to create idnumbers if they're not written.
+ */
+function initialize_grade_idnumbers($courseid)
+{
+    $gradeByCourse = grade_item::fetch_all(['courseid' => $courseid]);
+    foreach ($gradeByCourse as $grade) {
+        if (empty($grade->idnumber) || null == $grade->idnumber) {
+            $gradeNumberTemplate = 'ID_NUM_';
+            $gradeNumber = $gradeNumberTemplate . $grade->id;
+            $grade->add_idnumber($gradeNumber);
+        }
+    }
+}

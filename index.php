@@ -27,8 +27,10 @@ require_once $CFG->dirroot . '/grade/edit/tree/lib.php';
 require_once $CFG->dirroot . '/local/' . Constants::PLUGIN_NAME . '/locallib.php';
 
 //Get course id from route
-$courseid = optional_param('id', 0, PARAM_INT);
+$courseid = required_param('id', PARAM_INT);
 
+//Always check if grade_items.idnumber is set. Otherwise we create one.
+initialize_grade_idnumbers($courseid);
 
 //Get course given an ID from DB
 if (!$course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST)) {
