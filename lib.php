@@ -44,9 +44,9 @@ function local_gradebook_extend_settings_navigation(settings_navigation $nav, co
 /**
  * Function to get base options buttons
  */
-function get_local_gradebook_base_options($params)
+function local_gradebook_get_base_options($params)
 {
-    $buttonNames = ['average', 'maximum', 'minimum', 'add_op'];
+    $buttonNames = ['op:average', 'op:maximum', 'op:minimum', 'op:add'];
     $url = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/index.php', $params);
     $buttons = [];
     foreach ($buttonNames as $buttonName) {
@@ -56,17 +56,12 @@ function get_local_gradebook_base_options($params)
     return $buttons;
 }
 
-/**
- * Function to create idnumbers if they're not written.
- */
-function initialize_grade_idnumbers($courseid)
+function local_gradebook_complete_grade_idnumbers($courseid)
 {
     $gradeByCourse = grade_item::fetch_all(['courseid' => $courseid]);
     foreach ($gradeByCourse as $grade) {
         if (empty($grade->idnumber) || null == $grade->idnumber) {
-            $gradeNumberTemplate = 'ID_NUM_';
-            $gradeNumber = $gradeNumberTemplate . $grade->id;
-            $grade->add_idnumber($gradeNumber);
+            $grade->add_idnumber('idnum_' . $grade->id);
         }
     }
 }

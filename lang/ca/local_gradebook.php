@@ -21,12 +21,12 @@
 $string['pluginname'] = 'Grade Book';
 $string['activity'] = 'Activitats';
 $string['category'] = 'Categories';
-$string['apply_operations'] = 'Operacions aplicades';
+$string['applied_operations'] = 'Operacions aplicades';
 $string['selected'] = 'Seleccionat';
 $string['advanced_actions'] = 'Accions avançades';
 $string['add'] = 'Afegir';
-$string['add_op'] = 'Sumar';
-$string['average'] = 'Mitjana';
-$string['maximum'] = 'Màxim';
-$string['minimum'] = 'Mínim';
+$string['op:add'] = 'Sumar';
+$string['op:average'] = 'Mitjana';
+$string['op:maximum'] = 'Màxim';
+$string['op:minimum'] = 'Mínim';
 $string['save_changes'] = 'Guardar canvis';

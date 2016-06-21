@@ -59,9 +59,8 @@ class grade_edit_tree_column_operation extends grade_edit_tree_column
 {
     public function get_header_cell()
     {
-        global $OUTPUT;
         $headercell = clone($this->headercell);
-        $headercell->text = get_string('apply_operations', 'local_gradebook');
+        $headercell->text = get_string('applied_operations', 'local_gradebook');
 
         return $headercell;
     }
@@ -82,7 +81,6 @@ class grade_edit_tree_column_selected extends grade_edit_tree_column
 {
     public function get_header_cell()
     {
-        global $OUTPUT;
         $headercell = clone($this->headercell);
         $headercell->text = get_string('selected', 'local_gradebook');
         return $headercell;
@@ -90,7 +88,6 @@ class grade_edit_tree_column_selected extends grade_edit_tree_column
 
     public function get_item_cell($item, $params)
     {
-        global $CFG, $OUTPUT;
         if (empty($params['element'])) {
             throw new Exception('Array key (element) missing from 2nd param of grade_edit_tree_column_weightorextracredit::get_item_cell($item, $params)');
         }
@@ -115,8 +112,6 @@ class grade_edit_tree_column_advanced_actions extends grade_edit_tree_column
 {
     public function get_header_cell()
     {
-        global $OUTPUT;
-
         $headercell = clone($this->headercell);
         $headercell->text = get_string('advanced_actions', 'local_gradebook');
         return $headercell;

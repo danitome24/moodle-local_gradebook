@@ -30,7 +30,7 @@ require_once $CFG->dirroot . '/local/' . Constants::PLUGIN_NAME . '/locallib.php
 $courseid = required_param('id', PARAM_INT);
 
 //Always check if grade_items.idnumber is set. Otherwise we create one.
-initialize_grade_idnumbers($courseid);
+local_gradebook_complete_grade_idnumbers($courseid);
 
 //Get course given an ID from DB
 if (!$course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST)) {
@@ -58,7 +58,7 @@ $url = '/local/' . Constants::PLUGIN_NAME . '/index.php';
 $returnurl = new moodle_url($url, ['id' => $courseid]);
 $gtree = new grade_tree($courseid, false, false);
 $grade_edit_tree = new local_gradebook_tree($gtree, false, $gpr);
-$buttons = get_local_gradebook_base_options(['id' => $courseid]);
+$buttons = local_gradebook_get_base_options(['id' => $courseid]);
 
 echo $OUTPUT->header();
 echo html_writer::tag('h2', get_string('pluginname', 'local_gradebook'));
@@ -77,16 +77,15 @@ echo '</div>';
 //Display option buttons
 echo '<div class="span1">';
 echo '<table><tbody>';
-$count = 0;
-foreach ($buttons as $button) {
-    if (!fmod($count, 2)) {
+
+foreach ($buttons as $i => $button) {
+    if (!$i & 1) {
         echo '<tr>';
     }
     echo '<td>', $OUTPUT->render($button), '</td>';
-    if (fmod($count, 2)) {
+    if ($i & 1) {
         echo '</tr>';
     }
-    $count++;
 }
 echo '</tbody></table>';
 echo '</div>';
