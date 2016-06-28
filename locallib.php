@@ -65,6 +65,17 @@ class grade_edit_tree_column_operation extends grade_edit_tree_column
         return $headercell;
     }
 
+    public function get_category_cell($category, $levelclass, $params)
+    {
+        $item = $category->get_grade_item();
+        $categorycell = parent::get_category_cell($category, $levelclass, $params);
+        if ($item->is_category_item()) {
+            $categorycell->text = ' - ';
+        }
+
+        return $categorycell;
+    }
+
     public function get_item_cell($item, $params)
     {
         $element = array_shift($params['element']);
@@ -75,6 +86,7 @@ class grade_edit_tree_column_operation extends grade_edit_tree_column
 
         return $itemcell;
     }
+
 }
 
 class grade_edit_tree_column_selected extends grade_edit_tree_column
@@ -89,10 +101,7 @@ class grade_edit_tree_column_selected extends grade_edit_tree_column
     public function get_category_cell($category, $levelclass, $params)
     {
         $item = $category->get_grade_item();
-        $checkboxname = 'weightoverride_' . $item->id;
-        $checkbox = html_writer::empty_tag('input', array('name' => $checkboxname,
-            'type' => 'checkbox', 'value' => 1, 'id' => $checkboxname, 'class' => 'weightoverride',
-            'checked' => ($item->weightoverride ? 'checked' : null)));
+        $checkbox = self::getCheckbox($item);
         $categorycell = parent::get_category_cell($category, $levelclass, $params);
 
         if ($item->is_category_item()) {
@@ -111,7 +120,7 @@ class grade_edit_tree_column_selected extends grade_edit_tree_column
         }
 
         $itemcell = parent::get_item_cell($item, $params);
-        $checkbox = self::getCheckbox($item, $params);
+        $checkbox = self::getCheckbox($item);
 
         if (!in_array($item->itemtype, array('courseitem', 'categoryitem', 'category'))
             && !in_array($item->gradetype, array(GRADE_TYPE_NONE, GRADE_TYPE_TEXT))
@@ -124,7 +133,7 @@ class grade_edit_tree_column_selected extends grade_edit_tree_column
         return $itemcell;
     }
 
-    static function getCheckbox($item, $params)
+    static function getCheckbox($item)
     {
         $checkboxname = 'weightoverride_' . $item->id;
 
