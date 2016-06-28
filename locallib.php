@@ -86,25 +86,53 @@ class grade_edit_tree_column_selected extends grade_edit_tree_column
         return $headercell;
     }
 
+    public function get_category_cell($category, $levelclass, $params)
+    {
+        $item = $category->get_grade_item();
+        $checkboxname = 'weightoverride_' . $item->id;
+        $checkbox = html_writer::empty_tag('input', array('name' => $checkboxname,
+            'type' => 'checkbox', 'value' => 1, 'id' => $checkboxname, 'class' => 'weightoverride',
+            'checked' => ($item->weightoverride ? 'checked' : null)));
+        $categorycell = parent::get_category_cell($category, $levelclass, $params);
+
+        if ($item->is_category_item()) {
+            $categorycell->text = $checkbox;
+        }
+
+        return $categorycell;
+    }
+
     public function get_item_cell($item, $params)
     {
+        global $CFG;
+
         if (empty($params['element'])) {
             throw new Exception('Array key (element) missing from 2nd param of grade_edit_tree_column_weightorextracredit::get_item_cell($item, $params)');
         }
 
+        $itemcell = parent::get_item_cell($item, $params);
+        $checkbox = self::getCheckbox($item, $params);
+
+        if (!in_array($item->itemtype, array('courseitem', 'categoryitem', 'category'))
+            && !in_array($item->gradetype, array(GRADE_TYPE_NONE, GRADE_TYPE_TEXT))
+            && (!$item->is_outcome_item() || $item->load_parent_category()->aggregateoutcomes)
+            && ($item->gradetype != GRADE_TYPE_SCALE || !empty($CFG->grade_includescalesinaggregation))
+        ) {
+            $itemcell->text = $checkbox;
+        }
+
+        return $itemcell;
+    }
+
+    static function getCheckbox($item, $params)
+    {
         $checkboxname = 'weightoverride_' . $item->id;
 
         $checkbox = html_writer::empty_tag('input', array('name' => $checkboxname,
             'type' => 'checkbox', 'value' => 1, 'id' => $checkboxname, 'class' => 'weightoverride',
             'checked' => ($item->weightoverride ? 'checked' : null)));
 
-        $element = array_shift($params['element']);
-        $itemcell = parent::get_item_cell($item, $params);
-        if (!empty($element->parent_category)) {
-            $itemcell->text = $checkbox;
-        }
-
-        return $itemcell;
+        return $checkbox;
     }
 }
 
