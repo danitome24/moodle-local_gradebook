@@ -54,7 +54,7 @@ $context = context_course::instance($course->id, MUST_EXIST);
 $gpr = new grade_plugin_return(array('type' => 'edit', 'plugin' => 'tree', 'courseid' => $courseid));
 
 //Return URL to grade tree form
-$url = '/local/' . Constants::PLUGIN_NAME . '/index.php';
+$url = '/local/' . Constants::PLUGIN_NAME . '/operations.php';
 $returnurl = new moodle_url($url, ['id' => $courseid]);
 $gtree = new grade_tree($courseid, false, false);
 $grade_edit_tree = new local_gradebook_tree($gtree, false, $gpr);
@@ -66,7 +66,7 @@ echo html_writer::tag('h2', get_string('pluginname', 'local_gradebook'));
 //// Print Table of categories and items
 echo $OUTPUT->box_start('gradetreebox generalbox local-gradebook-tree');
 
-echo '<form id="gradetreeform" method="post" action="' . $returnurl . '">';
+echo '<form id="localgradetreeform" method="post" action="' . $returnurl . '">';
 echo '<div>';
 echo '<input type="hidden" name="sesskey" value="' . sesskey() . '" />';
 echo '<div class="row-fluid">';
@@ -82,19 +82,20 @@ foreach ($buttons as $i => $button) {
     if (!$i & 1) {
         echo '<tr>';
     }
-    echo '<td>', $OUTPUT->render($button), '</td>';
+    echo '<td>', $button, '</td>';
     if ($i & 1) {
         echo '</tr>';
     }
 }
 echo '</tbody></table>';
 echo '</div>';
-echo '</div></form>';
-echo $OUTPUT->box_end();
+echo '</div>';
 
 //Save changes button
-$saveChangesUrl = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/index.php');
-$saveChangesButton = new single_button($saveChangesUrl, get_string('save_changes', 'local_gradebook'));
-echo $OUTPUT->render($saveChangesButton);
+echo '<input class="advanced" type="submit" value="' . get_string('save_changes', 'local_gradebook') . '" />';
+
+echo '</form>';
+echo $OUTPUT->box_end();
+
 
 echo $OUTPUT->footer();

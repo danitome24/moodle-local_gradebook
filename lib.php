@@ -47,10 +47,11 @@ function local_gradebook_extend_settings_navigation(settings_navigation $nav, co
 function local_gradebook_get_base_options($params)
 {
     $buttonNames = ['op:average', 'op:maximum', 'op:minimum', 'op:add'];
-    $url = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/index.php', $params);
+    $url = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/operations.php', $params);
     $buttons = [];
     foreach ($buttonNames as $buttonName) {
-        $buttons[] = new single_button($url, get_string($buttonName, 'local_gradebook'));
+        $buttons[] = '<input class="advanced" type="submit" value="' . get_string($buttonName, 'local_gradebook') . '" />';
+//        $buttons[] = new single_button($url, get_string($buttonName, 'local_gradebook'));
     }
 
     return $buttons;
