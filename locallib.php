@@ -37,8 +37,8 @@ class local_gradebook_tree extends grade_edit_tree
         $this->columns[] = grade_edit_tree_column::factory('advanced_actions');
 
         $this->table = new html_table();
-        $this->table->align = ['left', 'center', 'center', 'center', 'center'];
-        $this->table->size = ['60%', '10%', '10%', '10%', '10%'];
+//        $this->table->align = ['left', 'center', 'center', 'center', 'center'];
+//        $this->table->size = ['60%', '10%', '10%', '10%', '10%'];
         $this->table->id = "grade_edit_tree_table";
         $this->table->attributes['class'] = 'generaltable simple setup-grades';
         if ($this->moving) {
@@ -114,20 +114,14 @@ class grade_edit_tree_column_selected extends grade_edit_tree_column
 
     public function get_item_cell($item, $params)
     {
-        global $CFG;
-
         if (empty($params['element'])) {
             throw new Exception('Array key (element) missing from 2nd param of grade_edit_tree_column_weightorextracredit::get_item_cell($item, $params)');
         }
 
         $itemcell = parent::get_item_cell($item, $params);
         $checkbox = self::getCheckbox($item);
-
-        if (!in_array($item->itemtype, array('courseitem', 'categoryitem', 'category'))
-            && !in_array($item->gradetype, array(GRADE_TYPE_NONE, GRADE_TYPE_TEXT))
-            && (!$item->is_outcome_item() || $item->load_parent_category()->aggregateoutcomes)
-            && ($item->gradetype != GRADE_TYPE_SCALE || !empty($CFG->grade_includescalesinaggregation))
-        ) {
+        $element = array_shift($params['element']);
+        if (!empty($element->parent_category)) {
             $itemcell->text = $checkbox;
         }
 
@@ -198,18 +192,13 @@ class grade_edit_tree_column_weight_local extends grade_edit_tree_column_weight
 
     public function get_item_cell($item, $params)
     {
-        global $CFG;
         if (empty($params['element'])) {
             throw new Exception('Array key (element) missing from 2nd param of grade_edit_tree_column_weightorextracredit::get_item_cell($item, $params)');
         }
         $itemcell = parent::get_item_cell($item, $params);
         $itemcell->text = '&nbsp;';
-        $object = $params['element']['object'];
-        if (!in_array($object->itemtype, array('courseitem', 'categoryitem', 'category'))
-            && !in_array($object->gradetype, array(GRADE_TYPE_NONE, GRADE_TYPE_TEXT))
-            && (!$object->is_outcome_item() || $object->load_parent_category()->aggregateoutcomes)
-            && ($object->gradetype != GRADE_TYPE_SCALE || !empty($CFG->grade_includescalesinaggregation))
-        ) {
+        $element = array_shift($params['element']);
+        if (!empty($element->parent_category)) {
             $itemcell->text = $item->aggregationcoef2 * 100.00;
         }
 

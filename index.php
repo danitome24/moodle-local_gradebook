@@ -26,56 +26,56 @@ require_once $CFG->dirroot . '/grade/lib.php';
 require_once $CFG->dirroot . '/grade/edit/tree/lib.php';
 require_once $CFG->dirroot . '/local/' . Constants::PLUGIN_NAME . '/locallib.php';
 
-//Get course id from route
 $courseid = required_param('id', PARAM_INT);
+$action = optional_param('action', 0, PARAM_ALPHA);
+$eid = optional_param('eid', 0, PARAM_ALPHANUM);
+$weightsadjusted = optional_param('weightsadjusted', 0, PARAM_INT);
 
 //Always check if grade_items.idnumber is set. Otherwise we create one.
 local_gradebook_complete_grade_idnumbers($courseid);
 
-//Get course given an ID from DB
-if (!$course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST)) {
+/// Make sure they can even access this course
+if (!$course = $DB->get_record('course', array('id' => $courseid))) {
     print_error('nocourseid');
 }
-$context = context_course::instance($course->id);
-require_login($course);
 
-$url = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/index.php');
-// Prevent caching of this page to stop confusion when changing page after making AJAX changes
-$PAGE->set_cacheable(false);
-$PAGE->set_context($context);
-$PAGE->set_url($url, ['id' => $courseid]);
-$PAGE->set_heading($SITE->fullname);
-$PAGE->set_pagelayout('course');
-$PAGE->get_renderer('format_' . $course->format);
+require_login($course);
+$context = context_course::instance($course->id);
+
+$url = new moodle_url('/grade/edit/tree/index.php', array('id' => $courseid));
+$PAGE->set_url($url);
+$PAGE->set_pagelayout('admin');
 $PAGE->set_title(get_string('pluginname', 'local_gradebook'));
 
-$context = context_course::instance($course->id, MUST_EXIST);
-
+/// return tracking object
 $gpr = new grade_plugin_return(array('type' => 'edit', 'plugin' => 'tree', 'courseid' => $courseid));
+$returnurl = $gpr->get_return_url(null);
 
-//Return URL to grade tree form
-$url = '/local/' . Constants::PLUGIN_NAME . '/operations.php';
-$returnurl = new moodle_url($url, ['id' => $courseid]);
+// get the grading tree object
+// note: total must be first for moving to work correctly, if you want it last moving code must be rewritten!
 $gtree = new grade_tree($courseid, false, false);
+
+$switch = grade_get_setting($course->id, 'aggregationposition', $CFG->grade_aggregationposition);
+
+$strgrades = get_string('grades');
+$strgraderreport = get_string('graderreport', 'grades');
+
 $grade_edit_tree = new local_gradebook_tree($gtree, false, $gpr);
 
 echo $OUTPUT->header();
-echo html_writer::tag('h2', get_string('pluginname', 'local_gradebook'));
-
-//// Print Table of categories and items
+// Print Table of categories and items
 echo $OUTPUT->box_start('gradetreebox generalbox');
 
-echo '<form id="localgradetreeform" method="post" action="' . $returnurl . '">';
+echo '<form id="gradetreeform" method="post" action="' . $returnurl . '">';
 echo '<div>';
 echo '<input type="hidden" name="sesskey" value="' . sesskey() . '" />';
 
 echo html_writer::table($grade_edit_tree->table);
 
+echo '<div id="gradetreesubmit">';
+echo '<input class="advanced" type="submit" value="' . get_string('savechanges') . '" />';
 echo '</div>';
-
-//Save changes button
-echo '<input class="advanced" type="submit" value="' . get_string('save_changes', 'local_gradebook') . '" />';
-
-echo '</form>';
+echo '</div></form>';
 echo $OUTPUT->box_end();
 echo $OUTPUT->footer();
+die;
