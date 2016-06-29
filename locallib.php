@@ -31,13 +31,14 @@ class local_gradebook_tree extends grade_edit_tree
 
         $this->columns = array(grade_edit_tree_column::factory('name', array('deepest_level' => $this->deepest_level)));
 
-        $this->columns[] = grade_edit_tree_column::factory('weight', array('adv' => 'weight'));
-        $this->columns[] = grade_edit_tree_column::factory('range');
+        $this->columns[] = grade_edit_tree_column::factory('weight_local', array('adv' => 'weight'));
         $this->columns[] = grade_edit_tree_column::factory('operation');
         $this->columns[] = grade_edit_tree_column::factory('selected');
         $this->columns[] = grade_edit_tree_column::factory('advanced_actions');
 
         $this->table = new html_table();
+        $this->table->align = ['left', 'center', 'center', 'center', 'center'];
+        $this->table->size = ['60%', '10%', '10%', '10%', '10%'];
         $this->table->id = "grade_edit_tree_table";
         $this->table->attributes['class'] = 'generaltable simple setup-grades';
         if ($this->moving) {
@@ -167,6 +168,49 @@ class grade_edit_tree_column_advanced_actions extends grade_edit_tree_column
         $itemcell = parent::get_item_cell($item, $params);
         if (!empty($element->parent_category)) {
             $itemcell->text = $OUTPUT->render($button);
+        }
+
+        return $itemcell;
+    }
+}
+
+class grade_edit_tree_column_weight_local extends grade_edit_tree_column_weight
+{
+    public function get_header_cell()
+    {
+        global $OUTPUT;
+        $headercell = clone($this->headercell);
+        $headercell->text = get_string('weights', 'grades') . $OUTPUT->help_icon('aggregationcoefweight', 'grades');
+        return $headercell;
+    }
+
+    public function get_category_cell($category, $levelclass, $params)
+    {
+
+        $item = $category->get_grade_item();
+        $categorycell = parent::get_category_cell($category, $levelclass, $params);
+        if ($item->is_course_item()) {
+            return '';
+        }
+        $categorycell->text = $item->aggregationcoef2 * 100.00;
+        return $categorycell;
+    }
+
+    public function get_item_cell($item, $params)
+    {
+        global $CFG;
+        if (empty($params['element'])) {
+            throw new Exception('Array key (element) missing from 2nd param of grade_edit_tree_column_weightorextracredit::get_item_cell($item, $params)');
+        }
+        $itemcell = parent::get_item_cell($item, $params);
+        $itemcell->text = '&nbsp;';
+        $object = $params['element']['object'];
+        if (!in_array($object->itemtype, array('courseitem', 'categoryitem', 'category'))
+            && !in_array($object->gradetype, array(GRADE_TYPE_NONE, GRADE_TYPE_TEXT))
+            && (!$object->is_outcome_item() || $object->load_parent_category()->aggregateoutcomes)
+            && ($object->gradetype != GRADE_TYPE_SCALE || !empty($CFG->grade_includescalesinaggregation))
+        ) {
+            $itemcell->text = $item->aggregationcoef2 * 100.00;
         }
 
         return $itemcell;

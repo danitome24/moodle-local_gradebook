@@ -58,37 +58,19 @@ $url = '/local/' . Constants::PLUGIN_NAME . '/operations.php';
 $returnurl = new moodle_url($url, ['id' => $courseid]);
 $gtree = new grade_tree($courseid, false, false);
 $grade_edit_tree = new local_gradebook_tree($gtree, false, $gpr);
-$buttons = local_gradebook_get_base_options(['id' => $courseid]);
 
 echo $OUTPUT->header();
 echo html_writer::tag('h2', get_string('pluginname', 'local_gradebook'));
 
 //// Print Table of categories and items
-echo $OUTPUT->box_start('gradetreebox generalbox local-gradebook-tree');
+echo $OUTPUT->box_start('gradetreebox generalbox');
 
 echo '<form id="localgradetreeform" method="post" action="' . $returnurl . '">';
 echo '<div>';
 echo '<input type="hidden" name="sesskey" value="' . sesskey() . '" />';
-echo '<div class="row-fluid">';
-echo '<div class="span10">';
+
 echo html_writer::table($grade_edit_tree->table);
-echo '</div>';
 
-//Display option buttons
-echo '<div class="span1">';
-echo '<table><tbody>';
-
-foreach ($buttons as $i => $button) {
-    if (!$i & 1) {
-        echo '<tr>';
-    }
-    echo '<td>', $button, '</td>';
-    if ($i & 1) {
-        echo '</tr>';
-    }
-}
-echo '</tbody></table>';
-echo '</div>';
 echo '</div>';
 
 //Save changes button
@@ -96,6 +78,4 @@ echo '<input class="advanced" type="submit" value="' . get_string('save_changes'
 
 echo '</form>';
 echo $OUTPUT->box_end();
-
-
 echo $OUTPUT->footer();
