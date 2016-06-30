@@ -50,8 +50,7 @@ function local_gradebook_get_base_options($params)
     $url = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/operations.php', $params);
     $buttons = [];
     foreach ($buttonNames as $buttonName) {
-        $buttons[] = '<input class="advanced" type="submit" value="' . get_string($buttonName, 'local_gradebook') . '" />';
-//        $buttons[] = new single_button($url, get_string($buttonName, 'local_gradebook'));
+        $buttons[] = '<input class="advanced" type="submit" value="' . get_string($buttonName, 'local_gradebook') . '" />';  
     }
 
     return $buttons;

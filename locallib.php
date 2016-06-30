@@ -37,8 +37,6 @@ class local_gradebook_tree extends grade_edit_tree
         $this->columns[] = grade_edit_tree_column::factory('advanced_actions');
 
         $this->table = new html_table();
-//        $this->table->align = ['left', 'center', 'center', 'center', 'center'];
-//        $this->table->size = ['60%', '10%', '10%', '10%', '10%'];
         $this->table->id = "grade_edit_tree_table";
         $this->table->attributes['class'] = 'generaltable simple setup-grades';
         if ($this->moving) {
@@ -102,11 +100,11 @@ class grade_edit_tree_column_selected extends grade_edit_tree_column
     public function get_category_cell($category, $levelclass, $params)
     {
         $item = $category->get_grade_item();
-        $checkbox = self::getCheckbox($item);
+        $calc = self::getCalcUrl($item);
         $categorycell = parent::get_category_cell($category, $levelclass, $params);
 
         if ($item->is_category_item()) {
-            $categorycell->text = $checkbox;
+            $categorycell->text = $calc;
         }
 
         return $categorycell;
@@ -119,24 +117,24 @@ class grade_edit_tree_column_selected extends grade_edit_tree_column
         }
 
         $itemcell = parent::get_item_cell($item, $params);
-        $checkbox = self::getCheckbox($item);
+        $calc = self::getCalcUrl($item);
         $element = array_shift($params['element']);
         if (!empty($element->parent_category)) {
-            $itemcell->text = $checkbox;
+            $itemcell->text = $calc;
         }
 
         return $itemcell;
     }
 
-    static function getCheckbox($item)
+    static function getCalcUrl($item)
     {
-        $checkboxname = 'weightoverride_' . $item->id;
+        global $OUTPUT;
 
-        $checkbox = html_writer::empty_tag('input', array('name' => $checkboxname,
-            'type' => 'checkbox', 'value' => 1, 'id' => $checkboxname, 'class' => 'weightoverride',
-            'checked' => ($item->weightoverride ? 'checked' : null)));
+        $pixelString = '<a href="index.php">';
+        $pixIcon = new pix_icon('t/calc', get_string('name'));
+        $pixelString .= $OUTPUT->render($pixIcon) . '</a>';
 
-        return $checkbox;
+        return $pixelString;
     }
 }
 
