@@ -110,21 +110,21 @@ class grade_edit_tree_column_selected extends grade_edit_tree_column
         return $categorycell;
     }
 
-    public function get_item_cell($item, $params)
-    {
-        if (empty($params['element'])) {
-            throw new Exception('Array key (element) missing from 2nd param of grade_edit_tree_column_weightorextracredit::get_item_cell($item, $params)');
-        }
-
-        $itemcell = parent::get_item_cell($item, $params);
-        $calc = self::getCalcUrl($item);
-        $element = array_shift($params['element']);
-        if (!empty($element->parent_category)) {
-            $itemcell->text = $calc;
-        }
-
-        return $itemcell;
-    }
+//    public function get_item_cell($item, $params)
+//    {
+//        if (empty($params['element'])) {
+//            throw new Exception('Array key (element) missing from 2nd param of grade_edit_tree_column_weightorextracredit::get_item_cell($item, $params)');
+//        }
+//
+//        $itemcell = parent::get_item_cell($item, $params);
+//        $calc = self::getCalcUrl($item);
+//        $element = array_shift($params['element']);
+//        if (!empty($element->parent_category)) {
+//            $itemcell->text = $calc;
+//        }
+//
+//        return $itemcell;
+//    }
 
     static function getCalcUrl($item)
     {
@@ -145,6 +145,22 @@ class grade_edit_tree_column_advanced_actions extends grade_edit_tree_column
         $headercell = clone($this->headercell);
         $headercell->text = get_string('advanced_actions', 'local_gradebook');
         return $headercell;
+    }
+
+    public function get_category_cell($category, $levelclass, $params)
+    {
+        global $OUTPUT;
+
+        $item = $category->get_grade_item();
+        $url = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/index.php', ['id' => $item->courseid]);
+        $button = new single_button($url, get_string('add', 'local_gradebook'));
+        $categorycell = parent::get_category_cell($category, $levelclass, $params);
+
+        if ($item->is_category_item()) {
+            $categorycell->text = $OUTPUT->render($button);
+        }
+
+        return $categorycell;
     }
 
     public function get_item_cell($item, $params)
