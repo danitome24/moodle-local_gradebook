@@ -78,4 +78,3 @@ echo '</div>';
 echo '</div></form>';
 echo $OUTPUT->box_end();
 echo $OUTPUT->footer();
-die;

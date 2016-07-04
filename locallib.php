@@ -130,7 +130,8 @@ class grade_edit_tree_column_selected extends grade_edit_tree_column
     {
         global $OUTPUT;
 
-        $pixelString = '<a href="index.php">';
+        $simpleOpUrl = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/simple_operation.php', ['id' => $item->courseid]);
+        $pixelString = '<a href=" ' . $simpleOpUrl . '">';
         $pixIcon = new pix_icon('t/calc', get_string('name'));
         $pixelString .= $OUTPUT->render($pixIcon) . '</a>';
 

@@ -50,7 +50,7 @@ function local_gradebook_get_base_options($params)
     $url = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/operations.php', $params);
     $buttons = [];
     foreach ($buttonNames as $buttonName) {
-        $buttons[] = '<input class="advanced" type="submit" value="' . get_string($buttonName, 'local_gradebook') . '" />';  
+        $buttons[] = '<input class="advanced" type="submit" value="' . get_string($buttonName, 'local_gradebook') . '" />';
     }
 
     return $buttons;
@@ -64,4 +64,62 @@ function local_gradebook_complete_grade_idnumbers($courseid)
             $grade->add_idnumber('idnum_' . $grade->id);
         }
     }
+}
+
+
+function getListItems(&$gtree, $element, $current_itemid = null, $errors = null)
+{
+    global $CFG;
+
+    $object = $element['object'];
+    $eid = $element['eid'];
+    $type = $element['type'];
+    $grade_item = $object->get_grade_item();
+
+    $name = $object->get_name();
+    $return_string = '';
+
+    //TODO: improve outcome visualisation
+    if ($type == 'item' and !empty($object->outcomeid)) {
+        $name = $name . ' (' . get_string('outcome', 'grades') . ')';
+    }
+
+    $idnumber = $object->get_idnumber();
+
+    // Don't show idnumber or input field for current item if given to function. Highlight the item instead.
+    if ($type != 'category') {
+
+        if ($idnumber) {
+            $name .= ": [[$idnumber]]";
+        } else {
+            $closingdiv = '';
+            if (!empty($errors[$grade_item->id])) {
+                $name .= '<div class="error"><span class="error">' . $errors[$grade_item->id] . '</span><br />' . "\n";
+                $closingdiv = "</div>\n";
+            }
+            $name .= '<label class="accesshide" for="id_idnumber_' . $grade_item->id . '">' . get_string('gradeitems', 'grades') . '</label>';
+            $name .= $closingdiv;
+        }
+    }
+
+    $icon = $gtree->get_element_icon($element, true);
+    $last = '';
+    $catcourseitem = ($element['type'] == 'courseitem' or $element['type'] == 'categoryitem');
+
+    if ($type != 'category') {
+        $return_string .= '<li class="' . $type . '">' . $icon . $name . '</li>' . "\n";
+    } else {
+        $return_string .= '<li class="' . $type . '">' . $icon . $name . "\n";
+        $return_string .= '<ul class="catlevel' . $element['depth'] . '">' . "\n";
+        $last = null;
+        foreach ($element['children'] as $child_el) {
+            $return_string .= getListItems($gtree, $child_el, $current_itemid, $errors);
+        }
+        if ($last) {
+            $return_string .= getListItems($gtree, $last, $current_itemid, $errors);
+        }
+        $return_string .= '</ul></li>' . "\n";
+    }
+
+    return $return_string;
 }
