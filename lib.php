@@ -88,18 +88,14 @@ function getListItems(&$gtree, $element, $current_itemid = null, $errors = null)
 
     // Don't show idnumber or input field for current item if given to function. Highlight the item instead.
     if ($type != 'category') {
-
-        if ($idnumber) {
-            $name .= ": [[$idnumber]]";
-        } else {
-            $closingdiv = '';
-            if (!empty($errors[$grade_item->id])) {
-                $name .= '<div class="error"><span class="error">' . $errors[$grade_item->id] . '</span><br />' . "\n";
-                $closingdiv = "</div>\n";
-            }
-            $name .= '<label class="accesshide" for="id_idnumber_' . $grade_item->id . '">' . get_string('gradeitems', 'grades') . '</label>';
-            $name .= $closingdiv;
+        $closingdiv = '';
+        if (!empty($errors[$grade_item->id])) {
+            $name .= '<div class="error"><span class="error">' . $errors[$grade_item->id] . '</span><br />' . "\n";
+            $closingdiv = "</div>\n";
         }
+        $name .= '<label class="accesshide" for="id_idnumber_' . $grade_item->id . '">' . get_string('gradeitems', 'grades') . '</label>';
+        $name .= '<input type="checkbox">';
+        $name .= $closingdiv;
     }
 
     $icon = $gtree->get_element_icon($element, true);

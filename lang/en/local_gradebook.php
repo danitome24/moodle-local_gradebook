@@ -30,3 +30,5 @@ $string['op:average'] = 'Average';
 $string['op:maximum'] = 'Maximum';
 $string['op:minimum'] = 'Minimum';
 $string['save_changes'] = 'Save changes';
+$string['qualifier_elements'] = 'Qualifier elements';
+$string['operations'] = 'Operations';

@@ -30,3 +30,5 @@ $string['op:average'] = 'Mitjana';
 $string['op:maximum'] = 'Màxim';
 $string['op:minimum'] = 'Mínim';
 $string['save_changes'] = 'Guardar canvis';
+$string['qualifier_elements'] = 'Elements qualificadors';
+$string['operations'] = 'Operacions';

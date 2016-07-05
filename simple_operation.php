@@ -34,7 +34,7 @@ $context = context_course::instance($course->id);
 
 $gtree = new grade_tree($courseid, false, false);
 
-$url = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/index.php', array('id' => $courseid));
+$url = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/simple_operation.php', array('id' => $courseid));
 $PAGE->set_url($url);
 $PAGE->set_pagelayout('admin');
 $PAGE->set_title(get_string('pluginname', 'local_gradebook'));
@@ -42,8 +42,29 @@ $PAGE->set_context($context);
 
 echo $OUTPUT->header();
 
-
+echo '<div class="row-fluid">';
 $items = getListItems($gtree, $gtree->top_element);
+echo '<div class="span4">';
+echo '<h3>' . get_string('qualifier_elements', 'local_gradebook') . '</h3>';
 echo $items;
+echo '</div>';
+echo '<div class="span8">';
+echo '<h3>' . get_string('operations', 'local_gradebook') . '</h3>';
+$buttons = local_gradebook_get_base_options(['id' => $courseid]);
+echo '<table><tbody>';
+$count = 0;
+foreach ($buttons as $button) {
+    if (!fmod($count, 2)) {
+        echo '<tr>';
+    }
+    echo '<td>' . $button . '</td>';
+    if (fmod($count, 2)) {
+        echo '</tr>';
+    }
+    $count++;
+}
+echo '</tbody></table>';
+echo '</div>';
+echo '</div>';
 
 echo $OUTPUT->footer();
