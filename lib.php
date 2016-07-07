@@ -44,13 +44,14 @@ function local_gradebook_extend_settings_navigation(settings_navigation $nav, co
 /**
  * Function to get base options buttons
  */
-function local_gradebook_get_base_options($params)
+function local_gradebook_get_simple_options($params)
 {
     $buttonNames = ['op:average', 'op:maximum', 'op:minimum', 'op:add'];
     $url = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/operations.php', $params);
     $buttons = [];
     foreach ($buttonNames as $buttonName) {
-        $buttons[] = '<input class="advanced" type="submit" name="operation" value="' . get_string($buttonName, 'local_gradebook') . '" />';
+        $buttons[] = '<button name="operation" type="submit" value="' . $buttonName . '">' . get_string($buttonName, 'local_gradebook') . '</button>';
+//        $buttons[] = '<input class="advanced" type="submit" name="operation" value="' . get_string($buttonName, 'local_gradebook') . '" />';
     }
 
     return $buttons;
@@ -118,4 +119,17 @@ function getListItems(&$gtree, $element, $current_itemid = null, $errors = null)
     }
 
     return $return_string;
+}
+
+/**
+ * Method to give a calculation given params.
+ * @param string $id Id of item to be placed the calculation.
+ * @param string $courseid Course id.
+ * @param array $activities with activities to add into operation.
+ * @param string $operation with operation to build.
+ */
+function getCalculationFromParams($id, $courseid, $gradesSelected, $operation)
+{
+    $operation = ltrim($operation, "op:");
+    var_dump($id, $courseid, $gradesSelected, $operation);
 }

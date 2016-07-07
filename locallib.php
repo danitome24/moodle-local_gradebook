@@ -110,27 +110,25 @@ class grade_edit_tree_column_selected extends grade_edit_tree_column
         return $categorycell;
     }
 
-//    public function get_item_cell($item, $params)
-//    {
-//        if (empty($params['element'])) {
-//            throw new Exception('Array key (element) missing from 2nd param of grade_edit_tree_column_weightorextracredit::get_item_cell($item, $params)');
-//        }
-//
-//        $itemcell = parent::get_item_cell($item, $params);
-//        $calc = self::getCalcUrl($item);
-//        $element = array_shift($params['element']);
-//        if (!empty($element->parent_category)) {
-//            $itemcell->text = $calc;
-//        }
-//
-//        return $itemcell;
-//    }
+    public function get_item_cell($item, $params)
+    {
+        if (empty($params['element'])) {
+            throw new Exception('Array key (element) missing from 2nd param of grade_edit_tree_column_weightorextracredit::get_item_cell($item, $params)');
+        }
+
+        $itemcell = parent::get_item_cell($item, $params);
+        $calc = self::getCalcUrl($item);
+        $itemcell->text = $calc;
+
+
+        return $itemcell;
+    }
 
     static function getCalcUrl($item)
     {
         global $OUTPUT;
 
-        $simpleOpUrl = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/simple_operation.php', ['id' => $item->courseid]);
+        $simpleOpUrl = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/simple_operation.php', ['courseid' => $item->courseid, 'id' => $item->id]);
         $pixelString = '<a href=" ' . $simpleOpUrl . '">';
         $pixIcon = new pix_icon('t/calc', get_string('name'));
         $pixelString .= $OUTPUT->render($pixIcon) . '</a>';

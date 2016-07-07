@@ -32,3 +32,4 @@ $string['op:minimum'] = 'Mínim';
 $string['save_changes'] = 'Guardar canvis';
 $string['qualifier_elements'] = 'Elements qualificadors';
 $string['operations'] = 'Operacions';
+$string['no_grades_selected'] = 'No has seleccionat cap activitat, si us plau torna endarrere i selecciona alguna';
