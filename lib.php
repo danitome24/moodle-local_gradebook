@@ -50,7 +50,7 @@ function local_gradebook_get_base_options($params)
     $url = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/operations.php', $params);
     $buttons = [];
     foreach ($buttonNames as $buttonName) {
-        $buttons[] = '<input class="advanced" type="submit" value="' . get_string($buttonName, 'local_gradebook') . '" />';
+        $buttons[] = '<input class="advanced" type="submit" name="operation" value="' . get_string($buttonName, 'local_gradebook') . '" />';
     }
 
     return $buttons;
@@ -94,7 +94,7 @@ function getListItems(&$gtree, $element, $current_itemid = null, $errors = null)
             $closingdiv = "</div>\n";
         }
         $name .= '<label class="accesshide" for="id_idnumber_' . $grade_item->id . '">' . get_string('gradeitems', 'grades') . '</label>';
-        $name .= '<input type="checkbox">';
+        $name .= '<input type="checkbox" name="grades[]" value="' . $grade_item->id . '">';
         $name .= $closingdiv;
     }
 
@@ -103,9 +103,9 @@ function getListItems(&$gtree, $element, $current_itemid = null, $errors = null)
     $catcourseitem = ($element['type'] == 'courseitem' or $element['type'] == 'categoryitem');
 
     if ($type != 'category') {
-        $return_string .= '<li class="' . $type . '">' . $icon . $name . '</li>' . "\n";
+        $return_string .= '<li class=" list-without-style ' . $type . '">' . $icon . $name . '</li>' . "\n";
     } else {
-        $return_string .= '<li class="' . $type . '">' . $icon . $name . "\n";
+        $return_string .= '<li class=" list-without-style ' . $type . '">' . $icon . $name . "\n";
         $return_string .= '<ul class="catlevel' . $element['depth'] . '">' . "\n";
         $last = null;
         foreach ($element['children'] as $child_el) {

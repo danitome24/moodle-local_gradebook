@@ -43,8 +43,12 @@ $PAGE->set_context($context);
 echo $OUTPUT->header();
 
 echo '<div class="row-fluid">';
+echo '<form method="post" action="add_operation.php">';
 $items = getListItems($gtree, $gtree->top_element);
 echo '<div class="span4">';
+echo '<div style="display: none;">';
+echo '<input type="hidden" value="' . $courseid . '" name="courseid"/>';
+echo '</div>';
 echo '<h3>' . get_string('qualifier_elements', 'local_gradebook') . '</h3>';
 echo $items;
 echo '</div>';
@@ -65,6 +69,7 @@ foreach ($buttons as $button) {
 }
 echo '</tbody></table>';
 echo '</div>';
+echo '</form>';
 echo '</div>';
 
 echo $OUTPUT->footer();

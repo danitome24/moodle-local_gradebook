@@ -1,3 +1,4 @@
+<?php
 /**
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,30 +18,15 @@
 /**
  * @author Daniel Tome <danieltomefer@gmail.com>
  */
-ul#local-gradebook-options {
-    list-style: none;
-}
 
-.list-without-style {
-    list-style-type: none;
-}
+require_once '../../config.php';
 
-ul#local-gradebook-options li {
-    display: inline;
-}
+//Id of grades to add into the operation
+$operation = required_param('operation', PARAM_TEXT);
+$courseid = required_param('courseid', PARAM_TEXT);
+$id = required_param('id', PARAM_TEXT); //Where to put the calculation
+$grades = optional_param_array('grades', [], PARAM_TEXT);
 
-.local-gradebook-tree-size {
-    width: 70%;
-    position: relative;
-    min-height: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
-}
 
-.local-gradebook-buttons-size {
-    width: 10%;
-    position: relative;
-    min-height: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
-}
+var_dump($courseid, $grades, $operation);
+die;
