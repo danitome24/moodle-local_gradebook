@@ -22,6 +22,8 @@
 require_once '../../config.php';
 require_once 'lib.php';
 require_once 'classes/local_gradebook_constants.php';
+require_once $CFG->libdir.'/mathslib.php';
+require_once $CFG->dirroot.'/grade/lib.php';
 
 //Id of grades to add into the operation
 $operation = required_param('operation', PARAM_TEXT);
@@ -35,6 +37,10 @@ if (!$course = $DB->get_record('course', array('id' => $courseid))) {
 }
 require_login($course);
 $context = context_course::instance($course->id);
+
+if (!$grade_item = grade_item::fetch(array('id'=>$id, 'courseid'=>$course->id))) {
+    print_error('invaliditemid');
+}
 
 $url = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/add_operation.php',
     [
@@ -53,7 +59,9 @@ if (empty($grades)) {
 }
 
 echo 'ID activitat a ser aplicat: ' . $id . "\n ID del curs: " . $courseid . "\n Activitats seleccionades: " . implode('-', $grades) . "\n Operació a aplicar: " . $operation;
-getCalculationFromParams($id, $courseid, $grades, $operation);
+$calculation = getCalculationFromParams($grades, $operation);
+$calculation = calc_formula::unlocalize($calculation);
+$grade_item->set_calculation($calculation);
 echo $OUTPUT->footer();
 
 die;

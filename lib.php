@@ -95,7 +95,7 @@ function getListItems(&$gtree, $element, $current_itemid = null, $errors = null)
             $closingdiv = "</div>\n";
         }
         $name .= '<label class="accesshide" for="id_idnumber_' . $grade_item->id . '">' . get_string('gradeitems', 'grades') . '</label>';
-        $name .= '<input type="checkbox" name="grades[]" value="' . $grade_item->id . '">';
+        $name .= '<input type="checkbox" name="grades[]" value="' . $grade_item->idnumber . '">';
         $name .= $closingdiv;
     }
 
@@ -123,13 +123,23 @@ function getListItems(&$gtree, $element, $current_itemid = null, $errors = null)
 
 /**
  * Method to give a calculation given params.
- * @param string $id Id of item to be placed the calculation.
- * @param string $courseid Course id.
- * @param array $activities with activities to add into operation.
+ * @param array $gradesSelected with activities to add into operation.
  * @param string $operation with operation to build.
+ * @return string $calculation with
  */
-function getCalculationFromParams($id, $courseid, $gradesSelected, $operation)
+function getCalculationFromParams($gradesSelected, $operation)
 {
     $operation = ltrim($operation, "op:");
-    var_dump($id, $courseid, $gradesSelected, $operation);
+    $calculation = '=';
+    $calculation .= $operation;
+    $calculation .= '(';
+    $iterator = new CachingIterator(new ArrayIterator($gradesSelected));
+    foreach ($iterator as $grade) {
+        $calculation .= '[[' . $grade . ']]';
+        if ($iterator->hasNext()) {
+            $calculation .= ';';
+        }
+    }
+    $calculation .= ')';
+    return $calculation;
 }
