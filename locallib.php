@@ -33,7 +33,7 @@ class local_gradebook_tree extends grade_edit_tree
 
         $this->columns[] = grade_edit_tree_column::factory('weight_local', array('adv' => 'weight'));
         $this->columns[] = grade_edit_tree_column::factory('operation');
-        $this->columns[] = grade_edit_tree_column::factory('selected');
+        $this->columns[] = grade_edit_tree_column::factory('simple_op');
         $this->columns[] = grade_edit_tree_column::factory('advanced_actions');
 
         $this->table = new html_table();
@@ -88,12 +88,12 @@ class grade_edit_tree_column_operation extends grade_edit_tree_column
 
 }
 
-class grade_edit_tree_column_selected extends grade_edit_tree_column
+class grade_edit_tree_column_simple_op extends grade_edit_tree_column
 {
     public function get_header_cell()
     {
         $headercell = clone($this->headercell);
-        $headercell->text = get_string('selected', 'local_gradebook');
+        $headercell->text = get_string('simple_op', 'local_gradebook');
         return $headercell;
     }
 
