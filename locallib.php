@@ -97,26 +97,16 @@ class grade_edit_tree_column_selected extends grade_edit_tree_column
         return $headercell;
     }
 
-    public function get_category_cell($category, $levelclass, $params)
-    {
-        $item = $category->get_grade_item();
-        $calc = self::getCalcUrl($item);
-        $categorycell = parent::get_category_cell($category, $levelclass, $params);
-
-        if ($item->is_category_item()) {
-            $categorycell->text = $calc;
-        }
-
-        return $categorycell;
-    }
-
     public function get_item_cell($item, $params)
     {
         if (empty($params['element'])) {
             throw new Exception('Array key (element) missing from 2nd param of grade_edit_tree_column_weightorextracredit::get_item_cell($item, $params)');
         }
-
         $itemcell = parent::get_item_cell($item, $params);
+
+        if ($item->itemtype === 'mod') {
+            return $itemcell;
+        }
         $calc = self::getCalcUrl($item);
         $itemcell->text = $calc;
 
