@@ -19,6 +19,9 @@
 /**
  * @author Daniel Tome <danieltomefer@gmail.com>
  */
+require_once $CFG->libdir . '/mathslib.php';
+require_once $CFG->dirroot . '/grade/lib.php';
+
 class local_gradebook_tree extends grade_edit_tree
 {
     public function __construct($gtree, $moving, $gpr)
@@ -68,11 +71,40 @@ class grade_edit_tree_column_operation extends grade_edit_tree_column
     {
         $item = $category->get_grade_item();
         $categorycell = parent::get_category_cell($category, $levelclass, $params);
-        if ($item->is_category_item()) {
-            $categorycell->text = ' - ';
+
+        if (!$item->is_category_item()) {
+            return $categorycell;
         }
 
+        if (!empty ($item->calculation)) {
+            $categorycell->text = get_string($this->getCalculationString($item), 'local_gradebook');
+
+            return $categorycell;
+        }
+
+        $categorycell->text = '-';
         return $categorycell;
+    }
+
+    protected function getCalculationString($item)
+    {
+        $calculation = $item->calculation;
+        $calculation = calc_formula::localize($calculation);
+        $calculation = grade_item::denormalize_formula($calculation, $item->courseid);
+        $operation = $this->getInbetweenStrings($calculation);
+
+        return 'op:' . $operation;
+    }
+
+    public function getInbetweenStrings($str){
+        $matches = [];
+        $regex = '~=(.*?)\(~';
+        preg_match($regex, $str, $matches);
+
+        $string = ltrim($matches[0], '=');
+        $string = rtrim($string, '(');
+
+        return $string;
     }
 
     public function get_item_cell($item, $params)
