@@ -44,3 +44,7 @@ ul#local-gradebook-options li {
     padding-right: 15px;
     padding-left: 15px;
 }
+
+#borderless td, #borderless th {
+    border: none;
+}

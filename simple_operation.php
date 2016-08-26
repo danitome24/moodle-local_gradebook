@@ -44,33 +44,20 @@ $PAGE->set_pagelayout('admin');
 $PAGE->set_title(get_string('pluginname', 'local_gradebook'));
 $PAGE->set_context($context);
 
-echo $OUTPUT->header();
+// Get renderer on last step
+$output = $PAGE->get_renderer('local_gradebook');
 
+echo $OUTPUT->header();
 echo '<div class="row-fluid">';
 echo '<form method="post" action="add_operation.php">';
 $items = getListItems($gtree, $gtree->top_element);
-echo '<div class="span4">';
-echo '<div style="display: none;">';
-echo '<input type="hidden" value="' . $courseid . '" name="courseid"/>';
-echo '<input type="hidden" value="' . $id . '" name="id"/>';
-echo '</div>';
-echo '<h3>' . get_string('qualifier_elements', 'local_gradebook') . '</h3>';
-echo $items;
-echo '</div>';
-echo '<div class="span8">';
-echo '<h3>' . get_string('operations', 'local_gradebook') . '</h3>';
+
+// Display all grades tree in a checkbox input list
+echo $output->gradesInputSelection($courseid, $id, $items);
+
+echo $output->startGradesSimpleOperations();
+
 $buttons = local_gradebook_get_simple_options(['id' => $courseid]);
-echo '<table><tbody>';
-$count = 0;
-foreach ($buttons as $button) {
-    if (!fmod($count, 2)) {
-        echo '<tr>';
-    }
-    echo '<td>' . $button . '</td>';
-    if (fmod($count, 2)) {
-        echo '</tr>';
-    }
-    $count++;
-}
-echo '</tbody></table></div></form></div>';
+
+echo $output->operationButtons($buttons);
 echo $OUTPUT->footer();
