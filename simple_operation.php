@@ -48,7 +48,7 @@ $PAGE->set_context($context);
 $output = $PAGE->get_renderer('local_gradebook');
 
 echo $OUTPUT->header();
-$items = getListItems($gtree, $gtree->top_element);
+$items = local_gradebook_get_list_items($gtree, $gtree->top_element);
 
 // Display all grades tree in a checkbox input list
 echo $output->gradesInputSelection($courseid, $id, $items);

@@ -68,7 +68,7 @@ function local_gradebook_complete_grade_idnumbers($courseid)
 }
 
 
-function getListItems(&$gtree, $element, $current_itemid = null, $errors = null)
+function local_gradebook_get_list_items(&$gtree, $element, $current_itemid = null, $errors = null)
 {
     global $CFG;
 
@@ -110,10 +110,10 @@ function getListItems(&$gtree, $element, $current_itemid = null, $errors = null)
         $return_string .= '<ul class="catlevel' . $element['depth'] . '">' . "\n";
         $last = null;
         foreach ($element['children'] as $child_el) {
-            $return_string .= getListItems($gtree, $child_el, $current_itemid, $errors);
+            $return_string .= local_gradebook_get_list_items($gtree, $child_el, $current_itemid, $errors);
         }
         if ($last) {
-            $return_string .= getListItems($gtree, $last, $current_itemid, $errors);
+            $return_string .= local_gradebook_get_list_items($gtree, $last, $current_itemid, $errors);
         }
         $return_string .= '</ul></li>' . "\n";
     }
@@ -127,7 +127,7 @@ function getListItems(&$gtree, $element, $current_itemid = null, $errors = null)
  * @param string $operation with operation to build.
  * @return string $calculation with
  */
-function getCalculationFromParams($gradesSelected, $operation)
+function local_gradebook_get_calculation_from_params($gradesSelected, $operation)
 {
     $operation = ltrim($operation, "op:");
     $calculation = '=';

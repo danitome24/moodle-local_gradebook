@@ -59,7 +59,7 @@ if (empty($grades)) {
 }
 
 echo 'ID activitat a ser aplicat: ' . $id . "\n ID del curs: " . $courseid . "\n Activitats seleccionades: " . implode('-', $grades) . "\n Operació a aplicar: " . $operation;
-$calculation = getCalculationFromParams($grades, $operation);
+$calculation = local_gradebook_get_calculation_from_params($grades, $operation);
 $calculation = calc_formula::unlocalize($calculation);
 if (!$grade_item->validate_formula($calculation)) {
     print_error('error');
