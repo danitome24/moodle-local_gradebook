@@ -48,8 +48,6 @@ $PAGE->set_context($context);
 $output = $PAGE->get_renderer('local_gradebook');
 
 echo $OUTPUT->header();
-echo '<div class="row-fluid">';
-echo '<form method="post" action="add_operation.php">';
 $items = getListItems($gtree, $gtree->top_element);
 
 // Display all grades tree in a checkbox input list
@@ -60,4 +58,6 @@ echo $output->startGradesSimpleOperations();
 $buttons = local_gradebook_get_simple_options(['id' => $courseid]);
 
 echo $output->operationButtons($buttons);
+echo $output->endGradesSimpleOptions();
+
 echo $OUTPUT->footer();

@@ -34,7 +34,8 @@ class local_gradebook_renderer extends plugin_renderer_base
      */
     public function gradesInputSelection($courseid, $gradeid, $treeitems)
     {
-        $output = null;
+        $output = html_writer::start_div('row-fluid');
+        $output .= html_writer::start_tag('form', ['method' => 'post', 'action' => 'add_operation.php']);
         $output .= html_writer::start_div('span4');
         $output .= html_writer::start_div('', array('style="display: none;"'));
         $output .= html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'courseid', 'value' => $courseid]);
@@ -47,15 +48,23 @@ class local_gradebook_renderer extends plugin_renderer_base
         return $output;
     }
 
+    /**
+     * Start of buttons table
+     * @return string
+     */
     public function startGradesSimpleOperations()
     {
-        $output = null;
-        $output .= html_writer::start_div('span4');
+        $output = html_writer::start_div('span4');
         $output .= html_writer::tag('h3', get_string('operations', 'local_gradebook'));
 
         return $output;
     }
 
+    /**
+     * Display in a table all butons with his own operations
+     * @param array $buttons buttons to be displayed on simple operation
+     * @return string
+     */
     public function operationButtons($buttons)
     {
         $htmlTable = new html_table();
@@ -76,6 +85,20 @@ class local_gradebook_renderer extends plugin_renderer_base
         }
         $htmlTable->data = $rows;
         $output = html_writer::table($htmlTable);
+
+        return $output;
+    }
+
+    /**
+     * End of buttons table
+     * @return string
+     */
+    public function endGradesSimpleOptions()
+    {
+        $output = html_writer::end_tag('h3');
+        $output .= html_writer::end_div();
+        $output .= html_writer::end_tag('form');
+        $output .= html_writer::end_div();
 
         return $output;
     }
