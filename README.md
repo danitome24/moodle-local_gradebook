@@ -1,6 +1,6 @@
 # moodle-gradebook_calc
 
-https://travis-ci.org/danitome24/moodle-local_gradebook.svg?branch=master
+[![Build Status](https://travis-ci.org/danitome24/moodle-local_gradebook.svg?branch=master)]
 
 **This plugin is being developed and NOT able to use in production sites**
 
