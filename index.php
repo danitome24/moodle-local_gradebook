@@ -60,7 +60,7 @@ $switch = grade_get_setting($course->id, 'aggregationposition', $CFG->grade_aggr
 $strgrades = get_string('grades');
 $strgraderreport = get_string('graderreport', 'grades');
 
-$grade_edit_tree = new local_gradebook_tree($gtree, false, $gpr);
+$grade_edit_tree = new local_gradebook\grade\tree\GradebookTree($gtree, false, $gpr);
 
 echo $OUTPUT->header();
 // Print Table of categories and items

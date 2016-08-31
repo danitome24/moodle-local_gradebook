@@ -22,40 +22,6 @@
 require_once $CFG->libdir . '/mathslib.php';
 require_once $CFG->dirroot . '/grade/lib.php';
 
-class local_gradebook_tree extends grade_edit_tree
-{
-    public function __construct($gtree, $moving, $gpr)
-    {
-
-        $this->gtree = $gtree;
-        $this->moving = $moving;
-        $this->gpr = $gpr;
-        $this->deepest_level = $this->get_deepest_level($this->gtree->top_element);
-
-        $this->columns = array(grade_edit_tree_column::factory('name', array('deepest_level' => $this->deepest_level)));
-
-        $this->columns[] = grade_edit_tree_column::factory('weight_local', array('adv' => 'weight'));
-        $this->columns[] = grade_edit_tree_column::factory('operation');
-        $this->columns[] = grade_edit_tree_column::factory('simple_op');
-        $this->columns[] = grade_edit_tree_column::factory('advanced_actions');
-
-        $this->table = new html_table();
-        $this->table->id = "grade_edit_tree_table";
-        $this->table->attributes['class'] = 'generaltable simple setup-grades';
-        if ($this->moving) {
-            $this->table->attributes['class'] .= ' moving';
-        }
-
-        foreach ($this->columns as $column) {
-            if (!($this->moving && $column->hide_when_moving)) {
-                $this->table->head[] = $column->get_header_cell();
-            }
-        }
-
-        $rowcount = 0;
-        $this->table->data = $this->build_html_tree($this->gtree->top_element, true, array(), 0, $rowcount);
-    }
-}
 
 class grade_edit_tree_column_operation extends grade_edit_tree_column
 {
