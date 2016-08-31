@@ -21,9 +21,6 @@
 
 function local_gradebook_extend_settings_navigation(settings_navigation $nav, context $context)
 {
-
-    require_once 'classes/local_gradebook_constants.php';
-
     //Check capability of user
     if (!has_capability('local/gradebook:access', $context)) {
         return false;
@@ -34,112 +31,9 @@ function local_gradebook_extend_settings_navigation(settings_navigation $nav, co
     }
     $courseId = optional_param('id', 0, PARAM_INT);
 
-    $url = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/index.php', ['id' => $courseId]);
+    $url = new moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/index.php', ['id' => $courseId]);
     $name = get_string('pluginname', 'local_gradebook');
     $type = navigation_node::TYPE_CONTAINER;
-    $node = navigation_node::create($name, $url, $type, null, Constants::PLUGIN_NAME, new pix_icon('t/calc', $name));
+    $node = navigation_node::create($name, $url, $type, null, local_gradebook\Constants::PLUGIN_NAME, new pix_icon('t/calc', $name));
     $courseAdminNode->add_node($node);
-}
-
-/**
- * Function to get base options buttons
- */
-function local_gradebook_get_simple_options($params)
-{
-    $buttonNames = ['op:average', 'op:maximum', 'op:minimum', 'op:add'];
-    $url = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/operations.php', $params);
-    $buttons = [];
-    foreach ($buttonNames as $buttonName) {
-        $buttons[] = '<button name="operation" type="submit" value="' . $buttonName . '">' . get_string($buttonName, 'local_gradebook') . '</button>';
-//        $buttons[] = '<input class="advanced" type="submit" name="operation" value="' . get_string($buttonName, 'local_gradebook') . '" />';
-    }
-
-    return $buttons;
-}
-
-function local_gradebook_complete_grade_idnumbers($courseid)
-{
-    $gradeByCourse = grade_item::fetch_all(['courseid' => $courseid]);
-    foreach ($gradeByCourse as $grade) {
-        if (empty($grade->idnumber) || null == $grade->idnumber) {
-            $grade->add_idnumber('idnum_' . $grade->id);
-        }
-    }
-}
-
-
-function local_gradebook_get_list_items(&$gtree, $element, $current_itemid = null, $errors = null)
-{
-    global $CFG;
-
-    $object = $element['object'];
-    $eid = $element['eid'];
-    $type = $element['type'];
-    $grade_item = $object->get_grade_item();
-
-    $name = $object->get_name();
-    $return_string = '';
-
-    //TODO: improve outcome visualisation
-    if ($type == 'item' and !empty($object->outcomeid)) {
-        $name = $name . ' (' . get_string('outcome', 'grades') . ')';
-    }
-
-    $idnumber = $object->get_idnumber();
-
-    // Don't show idnumber or input field for current item if given to function. Highlight the item instead.
-    if ($type != 'category') {
-        $closingdiv = '';
-        if (!empty($errors[$grade_item->id])) {
-            $name .= '<div class="error"><span class="error">' . $errors[$grade_item->id] . '</span><br />' . "\n";
-            $closingdiv = "</div>\n";
-        }
-        $name .= '<label class="accesshide" for="id_idnumber_' . $grade_item->id . '">' . get_string('gradeitems', 'grades') . '</label>';
-        $name .= '<input type="checkbox" name="grades[]" value="' . $grade_item->idnumber . '">';
-        $name .= $closingdiv;
-    }
-
-    $icon = $gtree->get_element_icon($element, true);
-    $last = '';
-    $catcourseitem = ($element['type'] == 'courseitem' or $element['type'] == 'categoryitem');
-
-    if ($type != 'category') {
-        $return_string .= '<li class=" list-without-style ' . $type . '">' . $icon . $name . '</li>' . "\n";
-    } else {
-        $return_string .= '<li class=" list-without-style ' . $type . '">' . $icon . $name . "\n";
-        $return_string .= '<ul class="catlevel' . $element['depth'] . '">' . "\n";
-        $last = null;
-        foreach ($element['children'] as $child_el) {
-            $return_string .= local_gradebook_get_list_items($gtree, $child_el, $current_itemid, $errors);
-        }
-        if ($last) {
-            $return_string .= local_gradebook_get_list_items($gtree, $last, $current_itemid, $errors);
-        }
-        $return_string .= '</ul></li>' . "\n";
-    }
-
-    return $return_string;
-}
-
-/**
- * Method to give a calculation given params.
- * @param array $gradesSelected with activities to add into operation.
- * @param string $operation with operation to build.
- * @return string $calculation with
- */
-function local_gradebook_get_calculation_from_params($gradesSelected, $operation)
-{
-    $operation = ltrim($operation, "op:");
-    $calculation = '=';
-    $calculation .= $operation;
-    $calculation .= '(';
-    $iterator = new CachingIterator(new ArrayIterator($gradesSelected));
-    foreach ($iterator as $grade) {
-        $calculation .= '[[' . $grade . ']]';
-        if ($iterator->hasNext()) {
-            $calculation .= ';';
-        }
-    }
-    $calculation .= ')';
-    return $calculation;
 }

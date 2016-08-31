@@ -19,6 +19,8 @@
  * @author Daniel Tome <danieltomefer@gmail.com>
  */
 
+namespace local_gradebook;
+
 class Constants {
     const PLUGIN_NAME = 'gradebook';
 }

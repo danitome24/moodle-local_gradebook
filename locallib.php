@@ -150,7 +150,7 @@ class grade_edit_tree_column_simple_op extends grade_edit_tree_column
     {
         global $OUTPUT;
 
-        $simpleOpUrl = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/simple_operation.php', ['courseid' => $item->courseid, 'id' => $item->id]);
+        $simpleOpUrl = new moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/simple_operation.php', ['courseid' => $item->courseid, 'id' => $item->id]);
         $pixelString = '<a href=" ' . $simpleOpUrl . '">';
         $pixIcon = new pix_icon('t/calc', get_string('name'));
         $pixelString .= $OUTPUT->render($pixIcon) . '</a>';
@@ -173,7 +173,7 @@ class grade_edit_tree_column_advanced_actions extends grade_edit_tree_column
         global $OUTPUT;
 
         $item = $category->get_grade_item();
-        $url = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/index.php', ['id' => $item->courseid]);
+        $url = new moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/index.php', ['id' => $item->courseid]);
         $button = new single_button($url, get_string('add', 'local_gradebook'));
         $categorycell = parent::get_category_cell($category, $levelclass, $params);
 
@@ -191,7 +191,7 @@ class grade_edit_tree_column_advanced_actions extends grade_edit_tree_column
         if (empty($params['actions'])) {
             throw new Exception('Array key (actions) missing from 2nd param of grade_edit_tree_column_actions::get_item_cell($item, $params)');
         }
-        $url = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/index.php', ['id' => $item->courseid]);
+        $url = new moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/index.php', ['id' => $item->courseid]);
         $button = new single_button($url, get_string('add', 'local_gradebook'));
         $element = array_shift($params['element']);
         $itemcell = parent::get_item_cell($item, $params);

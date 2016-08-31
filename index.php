@@ -19,12 +19,11 @@
  * @author Daniel Tome <danieltomefer@gmail.com>
  */
 
-require_once 'classes/local_gradebook_constants.php';
 require_once '../../config.php';
-require_once $CFG->dirroot . '/local/' . Constants::PLUGIN_NAME . '/lib.php';
+require_once $CFG->dirroot . '/local/' . local_gradebook\Constants::PLUGIN_NAME . '/lib.php';
 require_once $CFG->dirroot . '/grade/lib.php';
 require_once $CFG->dirroot . '/grade/edit/tree/lib.php';
-require_once $CFG->dirroot . '/local/' . Constants::PLUGIN_NAME . '/locallib.php';
+require_once $CFG->dirroot . '/local/' . local_gradebook\Constants::PLUGIN_NAME . '/locallib.php';
 
 $courseid = required_param('id', PARAM_INT);
 $action = optional_param('action', 0, PARAM_ALPHA);
@@ -32,7 +31,8 @@ $eid = optional_param('eid', 0, PARAM_ALPHANUM);
 $weightsadjusted = optional_param('weightsadjusted', 0, PARAM_INT);
 
 //Always check if grade_items.idnumber is set. Otherwise we create one.
-local_gradebook_complete_grade_idnumbers($courseid);
+$localGradebookFunctions = new local_gradebook\Functions();
+$localGradebookFunctions->local_gradebook_complete_grade_idnumbers($courseid);
 
 /// Make sure they can even access this course
 if (!$course = $DB->get_record('course', array('id' => $courseid))) {

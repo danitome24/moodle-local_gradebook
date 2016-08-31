@@ -21,7 +21,6 @@
 
 require_once '../../config.php';
 require_once 'lib.php';
-require_once 'classes/local_gradebook_constants.php';
 require_once $CFG->libdir . '/mathslib.php';
 require_once $CFG->dirroot . '/grade/lib.php';
 
@@ -42,7 +41,7 @@ if (!$grade_item = grade_item::fetch(array('id' => $id, 'courseid' => $course->i
     print_error('invaliditemid');
 }
 
-$url = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/add_operation.php',
+$url = new \moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/add_operation.php',
     [
         'id' => $id,
         'operation' => $operation,
@@ -57,10 +56,10 @@ echo $OUTPUT->header();
 if (empty($grades)) {
     print_error('no_grades_selected', 'local_gradebook');
 }
-
+$localGradebookFunctions = new local_gradebook\Functions();
 echo 'ID activitat a ser aplicat: ' . $id . "\n ID del curs: " . $courseid . "\n Activitats seleccionades: " . implode('-', $grades) . "\n Operació a aplicar: " . $operation;
-$calculation = local_gradebook_get_calculation_from_params($grades, $operation);
-$calculation = calc_formula::unlocalize($calculation);
+$calculation = $localGradebookFunctions->local_gradebook_get_calculation_from_params($grades, $operation);
+$calculation = \calc_formula::unlocalize($calculation);
 if (!$grade_item->validate_formula($calculation)) {
     print_error('error');
 }

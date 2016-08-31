@@ -19,7 +19,6 @@
  * @author Daniel Tome <danieltomefer@gmail.com>
  */
 require_once '../../config.php';
-require_once 'classes/local_gradebook_constants.php';
 require_once $CFG->dirroot . '/grade/lib.php';
 
 $courseid = required_param('courseid', PARAM_TEXT);
@@ -34,7 +33,7 @@ $context = context_course::instance($course->id);
 
 $gtree = new grade_tree($courseid, false, false);
 
-$url = new moodle_url('/local/' . Constants::PLUGIN_NAME . '/simple_operation.php',
+$url = new \moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/simple_operation.php',
     [
         'id' => $id,
         'courseid' => $courseid,
@@ -48,14 +47,15 @@ $PAGE->set_context($context);
 $output = $PAGE->get_renderer('local_gradebook');
 
 echo $OUTPUT->header();
-$items = local_gradebook_get_list_items($gtree, $gtree->top_element);
+$localGradebookFunctions = new local_gradebook\Functions();
+$items = $localGradebookFunctions->local_gradebook_get_list_items($gtree, $gtree->top_element);
 
 // Display all grades tree in a checkbox input list
 echo $output->gradesInputSelection($courseid, $id, $items);
 
 echo $output->startGradesSimpleOperations();
 
-$buttons = local_gradebook_get_simple_options(['id' => $courseid]);
+$buttons = $localGradebookFunctions->local_gradebook_get_simple_options(['id' => $courseid]);
 
 echo $output->operationButtons($buttons);
 echo $output->endGradesSimpleOptions();
