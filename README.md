@@ -1,5 +1,14 @@
 # moodle-gradebook_calc
 
+https://travis-ci.org/danitome24/moodle-local_gradebook.svg?branch=master
+
+**This plugin is being developed and NOT able to use in production sites**
+
+## Introduction
+This moodle plugin has the goal of improve usability when setting grades
+in Moodle. Moodle API provides an input where you can write your math
+expressions and that is difficult to some teachers. Therefore we are developing
+this plugin in order to make easier this process using a web interface.
 
 
 ## Authors
