@@ -66,15 +66,19 @@ echo $OUTPUT->header();
 // Print Table of categories and items
 echo $OUTPUT->box_start('gradetreebox generalbox');
 
-echo '<form id="gradetreeform" method="post" action="' . $returnurl . '">';
-echo '<div>';
-echo '<input type="hidden" name="sesskey" value="' . sesskey() . '" />';
+
+echo html_writer::start_tag('form', ['id' => 'gradetreeform', 'method' => 'post', 'action' => $returnurl]);
+
+echo html_writer::start_div();
+echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'sesskey', 'value' => sesskey()]);
 
 echo html_writer::table($grade_edit_tree->table);
 
-echo '<div id="gradetreesubmit">';
-echo '<input class="advanced" type="submit" value="' . get_string('savechanges') . '" />';
-echo '</div>';
-echo '</div></form>';
+echo html_writer::start_div('', ['id' => 'gradetreesubmit']);
+echo html_writer::empty_tag('input', ['class' => 'advanced', 'type' => 'submit', 'value' => get_string('savechanges')]);
+echo html_writer::end_div();
+echo html_writer::end_div();
+echo html_writer::end_tag('form');
+
 echo $OUTPUT->box_end();
 echo $OUTPUT->footer();
