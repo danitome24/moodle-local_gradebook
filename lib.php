@@ -32,7 +32,7 @@ function local_gradebook_extend_settings_navigation(settings_navigation $nav, co
     $courseId = optional_param('id', 0, PARAM_INT);
 
     $url = new moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/index.php', ['id' => $courseId]);
-    $name = get_string('pluginname', 'local_gradebook');
+    $name = get_string('navbar_link', 'local_gradebook');
     $type = navigation_node::TYPE_CONTAINER;
     $node = navigation_node::create($name, $url, $type, null, local_gradebook\Constants::PLUGIN_NAME, new pix_icon('t/calc', $name));
     $courseAdminNode->add_node($node);
