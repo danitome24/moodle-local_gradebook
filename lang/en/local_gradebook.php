@@ -34,3 +34,4 @@ $string['qualifier_elements'] = 'Qualifier elements';
 $string['operations'] = 'Operations';
 $string['no_grades_selected'] = 'No has seleccionado ninguna actividad, por favor vuelve atrás y selecciona alguna.';
 $string['navbar_link'] = "Advanced gradebook setup";
+$string['element_calculation_novalid'] = 'Element selected to apply math operation no valid';

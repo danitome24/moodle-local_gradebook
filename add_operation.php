@@ -41,6 +41,10 @@ if (!$grade_item = grade_item::fetch(array('id' => $id, 'courseid' => $course->i
     print_error('invaliditemid');
 }
 
+if (!$grade_item->is_category_item()) {
+    print_error('element_calculation_novalid');
+}
+
 $url = new \moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/add_operation.php',
     [
         'id' => $id,

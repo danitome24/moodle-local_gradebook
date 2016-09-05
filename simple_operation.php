@@ -23,6 +23,7 @@ require_once $CFG->dirroot . '/grade/lib.php';
 
 $courseid = required_param('courseid', PARAM_TEXT);
 $id = required_param('id', PARAM_TEXT);
+
 /// Make sure they can even access this course
 if (!$course = $DB->get_record('course', array('id' => $courseid))) {
     print_error('nocourseid');
@@ -55,7 +56,7 @@ echo $output->gradesInputSelection($courseid, $id, $items);
 
 echo $output->startGradesSimpleOperations();
 
-$buttons = $localGradebookFunctions->local_gradebook_get_simple_options(['id' => $courseid]);
+$buttons = $localGradebookFunctions->local_gradebook_get_simple_options();
 
 echo $output->operationButtons($buttons);
 echo $output->endGradesSimpleOptions();

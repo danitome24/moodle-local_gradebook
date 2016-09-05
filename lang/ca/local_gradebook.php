@@ -34,3 +34,4 @@ $string['qualifier_elements'] = 'Elements qualificadors';
 $string['operations'] = 'Operacions';
 $string['no_grades_selected'] = 'No has seleccionat cap activitat, si us plau torna endarrere i selecciona alguna';
 $string['navbar_link'] = "Configuració avançada del llibre de qualificacions";
+$string['element_calculation_novalid'] = 'L\'element a aplicar operació no es vàlid';
