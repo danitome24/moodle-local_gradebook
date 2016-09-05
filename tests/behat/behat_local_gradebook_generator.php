@@ -30,7 +30,7 @@ class behat_local_gradebook_generator extends behat_base
     public function iSelectGradebookOnNavigation()
     {
         $this->execute('behat_navigation::i_navigate_to_node_in', [
-            get_string('pluginname', 'local_gradebook'),
+            get_string('navbar_link', 'local_gradebook'),
             implode(' > ', [
                 get_string('courseadministration', 'moodle'),
             ])
