@@ -27,10 +27,9 @@ class Functions
     /**
      * Function to get base options buttons
      */
-    function local_gradebook_get_simple_options($params)
+    function local_gradebook_get_simple_options()
     {
         $buttonNames = ['op:average', 'op:maximum', 'op:minimum', 'op:add'];
-        $url = new \moodle_url('/local/' . Constants::PLUGIN_NAME . '/operations.php', $params);
         $buttons = [];
         foreach ($buttonNames as $buttonName) {
             $buttons[] = '<button name="operation" type="submit" value="' . $buttonName . '">' . get_string($buttonName, 'local_gradebook') . '</button>';
