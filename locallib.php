@@ -43,7 +43,7 @@ class grade_edit_tree_column_operation extends grade_edit_tree_column
         }
 
         if (!empty ($item->calculation)) {
-            $categorycell->text = get_string($this->getCalculationString($item), 'local_gradebook');
+            $categorycell->text = $this->getCalculationString($item);
 
             return $categorycell;
         }
@@ -57,18 +57,46 @@ class grade_edit_tree_column_operation extends grade_edit_tree_column
         $calculation = $item->calculation;
         $calculation = calc_formula::localize($calculation);
         $calculation = grade_item::denormalize_formula($calculation, $item->courseid);
-        $operation = $this->getInbetweenStrings($calculation);
+        $operation = get_string('op:' . $this->getTypeOperation($calculation), 'local_gradebook');
+        $appliedOperation = $operation . '(' . $this->getElementsInOperation($calculation) . ')';
 
-        return 'op:' . $operation;
+        return $appliedOperation;
     }
 
-    public function getInbetweenStrings($str){
+    protected function getGradeGivenId($id)
+    {
+        $grade = \grade_item::fetch(['idnumber' => $id]);
+
+        return $grade->get_name();
+    }
+
+    protected function getTypeOperation($str)
+    {
         $matches = [];
         $regex = '~=(.*?)\(~';
         preg_match($regex, $str, $matches);
 
-        $string = ltrim($matches[0], '=');
-        $string = rtrim($string, '(');
+        return $matches[1];
+    }
+
+    protected function getElementsInOperation($calc)
+    {
+        $matches = [];
+        $regex = '~\[(.*?)\]]~';
+        preg_match_all($regex, $calc, $matches);
+        $string = '';
+        $numberOfElements = count($matches[0]);
+
+        foreach ($matches[0] as $element) {
+            $elem = ltrim($element, '[[');
+            $elem = rtrim($elem, ']]');
+            $name = $this->getGradeGivenId($elem);
+            //Remove all empty spaces
+            $string .= trim($name);
+            if (--$numberOfElements > 0) {
+                $string .= ',';
+            }
+        }
 
         return $string;
     }
