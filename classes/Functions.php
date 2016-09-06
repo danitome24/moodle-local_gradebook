@@ -15,17 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 /**
  * @author Daniel Tome <danieltomefer@gmail.com>
  */
 
 namespace local_gradebook;
 
+/**
+ * Class Functions is used to store all internal functions that has a specific use.
+ *
+ * Example of usage:
+ *  $variable = new local_gradebook\Functions();
+ *  $return = $variable->methodYouWantToUse($params);
+ *
+ * @package local_gradebook
+ */
 class Functions
 {
     /**
-     * Function to get base options buttons
+     * Function to display all single operation buttons.
+     * @return array with HTML tag buttons
      */
     function local_gradebook_get_simple_options()
     {
@@ -38,6 +47,10 @@ class Functions
         return $buttons;
     }
 
+    /**
+     * Function to get all idnumbers of a given course.
+     * @param int $courseid Course id
+     */
     function local_gradebook_complete_grade_idnumbers($courseid)
     {
         $gradeByCourse = \grade_item::fetch_all(['courseid' => $courseid]);
@@ -48,7 +61,14 @@ class Functions
         }
     }
 
-
+    /**
+     * Function to build grade tree list in order to select which activities would be on the operation.
+     * @param \grade_tree $gtree Gtree instance
+     * @param $element
+     * @param null $current_itemid
+     * @param null $errors
+     * @return string
+     */
     function local_gradebook_get_list_items(&$gtree, $element, $current_itemid = null, $errors = null)
     {
         global $CFG;

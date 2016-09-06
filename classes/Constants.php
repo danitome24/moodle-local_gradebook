@@ -21,6 +21,14 @@
 
 namespace local_gradebook;
 
+/**
+ * Class Constants is used to set all constants that we'll use in our plugin.
+ *
+ * Example of usage:
+ *  local_gradebook\Constants::PLUGIN_NAME
+ *
+ * @package local_gradebook
+ */
 class Constants {
     const PLUGIN_NAME = 'gradebook';
 }

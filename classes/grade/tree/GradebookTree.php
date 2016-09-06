@@ -27,6 +27,12 @@ namespace local_gradebook\grade\tree;
  */
 class GradebookTree extends \grade_edit_tree
 {
+    /**
+     * GradebookTree constructor.
+     * @param \grade_tree $gtree
+     * @param bool $moving
+     * @param $gpr
+     */
     public function __construct($gtree, $moving, $gpr)
     {
 

@@ -22,9 +22,15 @@
 require_once $CFG->libdir . '/mathslib.php';
 require_once $CFG->dirroot . '/grade/lib.php';
 
-
+/**
+ * Class grade_edit_tree_column_operation to display column operations applied in local_gradebook_tree.
+ */
 class grade_edit_tree_column_operation extends grade_edit_tree_column
 {
+    /**
+     * Function to display header.
+     * @return html_table_cell
+     */
     public function get_header_cell()
     {
         $headercell = clone($this->headercell);
@@ -33,6 +39,13 @@ class grade_edit_tree_column_operation extends grade_edit_tree_column
         return $headercell;
     }
 
+    /**
+     * Function to display category cell.
+     * @param $category
+     * @param $levelclass
+     * @param $params
+     * @return html_table_cell
+     */
     public function get_category_cell($category, $levelclass, $params)
     {
         $item = $category->get_grade_item();
@@ -52,6 +65,11 @@ class grade_edit_tree_column_operation extends grade_edit_tree_column
         return $categorycell;
     }
 
+    /**
+     * Function to build operation if a calculation is set.
+     * @param grade_item $item
+     * @return string
+     */
     protected function getCalculationString($item)
     {
         $calculation = $item->calculation;
@@ -63,6 +81,11 @@ class grade_edit_tree_column_operation extends grade_edit_tree_column
         return $appliedOperation;
     }
 
+    /**
+     * Function to get a grade given idnumber.
+     * @param int $id
+     * @return string with name.
+     */
     protected function getGradeGivenId($id)
     {
         $grade = \grade_item::fetch(['idnumber' => $id]);
@@ -70,6 +93,11 @@ class grade_edit_tree_column_operation extends grade_edit_tree_column
         return $grade->get_name();
     }
 
+    /**
+     * Function to get type of operation (sum, max, min...)
+     * @param string $str
+     * @return array mixed
+     */
     protected function getTypeOperation($str)
     {
         $matches = [];
@@ -79,6 +107,11 @@ class grade_edit_tree_column_operation extends grade_edit_tree_column
         return $matches[1];
     }
 
+    /**
+     * Function to get idnumbers involved in an operation.
+     * @param string $calc
+     * @return string
+     */
     protected function getElementsInOperation($calc)
     {
         $matches = [];
@@ -101,6 +134,12 @@ class grade_edit_tree_column_operation extends grade_edit_tree_column
         return $string;
     }
 
+    /**
+     * Function to display on item cell.
+     * @param $item
+     * @param $params
+     * @return html_table_cell
+     */
     public function get_item_cell($item, $params)
     {
         $element = array_shift($params['element']);
@@ -114,8 +153,15 @@ class grade_edit_tree_column_operation extends grade_edit_tree_column
 
 }
 
+/**
+ * Class grade_edit_tree_column_simple_op to display column simple operation buttons in local_gradebook_tree.
+ */
 class grade_edit_tree_column_simple_op extends grade_edit_tree_column
 {
+    /**
+     * Function to display at header cell.
+     * @return html_table_cell
+     */
     public function get_header_cell()
     {
         $headercell = clone($this->headercell);
@@ -123,6 +169,13 @@ class grade_edit_tree_column_simple_op extends grade_edit_tree_column
         return $headercell;
     }
 
+    /**
+     * Function to display in item cell.
+     * @param $item
+     * @param $params
+     * @return html_table_cell
+     * @throws Exception
+     */
     public function get_item_cell($item, $params)
     {
         if (empty($params['element'])) {
@@ -133,14 +186,19 @@ class grade_edit_tree_column_simple_op extends grade_edit_tree_column
         if ($item->itemtype === 'mod') {
             return $itemcell;
         }
-        $calc = self::getCalcUrl($item);
+        $calc = $this->getCalcUrl($item);
         $itemcell->text = $calc;
 
 
         return $itemcell;
     }
 
-    static function getCalcUrl($item)
+    /**
+     * Function to build an icon with simple operation url link.
+     * @param grade_item $item
+     * @return string
+     */
+    protected function getCalcUrl($item)
     {
         global $OUTPUT;
 
@@ -153,8 +211,15 @@ class grade_edit_tree_column_simple_op extends grade_edit_tree_column
     }
 }
 
+/**
+ * Class grade_edit_tree_column_advanced_actions to display advanced operations link in local_gradebook_tree.
+ */
 class grade_edit_tree_column_advanced_actions extends grade_edit_tree_column
 {
+    /**
+     * Function to display on header cell.
+     * @return html_table_cell
+     */
     public function get_header_cell()
     {
         $headercell = clone($this->headercell);
@@ -162,6 +227,13 @@ class grade_edit_tree_column_advanced_actions extends grade_edit_tree_column
         return $headercell;
     }
 
+    /**
+     * Function to display on category cell.
+     * @param $category
+     * @param $levelclass
+     * @param $params
+     * @return html_table_cell
+     */
     public function get_category_cell($category, $levelclass, $params)
     {
         global $OUTPUT;
@@ -178,6 +250,13 @@ class grade_edit_tree_column_advanced_actions extends grade_edit_tree_column
         return $categorycell;
     }
 
+    /**
+     * Function to display on item cell.
+     * @param $item
+     * @param $params
+     * @return html_table_cell
+     * @throws Exception
+     */
     public function get_item_cell($item, $params)
     {
         global $OUTPUT;
@@ -197,8 +276,15 @@ class grade_edit_tree_column_advanced_actions extends grade_edit_tree_column
     }
 }
 
+/**
+ * Class grade_edit_tree_column_weight_local to display at weight column in local_gradebook_tree.
+ */
 class grade_edit_tree_column_weight_local extends grade_edit_tree_column_weight
 {
+    /**
+     * Function to write on header.
+     * @return html_table_cell
+     */
     public function get_header_cell()
     {
         global $OUTPUT;
@@ -207,6 +293,13 @@ class grade_edit_tree_column_weight_local extends grade_edit_tree_column_weight
         return $headercell;
     }
 
+    /**
+     * Function to write on category cell.
+     * @param $category
+     * @param $levelclass
+     * @param $params
+     * @return html_table_cell|string
+     */
     public function get_category_cell($category, $levelclass, $params)
     {
 
@@ -219,6 +312,13 @@ class grade_edit_tree_column_weight_local extends grade_edit_tree_column_weight
         return $categorycell;
     }
 
+    /**
+     * Function to write on item cell.
+     * @param $item
+     * @param $params
+     * @return html_table_cell
+     * @throws Exception
+     */
     public function get_item_cell($item, $params)
     {
         if (empty($params['element'])) {

@@ -18,7 +18,12 @@
 /**
  * @author Daniel Tome <danieltomefer@gmail.com>
  */
-
+/**
+ * Function to display a link on navigation
+ * @param settings_navigation $nav
+ * @param context $context
+ * @return bool
+ */
 function local_gradebook_extend_settings_navigation(settings_navigation $nav, context $context)
 {
     //Check capability of user
