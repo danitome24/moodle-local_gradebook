@@ -35,7 +35,7 @@ class local_gradebook_renderer extends plugin_renderer_base
     public function gradesInputSelection($courseid, $gradeid, $treeitems)
     {
         $output = html_writer::start_div('row-fluid');
-        $output .= html_writer::start_tag('form', ['method' => 'post', 'action' => 'add_operation.php']);
+        $output .= html_writer::start_tag('form', ['method' => 'post', 'action' => '']);
         $output .= html_writer::start_div('span4');
         $output .= html_writer::start_div('', array('style="display: none;"'));
         $output .= html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'courseid', 'value' => $courseid]);
