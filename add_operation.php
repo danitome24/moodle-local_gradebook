@@ -56,14 +56,13 @@ if (empty($grades)) {
     print_error('no_grades_selected', 'local_gradebook');
 }
 $localGradebookFunctions = new local_gradebook\Functions();
-$message = 'ID activitat a ser aplicat: ' . $id . "\n ID del curs: " . $courseid . "\n Activitats seleccionades: " .
-    implode('-', $grades) . "\n Operació a aplicar: " . $operation;
 $calculation = $localGradebookFunctions->local_gradebook_get_calculation_from_params($grades, $operation);
 $calculation = \calc_formula::unlocalize($calculation);
 if (!$grade_item->validate_formula($calculation)) {
     print_error('error');
 }
 $grade_item->set_calculation($calculation);
+$message = get_string('add_operation_success', 'local_gradebook');
 
 $urlToRedirect = new \moodle_url('/local/gradebook/index.php', ['id' => $courseid]);
 redirect($urlToRedirect, $message, null, \core\output\notification::NOTIFY_SUCCESS);
