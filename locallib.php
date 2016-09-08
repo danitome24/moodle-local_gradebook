@@ -239,12 +239,11 @@ class grade_edit_tree_column_advanced_actions extends grade_edit_tree_column
         global $OUTPUT;
 
         $item = $category->get_grade_item();
-        $url = new moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/index.php', ['id' => $item->courseid]);
-        $button = new single_button($url, get_string('add', 'local_gradebook'));
         $categorycell = parent::get_category_cell($category, $levelclass, $params);
 
+        $pixelString = $this->getIconLink($item->courseid);
         if ($item->is_category_item()) {
-            $categorycell->text = $OUTPUT->render($button);
+            $categorycell->text = $pixelString;
         }
 
         return $categorycell;
@@ -264,15 +263,32 @@ class grade_edit_tree_column_advanced_actions extends grade_edit_tree_column
         if (empty($params['actions'])) {
             throw new Exception('Array key (actions) missing from 2nd param of grade_edit_tree_column_actions::get_item_cell($item, $params)');
         }
-        $url = new moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/index.php', ['id' => $item->courseid]);
-        $button = new single_button($url, get_string('add', 'local_gradebook'));
         $element = array_shift($params['element']);
         $itemcell = parent::get_item_cell($item, $params);
+
+        $pixelString = $this->getIconLink($item->courseid);
         if (!empty($element->parent_category)) {
-            $itemcell->text = $OUTPUT->render($button);
+            $itemcell->text = $pixelString;
         }
 
         return $itemcell;
+    }
+
+    /**
+     * Method to get into advanced operation page.
+     * @return string
+     */
+    protected function getIconLink($courseid)
+    {
+        global $OUTPUT;
+
+        $url = new moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/advanced_operation.php', ['id' => $courseid]);
+        $pixelString = html_writer::start_tag('a', ['href' => $url]);
+        $pixIcon = new pix_icon('t/add', get_string('add'));
+        $pixelString .= $OUTPUT->render($pixIcon);
+        $pixelString .= html_writer::end_tag('a');
+
+        return $pixelString;
     }
 }
 
