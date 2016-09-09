@@ -48,3 +48,7 @@ ul#local-gradebook-options li {
 #borderless td, #borderless th {
     border: none;
 }
+
+.local-gradebook-margin-bottom {
+    margin-bottom: 10px;
+}

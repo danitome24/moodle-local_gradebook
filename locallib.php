@@ -241,7 +241,7 @@ class grade_edit_tree_column_advanced_actions extends grade_edit_tree_column
         $item = $category->get_grade_item();
         $categorycell = parent::get_category_cell($category, $levelclass, $params);
 
-        $pixelString = $this->getIconLink($item->courseid);
+        $pixelString = $this->getIconLink($item->courseid, $item->id);
         if ($item->is_category_item()) {
             $categorycell->text = $pixelString;
         }
@@ -266,7 +266,7 @@ class grade_edit_tree_column_advanced_actions extends grade_edit_tree_column
         $element = array_shift($params['element']);
         $itemcell = parent::get_item_cell($item, $params);
 
-        $pixelString = $this->getIconLink($item->courseid);
+        $pixelString = $this->getIconLink($item->courseid, $item->id);
         if (!empty($element->parent_category)) {
             $itemcell->text = $pixelString;
         }
@@ -278,11 +278,15 @@ class grade_edit_tree_column_advanced_actions extends grade_edit_tree_column
      * Method to get into advanced operation page.
      * @return string
      */
-    protected function getIconLink($courseid)
+    protected function getIconLink($courseid, $gradeId)
     {
         global $OUTPUT;
 
-        $url = new moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/advanced_operation.php', ['id' => $courseid]);
+        $url = new moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/advanced_operation.php',
+            [
+                'courseid' => $courseid,
+                'gradeid' => $gradeId,
+            ]);
         $pixelString = html_writer::start_tag('a', ['href' => $url]);
         $pixIcon = new pix_icon('t/add', get_string('add'));
         $pixelString .= $OUTPUT->render($pixIcon);
