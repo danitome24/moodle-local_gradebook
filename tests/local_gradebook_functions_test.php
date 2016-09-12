@@ -57,7 +57,7 @@ class local_gradebook_functions_testcase extends advanced_testcase
 
         $functionsMock = $this->getMock('local_gradebook\Functions', ['getGradesByCourseId'], [], '', false);
         $functionsMock->expects($this->once())
-            ->method('getGradeByCourseId')
+            ->method('getGradesByCourseId')
             ->will($this->returnValue([$gradeMock]));
 
         $functionsMock->local_gradebook_complete_grade_idnumbers($courseid);
