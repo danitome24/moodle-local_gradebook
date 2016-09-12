@@ -62,4 +62,15 @@ class local_gradebook_functions_testcase extends advanced_testcase
 
         $functionsMock->local_gradebook_complete_grade_idnumbers($courseid);
     }
+
+    public function test_getCalculationFromParams()
+    {
+        $idnumberGrades = ['idnum_5', 'idnum_6'];
+        $operation = 'op:add';
+        $expectedResult = '=add([[idnum_5]];[[idnum_6]])';
+        $functionsClass = new local_gradebook\Functions();
+
+        $this->assertEquals($expectedResult,
+            $functionsClass->local_gradebook_get_calculation_from_params($idnumberGrades, $operation));
+    }
 }
