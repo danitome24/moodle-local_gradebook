@@ -20,6 +20,7 @@
  */
 require_once '../../config.php';
 require_once $CFG->dirroot . '/grade/lib.php';
+require_once $CFG->libdir . '/mathslib.php';
 
 $courseid = required_param('courseid', PARAM_TEXT);
 $id = required_param('id', PARAM_TEXT);
@@ -31,6 +32,51 @@ if (!$course = $DB->get_record('course', array('id' => $courseid))) {
 
 require_login($course);
 $context = context_course::instance($course->id);
+
+/**
+ * If post data is given
+ */
+if (!empty($_POST)) {
+    $formData = (object)$_POST;
+    // Make sure they can even access this course
+    if (!$course = $DB->get_record('course', array('id' => $formData->courseid))) {
+        print_error('nocourseid');
+    }
+    require_login($course);
+    $context = context_course::instance($course->id);
+
+    if (!$grade_item = grade_item::fetch(array('id' => $formData->id, 'courseid' => $course->id))) {
+        print_error('invaliditemid');
+    }
+
+    if (!$grade_item->is_category_item()) {
+        print_error('element_calculation_novalid');
+    }
+
+    $url = new \moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/add_operation.php',
+        [
+            'id' => $id,
+            'operation' => $formData->operation,
+            'courseid' => $formData->courseid,
+        ]);
+
+    if (empty($formData->grades)) {
+        print_error('no_grades_selected', 'local_gradebook');
+    }
+    $localGradebookFunctions = new local_gradebook\Functions();
+    $calculation = $localGradebookFunctions->local_gradebook_get_calculation_from_params($formData->grades, $formData->operation);
+    $calculation = \calc_formula::unlocalize($calculation);
+    if (!$grade_item->validate_formula($calculation)) {
+        print_error('error');
+    }
+    $grade_item->set_calculation($calculation);
+    $message = get_string('add_operation_success', 'local_gradebook');
+    $urlToRedirect = new \moodle_url('/local/gradebook/index.php', ['id' => $courseid]);
+    redirect($urlToRedirect, $message, null, \core\output\notification::NOTIFY_SUCCESS);
+}
+/**
+ * End of post part
+ */
 
 $gtree = new grade_tree($courseid, false, false);
 
@@ -60,5 +106,4 @@ $buttons = $localGradebookFunctions->local_gradebook_get_simple_options();
 
 echo $output->operationButtons($buttons);
 echo $output->endGradesSimpleOptions();
-
 echo $OUTPUT->footer();
