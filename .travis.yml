@@ -23,6 +23,7 @@ before_install:
   - cd ../..
   - composer selfupdate
   - composer create-project -n --no-dev --prefer-dist moodlerooms/moodle-plugin-ci ci ^1
+  - composer require satooshi/php-coveralls
   - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
 
 install:
@@ -39,3 +40,6 @@ script:
 #  - moodle-plugin-ci validate
   - moodle-plugin-ci phpunit
   - moodle-plugin-ci behat
+
+after_success:
+  - travis_retry php vendor/bin/coveralls
