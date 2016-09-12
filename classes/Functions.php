@@ -53,12 +53,22 @@ class Functions
      */
     function local_gradebook_complete_grade_idnumbers($courseid)
     {
-        $gradeByCourse = \grade_item::fetch_all(['courseid' => $courseid]);
+        $gradeByCourse = $this->getGradesByCourseId($courseid);
         foreach ($gradeByCourse as $grade) {
             if (empty($grade->idnumber) || null == $grade->idnumber) {
                 $grade->add_idnumber('idnum_' . $grade->id);
             }
         }
+    }
+
+    /**
+     * Function that provides all grades given a course id.
+     * @param int $courseid
+     * @return array
+     */
+    function getGradesByCourseId($courseid)
+    {
+        return \grade_item::fetch_all(['courseid' => $courseid]);
     }
 
     /**

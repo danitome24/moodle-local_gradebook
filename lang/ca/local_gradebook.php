@@ -36,3 +36,4 @@ $string['no_grades_selected'] = 'No has seleccionat cap activitat, si us plau to
 $string['navbar_link'] = "Configuració avançada del llibre de qualificacions";
 $string['element_calculation_novalid'] = 'L\'element a aplicar operació no es vàlid';
 $string['add_operation_success'] = 'L\'operació s\'ha afegit correctament.';
+$string['math_sign'] = 'Operador';

@@ -21,7 +21,7 @@
 
 require_once '../../config.php';
 require_once $CFG->dirroot . '/grade/lib.php';
-
+require_once($CFG->libdir . '/pagelib.php');
 //Id of course
 $courseId = required_param('courseid', PARAM_TEXT);
 $gradeId = required_param('gradeid', PARAM_TEXT);
@@ -33,7 +33,7 @@ if (!$course = $DB->get_record('course', array('id' => $courseId))) {
 
 require_login($course);
 $context = context_course::instance($course->id);
-
+$PAGE->requires->js_init_call(new moodle_url($CFG->wwwroot . '/local/gradebook/module.js'));
 $PAGE->set_context($context);
 $PAGE->set_pagelayout('admin');
 $PAGE->set_url('/local/gradebook/advanced_operation.php', ['courseid' => $courseId, 'gradeid' => $gradeId]);
@@ -55,7 +55,7 @@ echo '<div class="container-fluid">
 						<input type="text" class="span4" name="firstname"/>
 							<div class="btn-group local-gradebook-margin-bottom">
 								<a class="local-gradebook-condition-button btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
-									Choose <span class="caret"></span>
+									' . get_string('math_sign', 'local_gradebook') . ' <span class="caret"></span>
 								</a>
 								<ul class="dropdown-menu">
 									<li><a href="#">></a></li>
@@ -121,5 +121,4 @@ echo '<div class="container-fluid">
                 </div>
 			</div>
 		</div>';
-
 echo $OUTPUT->footer();
