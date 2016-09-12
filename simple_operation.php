@@ -106,5 +106,4 @@ $buttons = $localGradebookFunctions->local_gradebook_get_simple_options();
 
 echo $output->operationButtons($buttons);
 echo $output->endGradesSimpleOptions();
-
 echo $OUTPUT->footer();
