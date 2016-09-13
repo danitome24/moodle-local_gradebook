@@ -24,6 +24,7 @@ require_once $CFG->dirroot . '/grade/lib.php';
 
 /**
  * Class grade_edit_tree_column_operation to display column operations applied in local_gradebook_tree.
+ * @codeCoverageIgnore
  */
 class grade_edit_tree_column_operation extends grade_edit_tree_column
 {

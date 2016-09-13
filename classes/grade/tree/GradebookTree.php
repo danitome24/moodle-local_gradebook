@@ -29,6 +29,7 @@ class GradebookTree extends \grade_edit_tree
 {
     /**
      * GradebookTree constructor.
+     * @codeCoverageIgnore
      * @param \grade_tree $gtree
      * @param bool $moving
      * @param $gpr

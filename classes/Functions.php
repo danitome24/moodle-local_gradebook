@@ -73,6 +73,7 @@ class Functions
 
     /**
      * Function to build grade tree list in order to select which activities would be on the operation.
+     * @codeCoverageIgnore
      * @param \grade_tree $gtree Gtree instance
      * @param $element
      * @param null $current_itemid

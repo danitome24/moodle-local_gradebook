@@ -20,6 +20,7 @@
  */
 /**
  * Function to display a link on navigation
+ * @codeCoverageIgnore
  * @param settings_navigation $nav
  * @param context $context
  * @return bool
