@@ -31,8 +31,8 @@ $eid = optional_param('eid', 0, PARAM_ALPHANUM);
 $weightsadjusted = optional_param('weightsadjusted', 0, PARAM_INT);
 
 //Always check if grade_items.idnumber is set. Otherwise we create one.
-$localGradebookFunctions = new local_gradebook\Functions();
-$localGradebookFunctions->local_gradebook_complete_grade_idnumbers($courseid);
+$localGrade = new local_gradebook\grade\Grade();
+$localGrade->completeGradeIdnumbers($courseid);
 
 /// Make sure they can even access this course
 if (!$course = $DB->get_record('course', array('id' => $courseid))) {

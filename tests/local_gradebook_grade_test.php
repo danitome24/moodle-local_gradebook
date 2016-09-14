@@ -26,22 +26,8 @@ defined('MOODLE_INTERNAL') || die();
  * Class within phpunit tests
  * @group local_gradebook
  */
-class local_gradebook_functions_testcase extends advanced_testcase
+class local_gradebook_grade_testcase extends advanced_testcase
 {
-
-    public function test_getSimpleOptions()
-    {
-        $buttonsExpected = [
-            '<button name="operation" type="submit" value="op:average">Average</button>',
-            '<button name="operation" type="submit" value="op:maximum">Maximum</button>',
-            '<button name="operation" type="submit" value="op:minimum">Minimum</button>',
-            '<button name="operation" type="submit" value="op:add">Sum</button>',
-        ];
-        $functionsClass = new local_gradebook\Functions();
-        $buttonsObtained = $functionsClass->local_gradebook_get_simple_options();
-
-        $this->assertEquals($buttonsExpected, $buttonsObtained);
-    }
 
     public function test_completeIdNumberOfGrade()
     {
@@ -55,12 +41,12 @@ class local_gradebook_functions_testcase extends advanced_testcase
             ->method('add_idnumber')
             ->with($idnumber);
 
-        $functionsMock = $this->getMock('local_gradebook\Functions', ['getGradesByCourseId'], [], '', false);
-        $functionsMock->expects($this->once())
+        $gradeClassMock = $this->getMock('local_gradebook\grade\Grade', ['getGradesByCourseId'], [], '', false);
+        $gradeClassMock->expects($this->once())
             ->method('getGradesByCourseId')
             ->will($this->returnValue([$gradeMock]));
 
-        $functionsMock->local_gradebook_complete_grade_idnumbers($courseid);
+        $gradeClassMock->completeGradeIdnumbers($courseid);
     }
 
     public function test_getCalculationFromParams()
@@ -68,9 +54,9 @@ class local_gradebook_functions_testcase extends advanced_testcase
         $idnumberGrades = ['idnum_5', 'idnum_6'];
         $operation = 'op:add';
         $expectedResult = '=add([[idnum_5]];[[idnum_6]])';
-        $functionsClass = new local_gradebook\Functions();
+        $gradeClass = new local_gradebook\grade\Grade();
 
         $this->assertEquals($expectedResult,
-            $functionsClass->local_gradebook_get_calculation_from_params($idnumberGrades, $operation));
+            $gradeClass->getCalculationFromParams($idnumberGrades, $operation));
     }
 }

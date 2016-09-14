@@ -102,4 +102,81 @@ class local_gradebook_renderer extends plugin_renderer_base
 
         return $output;
     }
+
+    /**
+     * Function to build grade tree list in order to select which activities would be on the operation.
+     * @codeCoverageIgnore
+     * @param \grade_tree $gtree Gtree instance
+     * @param $element
+     * @param null $current_itemid
+     * @param null $errors
+     * @return string
+     */
+    function getGradeTreeList(&$gtree, $element, $current_itemid = null, $errors = null)
+    {
+        global $CFG;
+
+        $object = $element['object'];
+        $eid = $element['eid'];
+        $type = $element['type'];
+        $grade_item = $object->get_grade_item();
+
+        $name = $object->get_name();
+        $return_string = '';
+
+        //TODO: improve outcome visualisation
+        if ($type == 'item' and !empty($object->outcomeid)) {
+            $name = $name . ' (' . get_string('outcome', 'grades') . ')';
+        }
+
+        $idnumber = $object->get_idnumber();
+
+        // Don't show idnumber or input field for current item if given to function. Highlight the item instead.
+        if ($type != 'category') {
+            $closingdiv = '';
+            if (!empty($errors[$grade_item->id])) {
+                $name .= '<div class="error"><span class="error">' . $errors[$grade_item->id] . '</span><br />' . "\n";
+                $closingdiv = "</div>\n";
+            }
+            $name .= '<label class="accesshide" for="id_idnumber_' . $grade_item->id . '">' . get_string('gradeitems', 'grades') . '</label>';
+            $name .= '<input type="checkbox" name="grades[]" value="' . $grade_item->idnumber . '">';
+            $name .= $closingdiv;
+        }
+
+        $icon = $gtree->get_element_icon($element, true);
+        $last = '';
+        $catcourseitem = ($element['type'] == 'courseitem' or $element['type'] == 'categoryitem');
+
+        if ($type != 'category') {
+            $return_string .= '<li class=" list-without-style ' . $type . '">' . $icon . $name . '</li>' . "\n";
+        } else {
+            $return_string .= '<li class=" list-without-style ' . $type . '">' . $icon . $name . "\n";
+            $return_string .= '<ul class="catlevel' . $element['depth'] . '">' . "\n";
+            $last = null;
+            foreach ($element['children'] as $child_el) {
+                $return_string .= $this->getGradeTreeList($gtree, $child_el, $current_itemid, $errors);
+            }
+            if ($last) {
+                $return_string .= $this->getGradeTreeList($gtree, $last, $current_itemid, $errors);
+            }
+            $return_string .= '</ul></li>' . "\n";
+        }
+
+        return $return_string;
+    }
+
+    /**
+     * Function to display all single operation buttons.
+     * @return array with HTML tag buttons
+     */
+    function getSimpleOptionsButtons()
+    {
+        $buttonNames = ['op:average', 'op:maximum', 'op:minimum', 'op:add'];
+        $buttons = [];
+        foreach ($buttonNames as $buttonName) {
+            $buttons[] = '<button name="operation" type="submit" value="' . $buttonName . '">' . get_string($buttonName, 'local_gradebook') . '</button>';
+        }
+
+        return $buttons;
+    }
 }

@@ -63,8 +63,8 @@ if (!empty($_POST)) {
     if (empty($formData->grades)) {
         print_error('no_grades_selected', 'local_gradebook');
     }
-    $localGradebookFunctions = new local_gradebook\Functions();
-    $calculation = $localGradebookFunctions->local_gradebook_get_calculation_from_params($formData->grades, $formData->operation);
+    $localGrade = new local_gradebook\grade\Grade();
+    $calculation = $localGrade->getCalculationFromParams($formData->grades, $formData->operation);
     $calculation = \calc_formula::unlocalize($calculation);
     if (!$grade_item->validate_formula($calculation)) {
         print_error('error');
@@ -94,15 +94,14 @@ $PAGE->set_context($context);
 $output = $PAGE->get_renderer('local_gradebook');
 
 echo $OUTPUT->header();
-$localGradebookFunctions = new local_gradebook\Functions();
-$items = $localGradebookFunctions->local_gradebook_get_list_items($gtree, $gtree->top_element);
+$items = $output->getGradeTreeList($gtree, $gtree->top_element);
 
 // Display all grades tree in a checkbox input list
 echo $output->gradesInputSelection($courseid, $id, $items);
 
 echo $output->startGradesSimpleOperations();
 
-$buttons = $localGradebookFunctions->local_gradebook_get_simple_options();
+$buttons = $output->getSimpleOptionsButtons();
 
 echo $output->operationButtons($buttons);
 echo $output->endGradesSimpleOptions();
