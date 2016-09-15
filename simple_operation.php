@@ -103,6 +103,15 @@ echo $output->startGradesSimpleOperations();
 
 $buttons = $output->getSimpleOptionsButtons();
 
+
+/**
+ * Testing moodle form
+ */
+$mform = new local_gradebook\form\SimpleOperationForm();
+$mform->display();
+/**
+ *
+ */
 echo $output->operationButtons($buttons);
 echo $output->endGradesSimpleOptions();
 echo $OUTPUT->footer();
