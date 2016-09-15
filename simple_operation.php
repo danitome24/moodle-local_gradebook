@@ -107,7 +107,7 @@ $buttons = $output->getSimpleOptionsButtons();
 /**
  * Testing moodle form
  */
-$mform = new local_gradebook\form\SimpleOperationForm();
+$mform = new local_gradebook\form\SimpleOperationForm(null, ['gtree' => $gtree, 'element' => $gtree->top_element]);
 $mform->display();
 /**
  *

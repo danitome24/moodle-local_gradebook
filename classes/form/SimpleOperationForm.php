@@ -28,10 +28,57 @@ class SimpleOperationForm extends \moodleform
     {
         global $CFG;
 
+        $gtree = $this->_customdata['gtree'];
+        $element = $this->_customdata['element'];
+
         $mform = $this->_form; // Don't forget the underscore!
 
-        $mform->addElement('text', 'email', get_string('email')); // Add elements to your form
-        $mform->setType('email', PARAM_NOTAGS);                   //Set type of element
-        $mform->setDefault('email', 'Please enter email');
+        $mform->addElement('static', 'description',
+            '<h3>' . get_string('qualifier_elements', 'local_gradebook') . '</h3>');
+
+        $gradeItems = $this->getGradeItemsList($gtree, $element);
+        $this->addToFormGradeItemsList($mform, $gradeItems);
+        $mform->addElement('checkbox', '', 'aaaa');
+        $mform->addElement('checkbox', '', 'aaaa');
+        $mform->addElement('checkbox', '', 'aaaa');
+        $radioButtons = [];
+    }
+
+    protected function addToFormGradeItemsList($mform, $gradeItems)
+    {
+        foreach ($gradeItems as $element) {
+            if (is_array($element)) {
+                $this->addToFormGradeItemsList($mform, $element);
+            } else {
+                $mform->addElement($element);
+            }
+        }
+    }
+
+    protected function getGradeItemsList(&$gtree, $element)
+    {
+        $object = $element['object'];
+        $type = $element['type'];
+        $grade_item = $object->get_grade_item();
+        $elements = [];
+        $form = $this->_form;
+
+        $name = $object->get_name();
+
+        //TODO: improve outcome visualisation
+        if ($type == 'item' and !empty($object->outcomeid)) {
+            $elements[] = $name . ' (' . get_string('outcome', 'grades') . ')';
+        }
+        if ($type != 'category') {
+            $elements[] = $form->createElement('checkbox', 'ratingtime', null, $name);
+        }
+        if ($type == 'category') {
+            $elements[] = $form->createElement('checkbox', 'ratingtime', null, $name);
+            foreach ($element['children'] as $child_el) {
+                $elements[] = $this->getGradeItemsList($gtree, $child_el);
+            }
+        }
+
+        return $elements;
     }
 }
