@@ -38,6 +38,7 @@ $context = context_course::instance($course->id);
  */
 if (!empty($_POST)) {
     $formData = (object)$_POST;
+    var_dump($formData);die;
     // Make sure they can even access this course
     if (!$course = $DB->get_record('course', array('id' => $formData->courseid))) {
         print_error('nocourseid');
@@ -94,24 +95,25 @@ $PAGE->set_context($context);
 $output = $PAGE->get_renderer('local_gradebook');
 
 echo $OUTPUT->header();
-$items = $output->getGradeTreeList($gtree, $gtree->top_element);
+//$items = $output->getGradeTreeList($gtree, $gtree->top_element);
 
 // Display all grades tree in a checkbox input list
-echo $output->gradesInputSelection($courseid, $id, $items);
+//echo $output->gradesInputSelection($courseid, $id, $items);
 
-echo $output->startGradesSimpleOperations();
+//echo $output->startGradesSimpleOperations();
 
-$buttons = $output->getSimpleOptionsButtons();
+//$buttons = $output->getSimpleOptionsButtons();
 
 
 /**
  * Testing moodle form
  */
-$mform = new local_gradebook\form\SimpleOperationForm(null, ['gtree' => $gtree, 'element' => $gtree->top_element]);
+$mform = new local_gradebook\form\SimpleOperationForm(null,
+    ['gtree' => $gtree, 'element' => $gtree->top_element, 'courseid' => $courseid, 'id' => $id]);
 $mform->display();
 /**
  *
  */
-echo $output->operationButtons($buttons);
-echo $output->endGradesSimpleOptions();
+//echo $output->operationButtons($buttons);
+//echo $output->endGradesSimpleOptions();
 echo $OUTPUT->footer();

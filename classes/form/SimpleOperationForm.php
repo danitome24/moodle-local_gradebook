@@ -24,35 +24,63 @@ namespace local_gradebook\form;
 
 class SimpleOperationForm extends \moodleform
 {
+    protected $checkboxElements = [];
+
     public function definition()
     {
         global $CFG;
 
         $gtree = $this->_customdata['gtree'];
         $element = $this->_customdata['element'];
+        $courseid = $this->_customdata['courseid'];
+        $id = $this->_customdata['id'];
 
         $mform = $this->_form; // Don't forget the underscore!
+
+        $mform->addElement('hidden', 'courseid', $courseid);
+        $mform->setType('courseid', PARAM_INT);
+        $mform->addElement('hidden', 'id', $id);
+        $mform->setType('id', PARAM_INT);
 
         $mform->addElement('static', 'description',
             '<h3>' . get_string('qualifier_elements', 'local_gradebook') . '</h3>');
 
         $gradeItems = $this->getGradeItemsList($gtree, $element);
-        $this->addToFormGradeItemsList($mform, $gradeItems);
-        $mform->addElement('checkbox', '', 'aaaa');
-        $mform->addElement('checkbox', '', 'aaaa');
-        $mform->addElement('checkbox', '', 'aaaa');
-        $radioButtons = [];
+        $checkboxGroup = $this->addToFormGradeItemsList($mform, $gradeItems);
+
+
+        $mform->addGroup($checkboxGroup, 'grades', '', '</br>');
+
+        $mform->addElement('html', '<div class="span6">');
+        $mform->addElement('static', 'description', '<h3>' . get_string('operations', 'local_gradebook'));
+        $radioarray = [];
+        $radioarray[] = $mform->createElement('radio', 'operation', '', get_string('op:average', 'local_gradebook'), 'op:average');
+        $radioarray[] = $mform->createElement('radio', 'operation', '', get_string('op:maximum', 'local_gradebook'), 'op:maximum');
+        $radioarray[] = $mform->createElement('radio', 'operation', '', get_string('op:minimum', 'local_gradebook'), 'op:minimum');
+        $radioarray[] = $mform->createElement('radio', 'operation', '', get_string('op:add', 'local_gradebook'), 'op:add');
+        $mform->addGroup($radioarray, 'radioar', null, array(' '), false);
+        $mform->addElement('html', '</div>');
+
+        $this->add_action_buttons(false, get_string('submit'));
     }
 
-    protected function addToFormGradeItemsList($mform, $gradeItems)
+    protected function &addToFormGradeItemsList($mform, $gradeItems)
     {
         foreach ($gradeItems as $element) {
             if (is_array($element)) {
                 $this->addToFormGradeItemsList($mform, $element);
             } else {
-                $mform->addElement($element);
+                $this->putIntoArray($element);
             }
         }
+
+        return $this->checkboxElements;
+    }
+
+    protected function &putIntoArray($element)
+    {
+        $this->checkboxElements[] =& $element;
+        return $this->checkboxElements[0];
     }
 
     protected function getGradeItemsList(&$gtree, $element)
@@ -70,10 +98,10 @@ class SimpleOperationForm extends \moodleform
             $elements[] = $name . ' (' . get_string('outcome', 'grades') . ')';
         }
         if ($type != 'category') {
-            $elements[] = $form->createElement('checkbox', 'ratingtime', null, $name);
+            $elements[] = $form->createElement('checkbox', $grade_item->id, null, $name);
         }
         if ($type == 'category') {
-            $elements[] = $form->createElement('checkbox', 'ratingtime', null, $name);
+            $elements[] = $form->createElement('checkbox', $grade_item->id, null, $name);
             foreach ($element['children'] as $child_el) {
                 $elements[] = $this->getGradeItemsList($gtree, $child_el);
             }
