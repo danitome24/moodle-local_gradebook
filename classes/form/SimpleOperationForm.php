@@ -45,7 +45,7 @@ class SimpleOperationForm extends \moodleform
         $mform->addElement('static', 'description',
             '<h3>' . get_string('qualifier_elements', 'local_gradebook') . '</h3>');
 
-        $gradeItems = $this->getGradeItemsList($gtree, $element);
+        $gradeItems = $this->getGradeItemsList($gtree, $element, $id);
         $checkboxGroup = $this->addToFormGradeItemsList($mform, $gradeItems);
 
 
@@ -100,8 +100,10 @@ class SimpleOperationForm extends \moodleform
      * @param $element
      * @return array
      */
-    protected function getGradeItemsList(&$gtree, $element)
+    protected function getGradeItemsList(&$gtree, $element, $current_itemid)
     {
+        global $OUTPUT;
+
         $object = $element['object'];
         $type = $element['type'];
         $grade_item = $object->get_grade_item();
@@ -114,12 +116,17 @@ class SimpleOperationForm extends \moodleform
             $elements[] = $name . ' (' . get_string('outcome', 'grades') . ')';
         }
         if ($type != 'category') {
-            $elements[] = $form->createElement('checkbox', $grade_item->idnumber, null, $name);
+            if (is_null($current_itemid) OR $grade_item->id != $current_itemid) {
+                $elements[] = $form->createElement('checkbox', $grade_item->idnumber, null, $icon = $gtree->get_element_icon($element, true) . $name);
+            } else {
+                $icon = new \pix_icon('t/approve', $name);
+                $elements = $form->createElement('static', '', $name, $OUTPUT->render($icon) . $name);
+            }
         }
         if ($type == 'category') {
-            $elements[] = $form->createElement('checkbox', $grade_item->idnumber, null, $name);
+            $elements[] = $form->createElement('checkbox', $grade_item->idnumber, null, $icon = $gtree->get_element_icon($element, true) . $name);
             foreach ($element['children'] as $child_el) {
-                $elements[] = $this->getGradeItemsList($gtree, $child_el);
+                $elements[] = $this->getGradeItemsList($gtree, $child_el, $current_itemid);
             }
         }
 
