@@ -21,7 +21,7 @@
 
 require_once '../../config.php';
 require_once $CFG->dirroot . '/grade/lib.php';
-require_once($CFG->libdir . '/pagelib.php');
+require_once $CFG->libdir . '/pagelib.php';
 //Id of course
 $courseId = required_param('courseid', PARAM_TEXT);
 $gradeId = required_param('gradeid', PARAM_TEXT);
@@ -40,19 +40,31 @@ $PAGE->set_url('/local/gradebook/advanced_operation.php', ['courseid' => $course
 $PAGE->set_title(get_string('pluginname', 'local_gradebook'));
 
 echo $OUTPUT->header();
+echo '<h3>Configuració de càlcul avançat</h3>';
+//Add modals
+require_once $CFG->dirroot . '/local/' . local_gradebook\Constants::PLUGIN_NAME . '/modals/choose_operation_modal.php';
 
 echo '<div class="container-fluid">
 			<div class="row-fluid">
-				<div class="span6">
+				<div class="span12">
 					<!-- first row of graphic-->
 					<div class="row-fluid">
 						<div class="offset5">
-							<input type="text" name="firstname">
+							    <div class="input-append">
+                                    <input class="" id="appendedInputButton" type="text">
+                                    <a href="#myModal" data-toggle="modal" role="button" class="btn btn-default" type="button">'
+                                        . get_string('add') . '</a>
+                                </div>
 						</div>
 					</div>
 					<!-- second row of graphic -->
 					<div class="row-fluid">
-						<input type="text" class="span4" name="firstname"/>
+					<div class="span12">
+						<div class="btn-group input-append">
+                                <input id="appendedInputButton" type="text">
+                                <a href="#myModal" data-toggle="modal" role="button" class="btn btn-default" type="button">'
+                                . get_string('add') . '</a>
+                            </div>
 							<div class="btn-group local-gradebook-margin-bottom">
 								<a class="local-gradebook-condition-button btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
 									' . get_string('math_sign', 'local_gradebook') . ' <span class="caret"></span>
@@ -64,61 +76,23 @@ echo '<div class="container-fluid">
 									<li><a href="#"><=</a></li>
 								</ul>
 							</div>
-						<input type="text" class="span1" name="firstname"/>
+							<div class="btn-group">
+						        <input type="text" class="" name="firstname">
+						    </div>
+					    </div>
 					</div>
 
 					<!-- third row of graphic-->
 					<div class="row-fluid">
 						<div class="offset5">
-							<input type="text"  name="firstname">
+							<div class="input-append">
+                                <input class="" id="appendedInputButton" type="text">
+                                <a href="#myModal" data-toggle="modal" role="button" class="btn btn-default" type="button">'
+                                    . get_string('add') . '</a>
+                            </div>
 						</div>
 					</div>
 				</div>
-		        <div class="span6">
-					<div class="row-fluid">
-						<div class="span6">
-							<table class="table">
-								<thead>
-									<tr>
-										<th>Categories/tasques</th>
-										<th></th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td><button class="btn btn-small" type="button">Tasca1</button></td>
-										<td><button class="btn btn-small" type="button">Tasca2</button></td>
-									</tr>
-									<tr>
-										<td><button class="btn btn-small" type="button">Categoria1</button></td>
-									</tr>
-								</tbody>
-							</table>
-							<!-- primera tabla-->
-						</div>
-						<div class="span6">
-							<!-- segunda tabla -->
-							<table class="table">
-								<thead>
-									<tr>
-										<th>Operacions</th>
-										<th></th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td><button class="btn btn-small" type="button">Suma</button></td>
-										<td><button class="btn btn-small" type="button">Resta</button></td>
-									</tr>
-									<tr>
-										<td><button class="btn btn-small" type="button">Mitjana</button></td>
-										<td><button class="btn btn-small" type="button">Màxim</button></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-                </div>
 			</div>
 		</div>';
 echo $OUTPUT->footer();
