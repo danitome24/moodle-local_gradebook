@@ -61,7 +61,11 @@ class SimpleOperationForm extends \moodleform
         $mform->addGroup($radioarray, 'radioar', null, array(' '), false);
         $mform->addElement('html', '</div>');
 
-        $this->add_action_buttons(false, get_string('submit'));
+        $buttonarray = [];
+        $buttonarray[] = &$mform->createElement('submit', 'clearbutton', get_string('clear'));
+        $buttonarray[] = &$mform->createElement('submit', 'submitbutton', get_string('savechanges'));
+        $mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
+        $mform->closeHeaderBefore('buttonar');
     }
 
     /**

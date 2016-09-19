@@ -58,12 +58,17 @@ if ($formData = $mform->get_data()) {
     if (!$grade_item = grade_item::fetch(array('id' => $formData->id, 'courseid' => $course->id))) {
         print_error('invaliditemid');
     }
-    if (empty($formData->grades)) {
+    if (empty($formData->grades) && !isset($formData->clearbutton)) {
         print_error('no_grades_selected', 'local_gradebook');
     }
-    $localGrade = new local_gradebook\grade\Grade();
-    $calculation = $localGrade->getCalculationFromParams(array_keys($formData->grades), $formData->operation);
-    $calculation = \calc_formula::unlocalize($calculation);
+    if (isset($formData->clearbutton)) {
+        $calculation = '';
+    } else {
+        $localGrade = new local_gradebook\grade\Grade();
+        $calculation = $localGrade->getCalculationFromParams(array_keys($formData->grades), $formData->operation);
+        $calculation = \calc_formula::unlocalize($calculation);
+    }
+
     if (!$grade_item->validate_formula($calculation)) {
         print_error('error');
     }
