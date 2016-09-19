@@ -32,40 +32,37 @@ if (!$course = $DB->get_record('course', array('id' => $courseid))) {
 
 require_login($course);
 $context = context_course::instance($course->id);
+$gtree = new grade_tree($courseid, false, false);
 
+$PAGE->set_pagelayout('admin');
+$PAGE->set_context($context);
+$url = new \moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/simple_operation.php',
+    [
+        'id' => $id,
+        'courseid' => $courseid,
+    ]);
+$PAGE->set_url($url);
+$PAGE->set_title(get_string('pluginname', 'local_gradebook'));
+
+$mform = new local_gradebook\form\SimpleOperationForm(null,
+    ['gtree' => $gtree, 'element' => $gtree->top_element, 'courseid' => $courseid, 'id' => $id]);
 /**
  * If post data is given
  */
-if (!empty($_POST)) {
-    $formData = (object)$_POST;
-    var_dump($formData);die;
-    // Make sure they can even access this course
+
+if ($formData = $mform->get_data()) {
+    //Make sure they can even access this course
     if (!$course = $DB->get_record('course', array('id' => $formData->courseid))) {
         print_error('nocourseid');
     }
-    require_login($course);
-    $context = context_course::instance($course->id);
-
     if (!$grade_item = grade_item::fetch(array('id' => $formData->id, 'courseid' => $course->id))) {
         print_error('invaliditemid');
     }
-
-    if (!$grade_item->is_category_item()) {
-        print_error('element_calculation_novalid');
-    }
-
-    $url = new \moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/add_operation.php',
-        [
-            'id' => $id,
-            'operation' => $formData->operation,
-            'courseid' => $formData->courseid,
-        ]);
-
     if (empty($formData->grades)) {
         print_error('no_grades_selected', 'local_gradebook');
     }
     $localGrade = new local_gradebook\grade\Grade();
-    $calculation = $localGrade->getCalculationFromParams($formData->grades, $formData->operation);
+    $calculation = $localGrade->getCalculationFromParams(array_keys($formData->grades), $formData->operation);
     $calculation = \calc_formula::unlocalize($calculation);
     if (!$grade_item->validate_formula($calculation)) {
         print_error('error');
@@ -75,45 +72,14 @@ if (!empty($_POST)) {
     $urlToRedirect = new \moodle_url('/local/gradebook/index.php', ['id' => $courseid]);
     redirect($urlToRedirect, $message, null, \core\output\notification::NOTIFY_SUCCESS);
 }
-/**
- * End of post part
- */
 
-$gtree = new grade_tree($courseid, false, false);
-
-$url = new \moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/simple_operation.php',
-    [
-        'id' => $id,
-        'courseid' => $courseid,
-    ]);
-$PAGE->set_url($url);
-$PAGE->set_pagelayout('admin');
-$PAGE->set_title(get_string('pluginname', 'local_gradebook'));
-$PAGE->set_context($context);
 
 // Get renderer on last step
 $output = $PAGE->get_renderer('local_gradebook');
 
+
 echo $OUTPUT->header();
-//$items = $output->getGradeTreeList($gtree, $gtree->top_element);
 
-// Display all grades tree in a checkbox input list
-//echo $output->gradesInputSelection($courseid, $id, $items);
-
-//echo $output->startGradesSimpleOperations();
-
-//$buttons = $output->getSimpleOptionsButtons();
-
-
-/**
- * Testing moodle form
- */
-$mform = new local_gradebook\form\SimpleOperationForm(null,
-    ['gtree' => $gtree, 'element' => $gtree->top_element, 'courseid' => $courseid, 'id' => $id]);
 $mform->display();
-/**
- *
- */
-//echo $output->operationButtons($buttons);
-//echo $output->endGradesSimpleOptions();
+
 echo $OUTPUT->footer();

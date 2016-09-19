@@ -64,6 +64,12 @@ class SimpleOperationForm extends \moodleform
         $this->add_action_buttons(false, get_string('submit'));
     }
 
+    /**
+     * Method to add grade_items to checkbox list.
+     * @param $mform
+     * @param $gradeItems
+     * @return array
+     */
     protected function &addToFormGradeItemsList($mform, $gradeItems)
     {
         foreach ($gradeItems as $element) {
@@ -77,12 +83,23 @@ class SimpleOperationForm extends \moodleform
         return $this->checkboxElements;
     }
 
+    /**
+     * Method to put into an array.
+     * @param $element
+     * @return mixed
+     */
     protected function &putIntoArray($element)
     {
         $this->checkboxElements[] =& $element;
         return $this->checkboxElements[0];
     }
 
+    /**
+     * Method to build grade items list in checkbox.
+     * @param $gtree
+     * @param $element
+     * @return array
+     */
     protected function getGradeItemsList(&$gtree, $element)
     {
         $object = $element['object'];
@@ -90,7 +107,6 @@ class SimpleOperationForm extends \moodleform
         $grade_item = $object->get_grade_item();
         $elements = [];
         $form = $this->_form;
-
         $name = $object->get_name();
 
         //TODO: improve outcome visualisation
@@ -98,10 +114,10 @@ class SimpleOperationForm extends \moodleform
             $elements[] = $name . ' (' . get_string('outcome', 'grades') . ')';
         }
         if ($type != 'category') {
-            $elements[] = $form->createElement('checkbox', $grade_item->id, null, $name);
+            $elements[] = $form->createElement('checkbox', $grade_item->idnumber, null, $name);
         }
         if ($type == 'category') {
-            $elements[] = $form->createElement('checkbox', $grade_item->id, null, $name);
+            $elements[] = $form->createElement('checkbox', $grade_item->idnumber, null, $name);
             foreach ($element['children'] as $child_el) {
                 $elements[] = $this->getGradeItemsList($gtree, $child_el);
             }
