@@ -38,11 +38,15 @@ $PAGE->set_context($context);
 $PAGE->set_pagelayout('admin');
 $PAGE->set_url('/local/gradebook/advanced_operation.php', ['courseid' => $courseId, 'gradeid' => $gradeId]);
 $PAGE->set_title(get_string('pluginname', 'local_gradebook'));
+$PAGE->requires->js('/local/gradebook/js/module.js');
+$PAGE->requires->js('/local/gradebook/js/jquery-bootstrap-modal-steps.js');
 
 echo $OUTPUT->header();
 echo '<h3>Configuració de càlcul avançat</h3>';
 //Add modals
 require_once $CFG->dirroot . '/local/' . local_gradebook\Constants::PLUGIN_NAME . '/modals/choose_operation_modal.php';
+
+$PAGE->requires->js_init_call('startModalSteps');
 
 echo '<div class="container-fluid">
 			<div class="row-fluid">
@@ -67,7 +71,8 @@ echo '<div class="container-fluid">
                             </div>
 							<div class="btn-group local-gradebook-margin-bottom">
 								<a class="local-gradebook-condition-button btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
-									' . get_string('math_sign', 'local_gradebook') . ' <span class="caret"></span>
+								<span id="operationSelected">
+									' . get_string('math_sign', 'local_gradebook') . ' </span> <span class="caret"></span>
 								</a>
 								<ul class="dropdown-menu">
 									<li><a href="#">></a></li>

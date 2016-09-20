@@ -1,7 +1,15 @@
-jQuery(document).ready(function($){
+require(['jquery'], function ($) {
+
+    $(document).ready(function () {
+        $('#myModal').modalSteps();
+    });
+
+    /**
+     * Change operation type
+     */
     $(".dropdown-menu li a").click(function () {
-        alert('asdasd');
         $(".local-gradebook-condition-button").html($(this).text() + ' <span class="caret"></span>');
     });
 });
+
 
