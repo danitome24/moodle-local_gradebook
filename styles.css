@@ -52,3 +52,7 @@ ul#local-gradebook-options li {
 .local-gradebook-margin-bottom {
     margin-bottom: 10px;
 }
+
+.special {
+    display:inline-block;
+}

@@ -1,24 +1,25 @@
-require(['jquery'], function($) {
+require(['jquery'], function ($) {
     'use strict';
 
-    $.fn.modalSteps = function(options){
+    $.fn.modalSteps = function (options) {
         var $modal = this;
 
         var settings = $.extend({
-            btnCancelHtml: 'Cancel',
+            btnClearInputHtml: 'Clear',
             btnPreviousHtml: 'Previous',
             btnNextHtml: 'Next',
             btnLastStepHtml: 'Complete',
             disableNextButton: false,
-            completeCallback: function(){},
+            completeCallback: function () {
+            },
             callbacks: {}
         }, options);
 
 
-        var validCallbacks = function(){
+        var validCallbacks = function () {
             var everyStepCallback = settings.callbacks['*'];
 
-            if (everyStepCallback !== undefined && typeof(everyStepCallback) !== 'function'){
+            if (everyStepCallback !== undefined && typeof(everyStepCallback) !== 'function') {
                 throw 'everyStepCallback is not a function! I need a function';
             }
 
@@ -26,19 +27,19 @@ require(['jquery'], function($) {
                 throw 'completeCallback is not a function! I need a function';
             }
 
-            for(var step in settings.callbacks){
-                if (settings.callbacks.hasOwnProperty(step)){
+            for (var step in settings.callbacks) {
+                if (settings.callbacks.hasOwnProperty(step)) {
                     var callback = settings.callbacks[step];
 
-                    if (step !== '*' && callback !== undefined && typeof(callback) !== 'function'){
+                    if (step !== '*' && callback !== undefined && typeof(callback) !== 'function') {
                         throw 'Step ' + step + ' callback must be a function';
                     }
                 }
             }
         };
 
-        var executeCallback = function(callback){
-            if (callback !== undefined && typeof(callback) === 'function'){
+        var executeCallback = function (callback) {
+            if (callback !== undefined && typeof(callback) === 'function') {
                 callback();
                 return true;
             }
@@ -46,9 +47,9 @@ require(['jquery'], function($) {
         };
 
         $modal
-            .on('show.bs.modal', function(){
+            .on('show.bs.modal', function () {
                 var $modalFooter = $modal.find('.modal-footer'),
-                    $btnCancel = $modalFooter.find('.js-btn-step[data-orientation=cancel]'),
+                    $btnClear = $modalFooter.find('.js-btn-step[data-orientation=clear]'),
                     $btnPrevious = $modalFooter.find('.js-btn-step[data-orientation=previous]'),
                     $btnNext = $modalFooter.find('.js-btn-step[data-orientation=next]'),
                     everyStepCallback = settings.callbacks['*'],
@@ -59,7 +60,7 @@ require(['jquery'], function($) {
                     $titleStepSpan,
                     nextStep;
 
-                if (settings.disableNextButton){
+                if (settings.disableNextButton) {
                     $btnNext.attr('disabled', 'disabled');
                 }
                 $btnPrevious.attr('disabled', 'disabled');
@@ -69,7 +70,7 @@ require(['jquery'], function($) {
                 executeCallback(stepCallback);
 
                 // Setting buttons
-                $btnCancel.html(settings.btnCancelHtml);
+                $btnClear.html(settings.btnClearInputHtml);
                 $btnPrevious.html(settings.btnPreviousHtml);
                 $btnNext.html(settings.btnNextHtml);
 
@@ -90,15 +91,15 @@ require(['jquery'], function($) {
 
                 titleStep = $modal.find('[data-step=' + actualStep + ']').data('title');
                 $titleStepSpan = $('<span>')
-                                    .addClass('label label-success')
-                                    .html(actualStep);
+                    .addClass('label label-success')
+                    .html(actualStep);
 
                 $modal
                     .find('.js-title-step')
                     .append($titleStepSpan)
                     .append(' ' + titleStep);
             })
-            .on('hidden.bs.modal', function(){
+            .on('hidden.bs.modal', function () {
                 var $actualStep = $modal.find('#actual-step'),
                     $btnNext = $modal.find('.js-btn-step[data-orientation=next]');
 
@@ -118,7 +119,7 @@ require(['jquery'], function($) {
                 $modal.find('.js-title-step').html('');
             });
 
-        $modal.find('.js-btn-step').on('click', function(){
+        $modal.find('.js-btn-step').on('click', function () {
             var $btn = $(this),
                 $actualStep = $modal.find('#actual-step'),
                 $btnPrevious = $modal.find('.js-btn-step[data-orientation=previous]'),
@@ -135,7 +136,7 @@ require(['jquery'], function($) {
             steps = $modal.find('div[data-step]').length;
 
             // Callback on Complete
-            if ($btn.attr('data-step') === 'complete'){
+            if ($btn.attr('data-step') === 'complete') {
                 settings.completeCallback();
                 $modal.modal('hide');
 
@@ -143,13 +144,13 @@ require(['jquery'], function($) {
             }
 
             // Check the orientation to make logical operations with actualStep/nextStep
-            if (orientation === 'next'){
+            if (orientation === 'next') {
                 nextStep = actualStep + 1;
 
                 $btnPrevious.attr('data-step', actualStep);
                 $actualStep.val(nextStep);
 
-            } else if (orientation === 'previous'){
+            } else if (orientation === 'previous') {
                 nextStep = actualStep - 1;
 
                 $btnNext.attr('data-step', actualStep);
@@ -157,12 +158,15 @@ require(['jquery'], function($) {
 
                 $actualStep.val(actualStep - 1);
 
+            } else if (orientation === 'clear') {
+                $('#local-gradebook-droppable').val("");
+                return;
             } else {
                 $modal.modal('hide');
                 return;
             }
 
-            if (parseInt($actualStep.val()) === steps){
+            if (parseInt($actualStep.val()) === steps) {
                 $btnNext
                     .attr('data-step', 'complete')
                     .html(settings.btnLastStepHtml);
@@ -172,7 +176,7 @@ require(['jquery'], function($) {
                     .html(settings.btnNextHtml);
             }
 
-            if (settings.disableNextButton){
+            if (settings.disableNextButton) {
                 $btnNext.attr('disabled', 'disabled');
             }
 
@@ -188,13 +192,13 @@ require(['jquery'], function($) {
                 .removeClass('hide');
 
             // Just a check for the class of previous button
-            if (parseInt($btnPrevious.attr('data-step')) > 0 ){
+            if (parseInt($btnPrevious.attr('data-step')) > 0) {
                 $btnPrevious.removeAttr('disabled');
             } else {
                 $btnPrevious.attr('disabled', 'disabled');
             }
 
-            if (orientation === 'previous'){
+            if (orientation === 'previous') {
                 $btnNext.removeAttr('disabled');
             }
 
@@ -202,15 +206,15 @@ require(['jquery'], function($) {
             $nextStep = $modal.find('[data-step=' + nextStep + ']');
 
             // Verify if we need to unlock continue btn of the next step
-            if ($nextStep.attr('data-unlock-continue')){
+            if ($nextStep.attr('data-unlock-continue')) {
                 $btnNext.removeAttr('disabled');
             }
 
             // Set the title of step
             newTitle = $nextStep.attr('data-title');
             var $titleStepSpan = $('<span>')
-                                .addClass('label label-success')
-                                .html(nextStep);
+                .addClass('label label-success')
+                .html(nextStep);
 
             $title
                 .html($titleStepSpan)

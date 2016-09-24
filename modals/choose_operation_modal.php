@@ -24,18 +24,51 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="js-title-step"></h4>
             </div>
             <div class="modal-body">
-                <div class="row-fluid hide" data-step="1" data-title="This is the first step!">
-                    <div class="well">As you can see, this is the first step!</div>
+                <div class="row-fluid hide" data-step="1" data-title="Escolleix la operació a aplicar!">
+                    <div class="offset3">
+                        <input id="local-gradebook-droppable" type="text" class="input-lg"/>
+                    </div>
+                    <!-- Here goes the operation buttons -->
+                    <div class="row-fluid">
+                        <div class="offset3 span5">
+                            <p>Arrastra una operació cap al input</p>
+                            <table id="borderless" class="table local-gradebook-drag-buttons">
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <button value="Suma" class="local-gradebook-draggable">Suma </button>
+                                    </td>
+                                    <td>
+                                        <button value="Resta" class="local-gradebook-draggable">Resta </button>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button value="Mitja" class="local-gradebook-draggable">Mitja</button>
+                                    </td>
+                                    <td>
+                                        <button value="Màxim" class="local-gradebook-draggable">Màxim</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <div class="row-fluid hide" data-step="2" data-title="This is the second and last step!">
                     <div class="well">As you can see, this is the second and last step!</div>
                 </div>
+                <div class="row-fluid hide" data-step="3" data-title="This is the second and last step!">
+                    <div class="well">As you can see, this is the second and last step!</div>
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default js-btn-step pull-left" data-orientation="cancel" data-dismiss="modal"></button>
+                <button type="button" class="local-grade-advopt-clear btn btn-default js-btn-step pull-left" data-orientation="clear"></button>
                 <button type="button" class="btn btn-warning js-btn-step" data-orientation="previous"></button>
                 <button type="button" class="btn btn-success js-btn-step" data-orientation="next"></button>
             </div>

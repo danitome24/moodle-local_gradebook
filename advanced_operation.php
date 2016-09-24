@@ -40,13 +40,11 @@ $PAGE->set_url('/local/gradebook/advanced_operation.php', ['courseid' => $course
 $PAGE->set_title(get_string('pluginname', 'local_gradebook'));
 $PAGE->requires->js('/local/gradebook/js/module.js');
 $PAGE->requires->js('/local/gradebook/js/jquery-bootstrap-modal-steps.js');
-
+$PAGE->set_cacheable(false);
 echo $OUTPUT->header();
 echo '<h3>Configuració de càlcul avançat</h3>';
 //Add modals
 require_once $CFG->dirroot . '/local/' . local_gradebook\Constants::PLUGIN_NAME . '/modals/choose_operation_modal.php';
-
-$PAGE->requires->js_init_call('startModalSteps');
 
 echo '<div class="container-fluid">
 			<div class="row-fluid">
@@ -65,9 +63,7 @@ echo '<div class="container-fluid">
 					<div class="row-fluid">
 					<div class="span12">
 						<div class="btn-group input-append">
-                                <input id="appendedInputButton" type="text">
-                                <a href="#myModal" data-toggle="modal" role="button" class="btn btn-default" type="button">'
-                                . get_string('add') . '</a>
+                                <input id="appendedInputButton" type="text" >
                             </div>
 							<div class="btn-group local-gradebook-margin-bottom">
 								<a class="local-gradebook-condition-button btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
@@ -100,4 +96,13 @@ echo '<div class="container-fluid">
 				</div>
 			</div>
 		</div>';
+echo '<br><br><br>';
+echo '<div class="row-fluid">
+        <div class="span4">
+            <button class="btn btn-danger">Neteja</button>
+        </div>
+        <div class="offset5">
+            <button class="offset4 btn btn-success">Guardar canvis</button>
+        </div>
+      </div>';
 echo $OUTPUT->footer();
