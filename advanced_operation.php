@@ -46,15 +46,15 @@ echo '<h3>Configuració de càlcul avançat</h3>';
 //Add modals
 require_once $CFG->dirroot . '/local/' . local_gradebook\Constants::PLUGIN_NAME . '/modals/choose_operation_modal.php';
 
-echo '<div class="container-fluid">
+echo '<div class="container-fluid advanced-operation">
 			<div class="row-fluid">
 				<div class="span12">
 					<!-- first row of graphic-->
 					<div class="row-fluid">
 						<div class="offset5">
-							    <div class="input-append">
+							    <div class="input-append" data-input="1">
                                     <input class="" id="appendedInputButton" type="text">
-                                    <a href="#myModal" data-toggle="modal" role="button" class="btn btn-default" type="button">'
+                                    <a href="#myModal" data-toggle="modal" role="button" data-input="1" class="btn btn-default local-gradebook-openmodal" type="button">'
                                         . get_string('add') . '</a>
                                 </div>
 						</div>
@@ -86,9 +86,9 @@ echo '<div class="container-fluid">
 					<!-- third row of graphic-->
 					<div class="row-fluid">
 						<div class="offset5">
-							<div class="input-append">
+							<div class="input-append" data-input="2">
                                 <input class="" id="appendedInputButton" type="text">
-                                <a href="#myModal" data-toggle="modal" role="button" class="btn btn-default" type="button">'
+                                <a href="#myModal" data-toggle="modal" role="button" data-input="2" class="btn btn-default local-gradebook-openmodal" type="button">'
                                     . get_string('add') . '</a>
                             </div>
 						</div>

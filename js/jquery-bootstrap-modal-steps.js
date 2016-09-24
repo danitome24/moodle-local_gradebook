@@ -137,7 +137,7 @@ require(['jquery'], function ($) {
 
             // Callback on Complete
             if ($btn.attr('data-step') === 'complete') {
-                settings.completeCallback();
+                settings.completeCallback(actualStep, nextStep);
                 $modal.modal('hide');
 
                 return;
