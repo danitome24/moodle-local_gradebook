@@ -30,6 +30,9 @@ $gradeId = required_param('gradeid', PARAM_TEXT);
 if (!$course = $DB->get_record('course', array('id' => $courseId))) {
     print_error('nocourseid');
 }
+if (!$grade_item = grade_item::fetch(array('id' => $gradeId, 'courseid' => $courseId))) {
+    print_error('invaliditemid');
+}
 
 require_login($course);
 $context = context_course::instance($course->id);
@@ -55,7 +58,7 @@ echo '<div class="container-fluid advanced-operation">
 							    <div class="input-append" data-input="1">
                                     <input class="" id="appendedInputButton" type="text">
                                     <a href="#myModal" data-toggle="modal" role="button" data-input="1" class="btn btn-default local-gradebook-openmodal" type="button">'
-                                        . get_string('add') . '</a>
+    . get_string('add') . '</a>
                                 </div>
 						</div>
 					</div>
@@ -63,7 +66,7 @@ echo '<div class="container-fluid advanced-operation">
 					<div class="row-fluid">
 					<div class="span12">
 						<div class="btn-group input-append">
-                                <input id="appendedInputButton" type="text" >
+                                <input id="appendedInputButton" type="text" value="' . $grade_item->get_parent_category()->get_name() . '">
                             </div>
 							<div class="btn-group local-gradebook-margin-bottom">
 								<a class="local-gradebook-condition-button btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
@@ -89,7 +92,7 @@ echo '<div class="container-fluid advanced-operation">
 							<div class="input-append" data-input="2">
                                 <input class="" id="appendedInputButton" type="text">
                                 <a href="#myModal" data-toggle="modal" role="button" data-input="2" class="btn btn-default local-gradebook-openmodal" type="button">'
-                                    . get_string('add') . '</a>
+    . get_string('add') . '</a>
                             </div>
 						</div>
 					</div>
