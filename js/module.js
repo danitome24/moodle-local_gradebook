@@ -1,7 +1,18 @@
 require(['jquery', 'jqueryui'], function ($, jqui) {
 
     $(document).ready(function () {
-        $('#myModal').modalSteps();
+        var callback = function (actualstep, nextstep) {
+            if (actualstep != null && nextstep != null) {
+                var operation = $('#myModal').find('[data-step=' + actualstep +'] div .local-gradebook-droppable').val();
+                $('#myModal').find('[data-step=' + nextstep +'] div .local-gradebook-droppable').val(operation);
+            }
+        };
+
+        $('#myModal').modalSteps({
+            callbacks: {
+                '*': callback
+            }
+        });
         $(init);
     });
 
@@ -21,7 +32,7 @@ require(['jquery', 'jqueryui'], function ($, jqui) {
         });
     }
 
-    $("#local-gradebook-droppable").droppable({
+    $(".local-gradebook-droppable").droppable({
         drop: function (event, ui) {
             var value = ui.draggable.attr("value");
             var elementCloned = ui.draggable.clone();
@@ -37,14 +48,11 @@ require(['jquery', 'jqueryui'], function ($, jqui) {
         });
 
     });
-
-    $('.local-grade-advopt-clear').click(function () {
-
-    });
-
     /**
      * End of drag and drop
      */
+
+
 });
 
 

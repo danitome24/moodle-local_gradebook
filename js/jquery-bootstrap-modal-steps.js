@@ -38,9 +38,9 @@ require(['jquery'], function ($) {
             }
         };
 
-        var executeCallback = function (callback) {
+        var executeCallback = function (callback, actualstep, nextstep) {
             if (callback !== undefined && typeof(callback) === 'function') {
-                callback();
+                callback(actualstep, nextstep);
                 return true;
             }
             return false;
@@ -66,8 +66,8 @@ require(['jquery'], function ($) {
                 $btnPrevious.attr('disabled', 'disabled');
 
                 validCallbacks();
-                executeCallback(everyStepCallback);
-                executeCallback(stepCallback);
+                executeCallback(everyStepCallback, actualStep, nextStep);
+                executeCallback(stepCallback, actualStep, nextStep);
 
                 // Setting buttons
                 $btnClear.html(settings.btnClearInputHtml);
@@ -159,7 +159,7 @@ require(['jquery'], function ($) {
                 $actualStep.val(actualStep - 1);
 
             } else if (orientation === 'clear') {
-                $('#local-gradebook-droppable').val("");
+                $('.local-gradebook-droppable').val("");
                 return;
             } else {
                 $modal.modal('hide');
@@ -209,7 +209,6 @@ require(['jquery'], function ($) {
             if ($nextStep.attr('data-unlock-continue')) {
                 $btnNext.removeAttr('disabled');
             }
-
             // Set the title of step
             newTitle = $nextStep.attr('data-title');
             var $titleStepSpan = $('<span>')
@@ -221,8 +220,8 @@ require(['jquery'], function ($) {
                 .append(' ' + newTitle);
 
             var stepCallback = settings.callbacks[$actualStep.val()];
-            executeCallback(everyStepCallback);
-            executeCallback(stepCallback);
+            executeCallback(everyStepCallback, actualStep, nextStep);
+            executeCallback(stepCallback, actualStep, nextStep);
         });
 
         return this;

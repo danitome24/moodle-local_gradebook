@@ -30,7 +30,7 @@
             <div class="modal-body">
                 <div class="row-fluid hide" data-step="1" data-title="Escolleix la operació a aplicar!">
                     <div class="offset3">
-                        <input id="local-gradebook-droppable" type="text" class="input-lg"/>
+                        <input class="local-gradebook-droppable input-lg" type="text"/>
                     </div>
                     <!-- Here goes the operation buttons -->
                     <div class="row-fluid">
@@ -60,11 +60,37 @@
                         </div>
                     </div>
                 </div>
-                <div class="row-fluid hide" data-step="2" data-title="This is the second and last step!">
-                    <div class="well">As you can see, this is the second and last step!</div>
-                </div>
-                <div class="row-fluid hide" data-step="3" data-title="This is the second and last step!">
-                    <div class="well">As you can see, this is the second and last step!</div>
+                <div class="row-fluid hide" data-step="2" data-title="Escull les activitats que vols aplicar a la fòrmula:">
+                    <div class="offset3">
+                        <input class="local-gradebook-droppable input-lg" type="text"/>
+                    </div>
+                    <!-- Here goes the operation buttons -->
+                    <div class="row-fluid">
+                        <div class="offset3 span5">
+                            <p>Arrastra les activitats cap al input:</p>
+                            <table id="borderless" class="table local-gradebook-drag-buttons">
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <button value="idnum_1" class="local-gradebook-draggable">Task1</button>
+                                    </td>
+                                    <td>
+                                        <button value="idnum_2" class="local-gradebook-draggable">Task2</button>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button value="idnum_3" class="local-gradebook-draggable">Task3</button>
+                                    </td>
+                                    <td>
+                                        <button value="idnum_4" class="local-gradebook-draggable">Task4</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
