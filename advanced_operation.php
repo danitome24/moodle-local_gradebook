@@ -51,7 +51,7 @@ echo '<div class="container-fluid advanced-operation">
 				<div class="span12">
 					<!-- first row of graphic-->
 					<div class="row-fluid">
-						<div class="offset5">
+						<div class="offset4">
 							    <div class="input-append" data-input="1">
                                     <input class="" id="appendedInputButton" type="text">
                                     <a href="#myModal" data-toggle="modal" role="button" data-input="1" class="btn btn-default local-gradebook-openmodal" type="button">'
@@ -78,14 +78,14 @@ echo '<div class="container-fluid advanced-operation">
 								</ul>
 							</div>
 							<div class="btn-group">
-						        <input type="text" class="" name="firstname">
+						        <input type="text" class="span2" name="firstname">
 						    </div>
 					    </div>
 					</div>
 
 					<!-- third row of graphic-->
 					<div class="row-fluid">
-						<div class="offset5">
+						<div class="offset4">
 							<div class="input-append" data-input="2">
                                 <input class="" id="appendedInputButton" type="text">
                                 <a href="#myModal" data-toggle="modal" role="button" data-input="2" class="btn btn-default local-gradebook-openmodal" type="button">'
