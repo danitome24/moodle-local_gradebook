@@ -14,8 +14,7 @@ require(['jquery', 'jqueryui'], function ($, jqui) {
             var inputToWrite = $('#myModal').attr('data-input');
             var div = $('#myModal').find("[data-step='" + 2 + "'] input");
             var operation = div.val();
-
-            alert(inputToWrite + operation);
+            
             var inputSelected = $('.advanced-operation').find("[data-input='" + inputToWrite + "'] input");
             inputSelected.val(operation)
         };
