@@ -73,10 +73,6 @@ echo html_writer::start_div();
 echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'sesskey', 'value' => sesskey()]);
 
 echo html_writer::table($grade_edit_tree->table);
-
-echo html_writer::start_div('', ['id' => 'gradetreesubmit']);
-echo html_writer::empty_tag('input', ['class' => 'advanced', 'type' => 'submit', 'value' => get_string('savechanges')]);
-echo html_writer::end_div();
 echo html_writer::end_div();
 echo html_writer::end_tag('form');
 

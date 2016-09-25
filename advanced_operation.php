@@ -56,7 +56,7 @@ echo '<div class="container-fluid advanced-operation">
 					<div class="row-fluid">
 						<div class="offset4">
 							    <div class="input-append" data-input="1">
-                                    <input class="" id="appendedInputButton" type="text">
+                                    <input class="local-gradebook-input" id="appendedInputButton" type="text">
                                     <a href="#myModal" data-toggle="modal" role="button" data-input="1" class="btn btn-default local-gradebook-openmodal" type="button">'
     . get_string('add') . '</a>
                                 </div>
@@ -90,7 +90,7 @@ echo '<div class="container-fluid advanced-operation">
 					<div class="row-fluid">
 						<div class="offset4">
 							<div class="input-append" data-input="2">
-                                <input class="" id="appendedInputButton" type="text">
+                                <input class="local-gradebook-input" id="appendedInputButton" type="text">
                                 <a href="#myModal" data-toggle="modal" role="button" data-input="2" class="btn btn-default local-gradebook-openmodal" type="button">'
     . get_string('add') . '</a>
                             </div>
@@ -102,7 +102,7 @@ echo '<div class="container-fluid advanced-operation">
 echo '<br><br><br>';
 echo '<div class="row-fluid">
         <div class="span4">
-            <button class="btn btn-danger">Neteja</button>
+            <button id="local-gradebook-advop-clean" class="btn btn-danger">Neteja</button>
         </div>
         <div class="offset5">
             <button class="offset4 btn btn-success">Guardar canvis</button>

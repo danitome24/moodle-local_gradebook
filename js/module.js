@@ -14,7 +14,7 @@ require(['jquery', 'jqueryui'], function ($, jqui) {
             var inputToWrite = $('#myModal').attr('data-input');
             var div = $('#myModal').find("[data-step='" + 2 + "'] input");
             var operation = div.val();
-            
+
             var inputSelected = $('.advanced-operation').find("[data-input='" + inputToWrite + "'] input");
             inputSelected.val(operation)
         };
@@ -31,6 +31,10 @@ require(['jquery', 'jqueryui'], function ($, jqui) {
             $('#myModal').attr('data-input', $(this).parent().attr('data-input'));
             $('#myModal').find('[data-step=' + 1 + '] input').val($(this).parent().find('input').val())
         });
+
+        $('#local-gradebook-advop-clean').click(function () {
+            $('.local-gradebook-input').val('');
+        })
     });
 
     /**
