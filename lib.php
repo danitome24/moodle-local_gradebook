@@ -37,9 +37,25 @@ function local_gradebook_extend_settings_navigation(settings_navigation $nav, co
     }
     $courseId = required_param('id', PARAM_INT);
 
-    $url = new moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/index.php', ['id' => $courseId]);
-    $name = get_string('navbar_link', 'local_gradebook');
-    $type = navigation_node::TYPE_CONTAINER;
-    $node = navigation_node::create($name, $url, $type, null, local_gradebook\Constants::PLUGIN_NAME, new pix_icon('t/calc', $name));
-    $courseAdminNode->add_node($node);
+    $navigationCollection = navigation_node::create(get_string('navbar_link', 'local_gradebook'));
+    $navigationNode = $courseAdminNode->add_node($navigationCollection);
+
+    $localGradebookNode = navigation_node::create(
+        get_string('navbar_link', 'local_gradebook'),
+        new moodle_url('/local/gradebook/index.php', ['id' => $courseId]),
+        navigation_node::TYPE_CUSTOM,
+        null,
+        null,
+        new pix_icon('t/calc', get_string('navbar_link', 'local_gradebook'))
+    );
+    $demoNode = navigation_node::create(
+        get_string('demo_navbar', 'local_gradebook'),
+        '/local/gradebook/demo.php',
+        navigation_node::TYPE_CUSTOM,
+        null,
+        null,
+        new pix_icon('i/report', get_string('navbar_link', 'local_gradebook'))
+    );
+    $navigationNode->add_node($demoNode);
+    $navigationNode->add_node($localGradebookNode);
 }

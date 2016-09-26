@@ -37,3 +37,4 @@ $string['navbar_link'] = "Advanced gradebook setup";
 $string['element_calculation_novalid'] = 'Element selected to apply math operation no valid';
 $string['add_operation_success'] = 'The math operation was successfully.';
 $string['math_sign'] = 'Sign';
+$string['demo_navbar'] = 'Grades demo';

@@ -37,3 +37,4 @@ $string['navbar_link'] = "Configuració avançada del llibre de qualificacions";
 $string['element_calculation_novalid'] = 'L\'element a aplicar operació no es vàlid';
 $string['add_operation_success'] = 'L\'operació s\'ha afegit correctament.';
 $string['math_sign'] = 'Operador';
+$string['demo_navbar'] = 'Demo de notes';
