@@ -35,7 +35,7 @@ function local_gradebook_extend_settings_navigation(settings_navigation $nav, co
     if (!($courseAdminNode = $nav->find('courseadmin', navigation_node::TYPE_COURSE))) {
         return false;
     }
-    $courseId = optional_param('id', 0, PARAM_INT);
+    $courseId = required_param('id', PARAM_INT);
 
     $url = new moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/index.php', ['id' => $courseId]);
     $name = get_string('navbar_link', 'local_gradebook');

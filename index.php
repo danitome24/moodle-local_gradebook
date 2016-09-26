@@ -42,7 +42,7 @@ if (!$course = $DB->get_record('course', array('id' => $courseid))) {
 require_login($course);
 $context = context_course::instance($course->id);
 
-$url = new moodle_url('/grade/edit/tree/index.php', array('id' => $courseid));
+$url = new moodle_url('/grade/edit/tree/index.php', array('courseid' => $courseid));
 $PAGE->set_url($url);
 $PAGE->set_pagelayout('admin');
 $PAGE->set_title(get_string('pluginname', 'local_gradebook'));

@@ -22,8 +22,8 @@ require_once '../../config.php';
 require_once $CFG->dirroot . '/grade/lib.php';
 require_once $CFG->libdir . '/mathslib.php';
 
-$courseid = required_param('courseid', PARAM_TEXT);
-$id = required_param('id', PARAM_TEXT);
+$courseid = required_param('id', PARAM_TEXT);
+$id = required_param('gradeid', PARAM_TEXT);
 
 /// Make sure they can even access this course
 if (!$course = $DB->get_record('course', array('id' => $courseid))) {
@@ -52,10 +52,10 @@ $mform = new local_gradebook\form\SimpleOperationForm(null,
 
 if ($formData = $mform->get_data()) {
     //Make sure they can even access this course
-    if (!$course = $DB->get_record('course', array('id' => $formData->courseid))) {
+    if (!$course = $DB->get_record('course', array('id' => $formData->id))) {
         print_error('nocourseid');
     }
-    if (!$grade_item = grade_item::fetch(array('id' => $formData->id, 'courseid' => $course->id))) {
+    if (!$grade_item = grade_item::fetch(array('id' => $formData->gradeid, 'courseid' => $course->id))) {
         print_error('invaliditemid');
     }
     if (empty($formData->grades) && !isset($formData->clearbutton)) {

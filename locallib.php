@@ -203,7 +203,7 @@ class grade_edit_tree_column_simple_op extends grade_edit_tree_column
     {
         global $OUTPUT;
 
-        $simpleOpUrl = new moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/simple_operation.php', ['courseid' => $item->courseid, 'id' => $item->id]);
+        $simpleOpUrl = new moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/simple_operation.php', ['id' => $item->courseid, 'gradeid' => $item->id]);
         $pixelString = '<a href=" ' . $simpleOpUrl . '">';
         $pixIcon = new pix_icon('t/calc', get_string('name'));
         $pixelString .= $OUTPUT->render($pixIcon) . '</a>';
@@ -285,7 +285,7 @@ class grade_edit_tree_column_advanced_actions extends grade_edit_tree_column
 
         $url = new moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/advanced_operation.php',
             [
-                'courseid' => $courseid,
+                'id' => $courseid,
                 'gradeid' => $gradeId,
             ]);
         $pixelString = html_writer::start_tag('a', ['href' => $url]);

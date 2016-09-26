@@ -37,10 +37,10 @@ class SimpleOperationForm extends \moodleform
 
         $mform = $this->_form; // Don't forget the underscore!
 
-        $mform->addElement('hidden', 'courseid', $courseid);
-        $mform->setType('courseid', PARAM_INT);
-        $mform->addElement('hidden', 'id', $id);
+        $mform->addElement('hidden', 'id', $courseid);
         $mform->setType('id', PARAM_INT);
+        $mform->addElement('hidden', 'gradeid', $id);
+        $mform->setType('gradeid', PARAM_INT);
 
         $mform->addElement('static', 'description',
             '<h3>' . get_string('qualifier_elements', 'local_gradebook') . '</h3>');
