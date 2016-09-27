@@ -50,7 +50,7 @@ function local_gradebook_extend_settings_navigation(settings_navigation $nav, co
     );
     $demoNode = navigation_node::create(
         get_string('demo_navbar', 'local_gradebook'),
-        '/local/gradebook/demo.php',
+        new moodle_url('/local/gradebook/demo.php', ['id' => $courseId]),
         navigation_node::TYPE_CUSTOM,
         null,
         null,

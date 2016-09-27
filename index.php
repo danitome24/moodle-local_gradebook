@@ -26,9 +26,6 @@ require_once $CFG->dirroot . '/grade/edit/tree/lib.php';
 require_once $CFG->dirroot . '/local/' . local_gradebook\Constants::PLUGIN_NAME . '/locallib.php';
 
 $courseid = required_param('id', PARAM_INT);
-$action = optional_param('action', 0, PARAM_ALPHA);
-$eid = optional_param('eid', 0, PARAM_ALPHANUM);
-$weightsadjusted = optional_param('weightsadjusted', 0, PARAM_INT);
 
 //Always check if grade_items.idnumber is set. Otherwise we create one.
 $localGrade = new local_gradebook\grade\Grade();
