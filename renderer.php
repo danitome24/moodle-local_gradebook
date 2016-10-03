@@ -24,5 +24,26 @@ defined('MOODLE_INTERNAL') || die;
 
 class local_gradebook_renderer extends plugin_renderer_base
 {
+    public function getGradesDemoTree(&$gtree, $moving, $gpr)
+    {
+        $demoTable = new html_table();
+        $demoTable->head = ['Activitites', 'Grades'];
+        $demoTable->colclasses = ['span5', 'span2'];
 
+        $activitats = ['activitat1', 'activitat2', 'activitat3', 'activitat4', 'activitat5', 'activitat6'];
+        $row = new html_table_row();
+        foreach ($activitats as $key => $activitat) {
+            $cell = new html_table_cell();
+            $cell->text = $activitat;
+
+            $cell2 = new html_table_cell();
+            $cell2->text = html_writer::
+            $row->cells = [$cell, $cell2];
+
+
+            $demoTable->data[] = $row;
+        }
+
+        return html_writer::table($demoTable);
+    }
 }

@@ -20,6 +20,7 @@
  * @author Daniel Tome <danieltomefer@gmail.com>
  */
 require_once '../../config.php';
+require_once $CFG->dirroot . '/grade/lib.php';
 
 $courseid = required_param('id', PARAM_INT);
 
@@ -36,6 +37,18 @@ $PAGE->set_url($url);
 $PAGE->set_pagelayout('admin');
 $PAGE->set_title(get_string('pluginname', 'local_gradebook'));
 
-echo $OUTPUT->header();
+/// return tracking object
+$gpr = new grade_plugin_return(array('type' => 'edit', 'plugin' => 'tree', 'courseid' => $courseid));
+$returnurl = $gpr->get_return_url(null);
 
-echo $OUTPUT->footer();
+// get the grading tree object
+// note: total must be first for moving to work correctly, if you want it last moving code must be rewritten!
+$gtree = new grade_tree($courseid, false, false);
+
+$output = $PAGE->get_renderer('local_gradebook');
+
+echo $output->header();
+
+echo $output->getGradesDemoTree($gtree, false, $gpr);
+
+echo $output->footer();

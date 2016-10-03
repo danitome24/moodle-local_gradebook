@@ -65,4 +65,6 @@ class GradebookTree extends \grade_edit_tree
         $rowcount = 0;
         $this->table->data = $this->build_html_tree($this->gtree->top_element, true, array(), 0, $rowcount);
     }
+
+
 }

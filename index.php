@@ -64,7 +64,6 @@ echo $OUTPUT->header();
 // Print Table of categories and items
 echo $OUTPUT->box_start('gradetreebox generalbox');
 
-
 echo html_writer::start_tag('form', ['id' => 'gradetreeform', 'method' => 'post', 'action' => $returnurl]);
 
 echo html_writer::start_div();
