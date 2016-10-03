@@ -49,11 +49,18 @@ class local_gradebook_renderer extends plugin_renderer_base
 
     public function getDemoButtons()
     {
-        return [
-            'autogenerate' => html_writer::link('/local/gradebook/autogenerate',
-                get_string('autogenerate', 'local_gradebook'), ['class' => 'btn btn-warning']),
-            'doCalculation' => html_writer::link('/local/gradebook/autogenerate',
-                get_string('calculate', 'local_gradebook'), ['class' => 'btn btn-success']),
-        ];
+        $output = '';
+        $output = html_writer::start_div('row-fluid');
+        $output .= html_writer::start_div('span2');
+        $output .= html_writer::tag('button', get_string('autogenerate', 'local_gradebook'),
+            ['class' => 'btn-warning']);
+        $output .= html_writer::end_div();
+        $output .= html_writer::start_div('pull-right span2');
+        $output .= html_writer::tag('button', get_string('calculate', 'local_gradebook'),
+            ['class' => 'btn-success']);
+        $output .= html_writer::end_div();
+        $output .= html_writer::end_div();
+
+        return $output;
     }
 }
