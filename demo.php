@@ -50,5 +50,8 @@ $output = $PAGE->get_renderer('local_gradebook');
 echo $output->header();
 
 echo $output->getGradesDemoTree($gtree, false, $gpr);
+foreach ($output->getDemoButtons() as $button) {
+    echo $button;
+}
 
 echo $output->footer();

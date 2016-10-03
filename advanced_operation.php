@@ -23,7 +23,7 @@ require_once '../../config.php';
 require_once $CFG->dirroot . '/grade/lib.php';
 require_once $CFG->libdir . '/pagelib.php';
 //Id of course
-$courseId = required_param('courseid', PARAM_TEXT);
+$courseId = required_param('id', PARAM_TEXT);
 $gradeId = required_param('gradeid', PARAM_TEXT);
 
 /// Make sure they can even access this course

@@ -38,3 +38,5 @@ $string['element_calculation_novalid'] = 'L\'element a aplicar operació no es v
 $string['add_operation_success'] = 'L\'operació s\'ha afegit correctament.';
 $string['math_sign'] = 'Operador';
 $string['demo_navbar'] = 'Demo de notes';
+$string['autogenerate'] = 'Auto generar';
+$string['calculate'] = 'Calcular';

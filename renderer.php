@@ -28,7 +28,7 @@ class local_gradebook_renderer extends plugin_renderer_base
     {
         $demoTable = new html_table();
         $demoTable->head = ['Activitites', 'Grades'];
-        $demoTable->colclasses = ['span5', 'span2'];
+        $demoTable->colclasses = ['span4', 'span2'];
 
         $activitats = ['activitat1', 'activitat2', 'activitat3', 'activitat4', 'activitat5', 'activitat6'];
         $row = new html_table_row();
@@ -37,13 +37,23 @@ class local_gradebook_renderer extends plugin_renderer_base
             $cell->text = $activitat;
 
             $cell2 = new html_table_cell();
-            $cell2->text = html_writer::
+            $cell2->text = html_writer::empty_tag('input', ['type' => 'text', 'class' => 'span2']);
             $row->cells = [$cell, $cell2];
 
-
+            $row = new html_table_row();
             $demoTable->data[] = $row;
         }
 
         return html_writer::table($demoTable);
+    }
+
+    public function getDemoButtons()
+    {
+        return [
+            'autogenerate' => html_writer::link('/local/gradebook/autogenerate',
+                get_string('autogenerate', 'local_gradebook'), ['class' => 'btn btn-warning']),
+            'doCalculation' => html_writer::link('/local/gradebook/autogenerate',
+                get_string('calculate', 'local_gradebook'), ['class' => 'btn btn-success']),
+        ];
     }
 }
