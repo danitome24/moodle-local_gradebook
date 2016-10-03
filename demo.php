@@ -36,8 +36,9 @@ $url = new moodle_url('/local/gradebook/demo.php', array('id' => $courseid));
 $PAGE->set_url($url);
 $PAGE->set_pagelayout('admin');
 $PAGE->set_title(get_string('pluginname', 'local_gradebook'));
+$PAGE->requires->js('/local/gradebook/js/demo.js');
 
-/// return tracking object
+// return tracking object
 $gpr = new grade_plugin_return(array('type' => 'edit', 'plugin' => 'tree', 'courseid' => $courseid));
 $returnurl = $gpr->get_return_url(null);
 

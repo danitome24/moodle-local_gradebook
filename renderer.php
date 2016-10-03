@@ -37,7 +37,8 @@ class local_gradebook_renderer extends plugin_renderer_base
             $cell->text = $activitat;
 
             $cell2 = new html_table_cell();
-            $cell2->text = html_writer::empty_tag('input', ['type' => 'text', 'class' => 'span2']);
+            $cell2->text = html_writer::empty_tag('input',
+                ['type' => 'text', 'class' => 'span2 local-gradebook-demo-autogenerate-inputs']);
             $row->cells = [$cell, $cell2];
 
             $row = new html_table_row();
@@ -53,11 +54,11 @@ class local_gradebook_renderer extends plugin_renderer_base
         $output = html_writer::start_div('row-fluid');
         $output .= html_writer::start_div('span2');
         $output .= html_writer::tag('button', get_string('autogenerate', 'local_gradebook'),
-            ['class' => 'btn-warning']);
+            ['class' => 'btn-warning', 'id' => 'local-gradebook-demo-autogenerate']);
         $output .= html_writer::end_div();
         $output .= html_writer::start_div('pull-right span2');
         $output .= html_writer::tag('button', get_string('calculate', 'local_gradebook'),
-            ['class' => 'btn-success']);
+            ['class' => 'btn-success', 'id' => 'local-gradebook-demo-calculate']);
         $output .= html_writer::end_div();
         $output .= html_writer::end_div();
 

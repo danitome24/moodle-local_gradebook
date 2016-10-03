@@ -36,7 +36,7 @@ if (!$grade_item = grade_item::fetch(array('id' => $gradeId, 'courseid' => $cour
 
 require_login($course);
 $context = context_course::instance($course->id);
-$PAGE->requires->js_init_call(new moodle_url($CFG->wwwroot . '/local/gradebook/module.js'));
+
 $PAGE->set_context($context);
 $PAGE->set_pagelayout('admin');
 $PAGE->set_url('/local/gradebook/advanced_operation.php', ['courseid' => $courseId, 'gradeid' => $gradeId]);
