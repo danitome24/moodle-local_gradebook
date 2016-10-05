@@ -18,13 +18,13 @@
  * @author Daniel Tome <danieltomefer@gmail.com>
  */
 require(['jquery', 'jqueryui'], function ($) {
-
     $(document).ready(function () {
         $('#local-gradebook-demo-autogenerate').click(function () {
-            alert('aaaaa');
             $('.local-gradebook-demo-autogenerate-inputs').each(function (index) {
-                var random = Math.floor(Math.random() * 10) + 1;
-                $(this).val(random);
+                if (!$(this).is('[readonly]')) {
+                    var random = Math.floor(Math.random() * 10) + 1;
+                    $(this).val(random);
+                }
             });
 
         })

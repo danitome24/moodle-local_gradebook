@@ -27,6 +27,7 @@ namespace local_gradebook\grade\tree;
  */
 class GradebookTree extends \grade_edit_tree
 {
+
     /**
      * GradebookTree constructor.
      * @codeCoverageIgnore
@@ -65,6 +66,5 @@ class GradebookTree extends \grade_edit_tree
         $rowcount = 0;
         $this->table->data = $this->build_html_tree($this->gtree->top_element, true, array(), 0, $rowcount);
     }
-
 
 }
