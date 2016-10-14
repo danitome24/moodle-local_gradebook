@@ -39,7 +39,7 @@ $context = context_course::instance($course->id);
 
 $PAGE->set_context($context);
 $PAGE->set_pagelayout('admin');
-$PAGE->set_url('/local/gradebook/advanced_operation.php', ['courseid' => $courseId, 'gradeid' => $gradeId]);
+$PAGE->set_url(new moodle_url('/local/gradebook/advanced_operation.php', ['courseid' => $courseId, 'gradeid' => $gradeId]));
 $PAGE->set_title(get_string('pluginname', 'local_gradebook'));
 $PAGE->requires->js('/local/gradebook/js/module.js');
 $PAGE->requires->js('/local/gradebook/js/jquery-bootstrap-modal-steps.js');

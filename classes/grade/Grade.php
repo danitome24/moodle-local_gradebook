@@ -56,8 +56,6 @@ class Grade
         return \grade_item::fetch_all(['courseid' => $courseid]);
     }
 
-
-
     /**
      * Method to give a calculation given params.
      * @param array $gradesSelected with activities to add into operation.
@@ -79,5 +77,30 @@ class Grade
         }
         $calculation .= ')';
         return $calculation;
+    }
+
+    /**
+     * Get idnumbers of a calculation.
+     * @param $calculation
+     * @return array
+     */
+    public static function getIdNumbersInArrayFromCalculation($calculation)
+    {
+        preg_match_all('/\[\[[a-zA-Z0-9_]+\]\]/', $calculation, $idNumbersOfGrade);
+        $retIdsNumbers = [];
+        foreach ($idNumbersOfGrade[0] as $idNumberOfGrade) {
+            $idNumber = substr($idNumberOfGrade, 2, -2);
+            $retIdsNumbers[$idNumber] = 1;
+        }
+
+        return $retIdsNumbers;
+    }
+
+    public static function getOperationFromCalculation($calculation)
+    {
+        preg_match('/=[a-zA-Z]+\(/', $calculation, $operation);
+        $operation = $operation[0];
+
+        return 'op:' . substr($operation, 1, -1);
     }
 }

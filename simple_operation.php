@@ -49,7 +49,6 @@ $mform = new local_gradebook\form\SimpleOperationForm(null,
 /**
  * If post data is given
  */
-
 if ($formData = $mform->get_data()) {
     //Make sure they can even access this course
     if (!$course = $DB->get_record('course', array('id' => $formData->id))) {
@@ -78,13 +77,27 @@ if ($formData = $mform->get_data()) {
     redirect($urlToRedirect, $message, null, \core\output\notification::NOTIFY_SUCCESS);
 }
 
+// Get info to display in form
+if (!$grade_item = grade_item::fetch(array('id' => $id, 'courseid' => $courseid))) {
+    print_error('invaliditemid');
+}
+$calculation = $grade_item->get_calculation();
+if (isset($calculation)) {
+    $formDataToFillContent = new stdClass();
+    $formDataToFillContent->id = $courseid;
+    $formDataToFillContent->gradeid = $id;
+
+    $formDataToFillContent->grades = local_gradebook\grade\Grade::getIdNumbersInArrayFromCalculation($calculation);
+    $formDataToFillContent->operation = local_gradebook\grade\Grade::getOperationFromCalculation($calculation);
+}
 
 // Get renderer on last step
 $output = $PAGE->get_renderer('local_gradebook');
 
-
 echo $OUTPUT->header();
-
+if (isset($calculation)) {
+    $mform->set_data($formDataToFillContent);
+}
 $mform->display();
 
 echo $OUTPUT->footer();

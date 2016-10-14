@@ -40,3 +40,5 @@ $string['math_sign'] = 'Operador';
 $string['demo_navbar'] = 'Demo de notas';
 $string['autogenerate'] = 'Auto generar';
 $string['calculate'] = 'Calcular';
+$string['simple_operation'] = 'Operación simple';
+$string['advanced_operation'] = 'Operación avanzada';

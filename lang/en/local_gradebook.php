@@ -40,3 +40,5 @@ $string['math_sign'] = 'Sign';
 $string['demo_navbar'] = 'Grades demo';
 $string['autogenerate'] = 'Auto generate';
 $string['calculate'] = 'Calculate';
+$string['simple_operation'] = 'Simple operation';
+$string['advanced_operation'] = 'Advanced operation';

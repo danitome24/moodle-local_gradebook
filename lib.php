@@ -27,6 +27,7 @@
  */
 function local_gradebook_extend_settings_navigation(settings_navigation $nav, context $context)
 {
+    global $PAGE;
     //Check capability of user
     if (!has_capability('local/gradebook:access', $context)) {
         return false;
@@ -36,6 +37,7 @@ function local_gradebook_extend_settings_navigation(settings_navigation $nav, co
         return false;
     }
     $courseId = required_param('id', PARAM_INT);
+    $gradeid = optional_param('gradeid', 0, PARAM_INT);
 
     $navigationCollection = navigation_node::create(get_string('navbar_link', 'local_gradebook'));
     $navigationNode = $courseAdminNode->add_node($navigationCollection);
@@ -56,6 +58,25 @@ function local_gradebook_extend_settings_navigation(settings_navigation $nav, co
         null,
         new pix_icon('i/report', get_string('navbar_link', 'local_gradebook'))
     );
+
+    if ($PAGE->url->compare(new moodle_url('/local/gradebook/simple_operation.php',
+        []), URL_MATCH_BASE)) {
+        $simpleOperationNode = navigation_node::create(get_string('simple_operation', 'local_gradebook'));
+        $simpleOperationNode->make_active();
+        $simpleOperationNode->force_open();
+        $navigationNode->force_open();
+        $localGradebookNode->add_node($simpleOperationNode);
+    }
+
+    if ($PAGE->url->compare(new moodle_url('/local/gradebook/advanced_operation.php',
+        []), URL_MATCH_BASE)) {
+        $advancedOperation = navigation_node::create(get_string('advanced_operation', 'local_gradebook'));
+        $advancedOperation->make_active();
+        $advancedOperation->force_open();
+        $navigationNode->force_open();
+        $localGradebookNode->add_node($advancedOperation);
+    }
+
     $navigationNode->add_node($demoNode);
     $navigationNode->add_node($localGradebookNode);
 }
