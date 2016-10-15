@@ -38,8 +38,8 @@ $PAGE->set_pagelayout('admin');
 $PAGE->set_context($context);
 $url = new \moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/simple_operation.php',
     [
-        'id' => $id,
-        'courseid' => $courseid,
+        'id' => $courseid,
+        'gradeid' => $id,
     ]);
 $PAGE->set_url($url);
 $PAGE->set_title(get_string('pluginname', 'local_gradebook'));

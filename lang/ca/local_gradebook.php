@@ -42,3 +42,4 @@ $string['autogenerate'] = 'Auto generar';
 $string['calculate'] = 'Calcular';
 $string['simple_operation'] = 'Operació simple';
 $string['advanced_operation'] = 'Operació avançada';
+$string['simple_op_delete'] = 'Estàs segur que vols esborrar l\'operació?';

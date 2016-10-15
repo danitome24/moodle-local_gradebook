@@ -62,7 +62,8 @@ class SimpleOperationForm extends \moodleform
         $mform->addElement('html', '</div>');
 
         $buttonarray = [];
-        $buttonarray[] = &$mform->createElement('submit', 'clearbutton', get_string('clear'));
+        $buttonarray[] = &$mform->createElement('submit', 'clearbutton', get_string('clear'),
+            ['onClick' => 'javascript:return confirm("' . get_string('simple_op_delete', 'local_gradebook') . ' ");']);
         $buttonarray[] = &$mform->createElement('submit', 'submitbutton', get_string('savechanges'));
         $mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
         $mform->closeHeaderBefore('buttonar');
