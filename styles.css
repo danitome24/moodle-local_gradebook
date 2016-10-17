@@ -56,3 +56,7 @@ ul#local-gradebook-options li {
 .special {
     display:inline-block;
 }
+
+#clearlocalgradebook {
+    margin: 0 0 10px 5px;
+}

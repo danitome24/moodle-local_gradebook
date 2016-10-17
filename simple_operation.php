@@ -22,30 +22,31 @@ require_once '../../config.php';
 require_once $CFG->dirroot . '/grade/lib.php';
 require_once $CFG->libdir . '/mathslib.php';
 
-$courseid = required_param('id', PARAM_TEXT);
-$id = required_param('gradeid', PARAM_TEXT);
+$id = required_param('id', PARAM_TEXT);
+$gradeid = required_param('gradeid', PARAM_TEXT);
 
 /// Make sure they can even access this course
-if (!$course = $DB->get_record('course', array('id' => $courseid))) {
+if (!$course = $DB->get_record('course', array('id' => $id))) {
     print_error('nocourseid');
 }
 
 require_login($course);
 $context = context_course::instance($course->id);
-$gtree = new grade_tree($courseid, false, false);
+$gtree = new grade_tree($id, false, false);
 
 $PAGE->set_pagelayout('admin');
 $PAGE->set_context($context);
 $url = new \moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/simple_operation.php',
     [
-        'id' => $courseid,
-        'gradeid' => $id,
+        'id' => $id,
+        'gradeid' => $gradeid,
     ]);
 $PAGE->set_url($url);
 $PAGE->set_title(get_string('pluginname', 'local_gradebook'));
+$PAGE->requires->js('/local/gradebook/js/simple_op.js');
 
 $mform = new local_gradebook\form\SimpleOperationForm(null,
-    ['gtree' => $gtree, 'element' => $gtree->top_element, 'courseid' => $courseid, 'id' => $id]);
+    ['gtree' => $gtree, 'element' => $gtree->top_element, 'gradeid' => $gradeid, 'id' => $id]);
 /**
  * If post data is given
  */
@@ -73,19 +74,19 @@ if ($formData = $mform->get_data()) {
     }
     $grade_item->set_calculation($calculation);
     $message = get_string('add_operation_success', 'local_gradebook');
-    $urlToRedirect = new \moodle_url('/local/gradebook/index.php', ['id' => $courseid]);
+    $urlToRedirect = new \moodle_url('/local/gradebook/index.php', ['id' => $id]);
     redirect($urlToRedirect, $message, null, \core\output\notification::NOTIFY_SUCCESS);
 }
 
 // Get info to display in form
-if (!$grade_item = grade_item::fetch(array('id' => $id, 'courseid' => $courseid))) {
+if (!$grade_item = grade_item::fetch(array('id' => $gradeid, 'courseid' => $id))) {
     print_error('invaliditemid');
 }
 $calculation = $grade_item->get_calculation();
 if (isset($calculation)) {
     $formDataToFillContent = new stdClass();
-    $formDataToFillContent->id = $courseid;
-    $formDataToFillContent->gradeid = $id;
+    $formDataToFillContent->id = $id;
+    $formDataToFillContent->gradeid = $gradeid;
 
     $formDataToFillContent->grades = local_gradebook\grade\Grade::getIdNumbersInArrayFromCalculation($calculation);
     $formDataToFillContent->operation = local_gradebook\grade\Grade::getOperationFromCalculation($calculation);
@@ -93,6 +94,8 @@ if (isset($calculation)) {
 
 // Get renderer on last step
 $output = $PAGE->get_renderer('local_gradebook');
+
+//require_once $CFG->dirroot . '/local/' . local_gradebook\Constants::PLUGIN_NAME . '/modals/remove_confirmation.php';
 
 echo $OUTPUT->header();
 if (isset($calculation)) {

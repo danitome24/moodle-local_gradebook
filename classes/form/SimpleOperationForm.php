@@ -32,14 +32,14 @@ class SimpleOperationForm extends \moodleform
 
         $gtree = $this->_customdata['gtree'];
         $element = $this->_customdata['element'];
-        $courseid = $this->_customdata['courseid'];
+        $gradeid = $this->_customdata['gradeid'];
         $id = $this->_customdata['id'];
 
         $mform = $this->_form; // Don't forget the underscore!
 
-        $mform->addElement('hidden', 'id', $courseid);
+        $mform->addElement('hidden', 'id', $id);
         $mform->setType('id', PARAM_INT);
-        $mform->addElement('hidden', 'gradeid', $id);
+        $mform->addElement('hidden', 'gradeid', $gradeid);
         $mform->setType('gradeid', PARAM_INT);
 
         $mform->addElement('static', 'description',
@@ -51,7 +51,6 @@ class SimpleOperationForm extends \moodleform
 
         $mform->addGroup($checkboxGroup, 'grades', '', '</br>');
 
-        $mform->addElement('html', '<div class="span6">');
         $mform->addElement('static', 'description', '<h3>' . get_string('operations', 'local_gradebook'));
         $radioarray = [];
         $radioarray[] = $mform->createElement('radio', 'operation', '', get_string('op:average', 'local_gradebook'), 'op:average');
@@ -59,13 +58,15 @@ class SimpleOperationForm extends \moodleform
         $radioarray[] = $mform->createElement('radio', 'operation', '', get_string('op:minimum', 'local_gradebook'), 'op:minimum');
         $radioarray[] = $mform->createElement('radio', 'operation', '', get_string('op:add', 'local_gradebook'), 'op:add');
         $mform->addGroup($radioarray, 'radioar', null, array(' '), false);
-        $mform->addElement('html', '</div>');
 
-        $buttonarray = [];
-        $buttonarray[] = &$mform->createElement('submit', 'clearbutton', get_string('clear'),
-            ['onClick' => 'javascript:return confirm("' . get_string('simple_op_delete', 'local_gradebook') . ' ");']);
-        $buttonarray[] = &$mform->createElement('submit', 'submitbutton', get_string('savechanges'));
-        $mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
+        $clearButtonUrl = new \moodle_url('/local/gradebook/simple_operation.php', ['id' => $id, 'gradeid' => $gradeid]);
+        $actionButtons = [];
+        $actionButtons[] = &$mform->createElement('cancel');
+        $a = get_string("simple_op_delete", "local_gradebook");
+        $actionButtons[] = &$mform->createElement('submit', 'clearbutton', get_string('clear'),
+            'data-question="' . $a . '" onClick="showConfirmation()"');
+        $actionButtons[] = &$mform->createElement('submit', 'submitbutton', get_string('savechanges'));
+        $mform->addGroup($actionButtons, 'buttonar', '', array(''), false);
         $mform->closeHeaderBefore('buttonar');
     }
 
