@@ -63,7 +63,7 @@ class SimpleOperationForm extends \moodleform
         $actionButtons = [];
         $actionButtons[] = &$mform->createElement('cancel');
         $a = get_string("simple_op_delete", "local_gradebook");
-        $actionButtons[] = &$mform->createElement('submit', 'clearbutton', get_string('clear'),
+        $actionButtons[] = &$mform->createElement('submit', 'resetbutton', get_string('clear'),
             'data-question="' . $a . '" onClick="showConfirmation()"');
         $actionButtons[] = &$mform->createElement('submit', 'submitbutton', get_string('savechanges'));
         $mform->addGroup($actionButtons, 'buttonar', '', array(''), false);
@@ -122,12 +122,12 @@ class SimpleOperationForm extends \moodleform
             $elements[] = $name . ' (' . get_string('outcome', 'grades') . ')';
         }
         if ($type != 'category' && $type != 'courseitem' && $type != 'categoryitem') {
-            if (is_null($current_itemid) OR $grade_item->id != $current_itemid) {
+//            if (is_null($current_itemid) OR $grade_item->id != $current_itemid) {
                 $elements[] = $form->createElement('checkbox', $grade_item->idnumber, null, $icon = $gtree->get_element_icon($element, true) . $name);
-            } else {
-                $icon = new \pix_icon('t/approve', $name);
-                $elements = $form->createElement('static', '', $name, $OUTPUT->render($icon) . $name);
-            }
+//            } else {
+//                $icon = new \pix_icon('t/approve', $name);
+//                $elements = $form->createElement('static', '', $name, $OUTPUT->render($icon) . $name);
+//            }
         }
         if ($type == 'category') {
             $elements[] = $form->createElement('static', '', null, $icon = $gtree->get_element_icon($element, true) . $name);
