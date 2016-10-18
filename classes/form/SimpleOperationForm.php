@@ -59,12 +59,13 @@ class SimpleOperationForm extends \moodleform
         $radioarray[] = $mform->createElement('radio', 'operation', '', get_string('op:add', 'local_gradebook'), 'op:add');
         $mform->addGroup($radioarray, 'radioar', null, array(' '), false);
 
-        $clearButtonUrl = new \moodle_url('/local/gradebook/simple_operation.php', ['id' => $id, 'gradeid' => $gradeid]);
         $actionButtons = [];
-        $actionButtons[] = &$mform->createElement('cancel');
-        $a = get_string("simple_op_delete", "local_gradebook");
+        $backLink = new \moodle_url('/local/gradebook/index.php', ['id' => $id]);
+        $actionButtons[] = &$mform->createElement('link', 'cancelbutton', '', $backLink, get_string('cancel'),
+            'class="btn btn-default"');
+        $questionString = get_string("simple_op_delete", "local_gradebook");
         $actionButtons[] = &$mform->createElement('submit', 'resetbutton', get_string('clear'),
-            'data-question="' . $a . '" onClick="showConfirmation()"');
+            'data-question="' . $questionString . '" onClick="showConfirmation()"');
         $actionButtons[] = &$mform->createElement('submit', 'submitbutton', get_string('savechanges'));
         $mform->addGroup($actionButtons, 'buttonar', '', array(''), false);
         $mform->closeHeaderBefore('buttonar');
@@ -123,7 +124,7 @@ class SimpleOperationForm extends \moodleform
         }
         if ($type != 'category' && $type != 'courseitem' && $type != 'categoryitem') {
 //            if (is_null($current_itemid) OR $grade_item->id != $current_itemid) {
-                $elements[] = $form->createElement('checkbox', $grade_item->idnumber, null, $icon = $gtree->get_element_icon($element, true) . $name);
+            $elements[] = $form->createElement('checkbox', $grade_item->idnumber, null, $icon = $gtree->get_element_icon($element, true) . $name);
 //            } else {
 //                $icon = new \pix_icon('t/approve', $name);
 //                $elements = $form->createElement('static', '', $name, $OUTPUT->render($icon) . $name);

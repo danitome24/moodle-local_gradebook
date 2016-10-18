@@ -57,7 +57,7 @@ ul#local-gradebook-options li {
     display:inline-block;
 }
 
-#clearlocalgradebook {
+#id_cancelbutton {
     margin: 0 0 10px 5px;
 }
 
