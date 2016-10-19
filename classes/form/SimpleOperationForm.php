@@ -45,7 +45,7 @@ class SimpleOperationForm extends \moodleform
         $mform->addElement('static', 'description',
             '<h3>' . get_string('qualifier_elements', 'local_gradebook') . '</h3>');
 
-        $gradeItems = $this->getGradeItemsList($gtree, $element, $id);
+        $gradeItems = $this->getGradeItemsList($gtree, $element, $gradeid);
         $checkboxGroup = $this->addToFormGradeItemsList($mform, $gradeItems);
 
 
@@ -123,14 +123,14 @@ class SimpleOperationForm extends \moodleform
             $elements[] = $name . ' (' . get_string('outcome', 'grades') . ')';
         }
         if ($type != 'category' && $type != 'courseitem' && $type != 'categoryitem') {
-//            if (is_null($current_itemid) OR $grade_item->id != $current_itemid) {
-            $elements[] = $form->createElement('checkbox', $grade_item->idnumber, null, $icon = $gtree->get_element_icon($element, true) . $name);
-//            } else {
-//                $icon = new \pix_icon('t/approve', $name);
-//                $elements = $form->createElement('static', '', $name, $OUTPUT->render($icon) . $name);
-//            }
+            $elements[] = $form->createElement('checkbox', $grade_item->idnumber, null,
+                $icon = $gtree->get_element_icon($element, true) . $name);
         }
         if ($type == 'category') {
+            if ($current_itemid == $grade_item->id) {
+                $iconName = new \pix_icon('t/approve', $name);
+                $name = $OUTPUT->render($iconName) . $name;
+            }
             $elements[] = $form->createElement('static', '', null, $icon = $gtree->get_element_icon($element, true) . $name);
             foreach ($element['children'] as $child_el) {
                 $elements[] = $this->getGradeItemsList($gtree, $child_el, $current_itemid);
