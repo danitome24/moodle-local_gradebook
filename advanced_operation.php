@@ -66,7 +66,7 @@ echo '<div class="container-fluid advanced-operation">
 					<div class="row-fluid">
 					<div class="span12">
 						<div class="btn-group input-append">
-                                <input id="appendedInputButton" type="text" value="' . $grade_item->get_parent_category()->get_name() . '">
+                                <input disabled id="appendedInputButton" type="text" value="' . $grade_item->get_parent_category()->get_name() . '">
                             </div>
 							<div class="btn-group local-gradebook-margin-bottom">
 								<a class="local-gradebook-condition-button btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
