@@ -100,12 +100,14 @@ echo '<div class="container-fluid advanced-operation">
 			</div>
 		</div>';
 echo '<br><br><br>';
+$backButton = new moodle_url('/local/gradebook/index.php', ['id' => $courseId]);
 echo '<div class="row-fluid">
         <div class="span4">
-            <button id="local-gradebook-advop-clean" class="btn btn-danger">Neteja</button>
+            <a class="btn btn-default" href="' . $backButton . '">Enrere</a>
         </div>
         <div class="offset5">
-            <button class="offset4 btn btn-success">Guardar canvis</button>
+            <button id="local-gradebook-advop-clean" class="btn btn-danger">Neteja</button>
+            <button class="btn btn-success">Guardar canvis</button>
         </div>
       </div>';
 echo $OUTPUT->footer();
