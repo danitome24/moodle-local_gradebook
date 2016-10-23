@@ -106,7 +106,7 @@ echo '<div class="row-fluid">
             <a class="btn btn-default" href="' . $backButton . '">Enrere</a>
         </div>
         <div class="offset5">
-            <button id="local-gradebook-advop-clean" class="btn btn-danger">Neteja</button>
+            <button id="local-gradebook-advop-clean" class="btn btn-warning">Neteja</button>
             <button class="btn btn-success">Guardar canvis</button>
         </div>
       </div>';
