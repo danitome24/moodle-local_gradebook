@@ -128,8 +128,7 @@ class SimpleOperationForm extends \moodleform
         }
         if ($type == 'category') {
             if ($current_itemid == $grade_item->id) {
-                $iconName = new \pix_icon('t/approve', $name);
-                $name = $OUTPUT->render($iconName) . $name;
+                $name = '<b>' . $name . '</b>';
             }
             $elements[] = $form->createElement('static', '', null, $icon = $gtree->get_element_icon($element, true) . $name);
             foreach ($element['children'] as $child_el) {
