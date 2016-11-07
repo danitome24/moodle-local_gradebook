@@ -42,12 +42,9 @@ $PAGE->set_pagelayout('admin');
 $PAGE->set_url(new moodle_url('/local/gradebook/advanced_operation.php', ['courseid' => $courseId, 'gradeid' => $gradeId]));
 $PAGE->set_title(get_string('pluginname', 'local_gradebook'));
 $PAGE->requires->js('/local/gradebook/js/module.js');
-$PAGE->requires->js('/local/gradebook/js/jquery-bootstrap-modal-steps.js');
 $PAGE->set_cacheable(false);
 echo $OUTPUT->header();
 echo '<h3>Configuració de càlcul avançat</h3>';
-//Add modals
-require_once $CFG->dirroot . '/local/' . local_gradebook\Constants::PLUGIN_NAME . '/modals/choose_operation_modal.php';
 
 echo '<div class="container-fluid advanced-operation">
 			<div class="row-fluid">
@@ -57,7 +54,7 @@ echo '<div class="container-fluid advanced-operation">
 						<div class="offset4">
 							    <div class="input-append" data-input="1">
                                     <input class="local-gradebook-input" id="appendedInputButton" type="text">
-                                    <a href="#myModal" data-toggle="modal" role="button" data-input="1" class="btn btn-default local-gradebook-openmodal" type="button">'
+                                    <a href="' . new moodle_url('/local/gradebook/advanced_operation_define.php', ['id' => $courseId, 'gradeid' => $gradeId]) . '" data-toggle="modal" role="button" data-input="2" class="btn btn-default local-gradebook-openmodal" type="button">'
     . get_string('add') . '</a>
                                 </div>
 						</div>
@@ -91,7 +88,7 @@ echo '<div class="container-fluid advanced-operation">
 						<div class="offset4">
 							<div class="input-append" data-input="2">
                                 <input class="local-gradebook-input" id="appendedInputButton" type="text">
-                                <a href="#myModal" data-toggle="modal" role="button" data-input="2" class="btn btn-default local-gradebook-openmodal" type="button">'
+                                <a href="' . new moodle_url('/local/gradebook/advanced_operation_define.php', ['id' => $courseId, 'gradeid' => $gradeId]) . '" data-toggle="modal" role="button" data-input="2" class="btn btn-default local-gradebook-openmodal" type="button">'
     . get_string('add') . '</a>
                             </div>
 						</div>
