@@ -37,6 +37,7 @@ $PAGE->set_url($url);
 $PAGE->set_pagelayout('admin');
 $PAGE->set_title(get_string('pluginname', 'local_gradebook'));
 $PAGE->requires->js('/local/gradebook/js/demo.js');
+$PAGE->requires->js_call_amd('local_gradebook/democalc', 'initialise');
 
 // return tracking object
 $gpr = new grade_plugin_return(array('type' => 'edit', 'plugin' => 'tree', 'courseid' => $courseid));
@@ -52,5 +53,6 @@ echo $output->header();
 
 echo $output->getGradesDemoTree($gtree, false, $gpr);
 echo $output->getDemoButtons();
+echo '<button id="refresh">Refresh</button>';
 
 echo $output->footer();

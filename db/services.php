@@ -1,3 +1,4 @@
+<?php
 /**
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,15 +18,22 @@
 /**
  * @author Daniel Tome <danieltomefer@gmail.com>
  */
-require(['jquery', 'core/ajax','jqueryui'], function ($) {
-    $(document).ready(function () {
-        $('#local-gradebook-demo-autogenerate').click(function () {
-            $('.local-gradebook-demo-autogenerate-inputs').each(function (index) {
-                if (!$(this).is('[readonly]')) {
-                    var random = Math.floor(Math.random() * 10) + 1;
-                    $(this).val(random);
-                }
-            });
-        });
-    });
-});
+$functions = [
+    'local_gradebook_get_demo_calc' => [
+        'classname' => 'local_gradebook\external',
+        'methodname' => 'get_demo_calc',
+        'classpath' => '',
+        'description' => 'Service to calculate the grades of a course',
+        'type' => 'read',
+        'ajax' => true,
+    ],
+];
+$services = [
+    'Demo_calculation' => [
+        'functions' => [
+            'local_gradebook_get_demo_calc',
+        ],
+        'restricted_user' => 0,
+        'enabled' => 1,
+    ]
+];
