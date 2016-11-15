@@ -42,6 +42,7 @@ class local_gradebook_renderer extends plugin_renderer_base
         $row = new html_table_row();
 
         $gradeList = $this->getGradeItemsList($gtree, $element);
+        $count = 0;
         foreach ($gradeList as $key => $grade) {
             $cell = new html_table_cell();
             $cell->text = $grade['object']->get_name();
@@ -49,15 +50,16 @@ class local_gradebook_renderer extends plugin_renderer_base
             $cell2 = new html_table_cell();
             if ($grade['type'] == 'category' || $grade['type'] == 'courseitem' || $grade['type'] == 'categoryitem') {
                 $cell2->text = html_writer::empty_tag('input',
-                    ['type' => 'text', 'class' => 'span2 local-gradebook-demo-autogenerate-inputs', 'readonly' => 'readonly']);
+                    ['type' => 'text', 'id' => $count, 'class' => 'span2 local-gradebook-demo-autogenerate-inputs', 'readonly' => 'readonly']);
             } else {
                 $cell2->text = html_writer::empty_tag('input',
-                    ['type' => 'text', 'class' => 'span2 local-gradebook-demo-autogenerate-inputs']);
+                    ['type' => 'text', 'id' => $count, 'class' => 'span2 local-gradebook-demo-autogenerate-inputs']);
             }
             $row->cells = [$cell, $cell2];
 
             $row = new html_table_row();
             $demoTable->data[] = $row;
+            $count++;
         }
 
         return html_writer::table($demoTable);

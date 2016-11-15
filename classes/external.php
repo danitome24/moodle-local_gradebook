@@ -36,10 +36,12 @@ class local_gradebook_external extends \external_api
 
     public static function get_demo_calc()
     {
-        $grade2 = ['id' => 3, 'value' => 8];
+        $grade2 = ['id' => 2, 'value' => 8];
         $grade = ['id' => 1, 'value' => 3];
+        $grade3 = ['id' => 5, 'value' => 3];
         $grades[] = $grade;
         $grades[] = $grade2;
+        $grades[] = $grade3;
 
         return $grades;
     }
