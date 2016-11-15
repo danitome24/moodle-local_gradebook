@@ -5,6 +5,12 @@ define(['jquery', 'core/ajax', 'jqueryui'], function ($, ajax) {
     return {
         initialise: function () {
             $('#refresh').click(function () {
+                var sesskey = $('#local-demo-sesskey').val();
+                var courseid = $('#local-demo-courseid').val();
+                var pageload = $('#local-demo-timepageload').val();
+                var report = $('#local-demo-report').val();
+                var page = $('#local-demo-page').val();
+                window.console.log(sesskey + '-' + courseid + '-' + pageload + '-' + report + '-' + page);
                 var promises = ajax.call([
                     {
                         methodname: 'local_gradebook_get_demo_calc',

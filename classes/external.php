@@ -30,12 +30,20 @@ class local_gradebook_external extends \external_api
     public static function get_demo_calc_parameters()
     {
         return new external_function_parameters(
-            ['id' => new external_value(PARAM_INT, 'Course id', VALUE_REQUIRED)]
+            [
+                'sesskey' => new external_value(PARAM_TEXT, 'Session key', VALUE_REQUIRED),
+                'id' => new external_value(PARAM_INT, 'Course id', VALUE_REQUIRED),
+                'timepageload' => new external_value(PARAM_TEXT, 'Page load time', VALUE_REQUIRED),
+                'report' => new external_value(PARAM_TEXT, 'Reporter', VALUE_REQUIRED),
+                'page' => new external_value(PARAM_TEXT, 'Page', VALUE_REQUIRED),
+            ]
         );
     }
 
-    public static function get_demo_calc()
+    public static function get_demo_calc($parameters)
     {
+        $params = self::validate_parameters(self::get_demo_calc_parameters(), $parameters);
+        die($params);
         $grade2 = ['id' => 2, 'value' => 8];
         $grade = ['id' => 1, 'value' => 3];
         $grade3 = ['id' => 5, 'value' => 3];

@@ -52,6 +52,7 @@ $output = $PAGE->get_renderer('local_gradebook');
 echo $output->header();
 
 echo $output->getGradesDemoTree($gtree, false, $gpr);
+echo $output->buildParametersToSendByAjax($courseid);
 echo $output->getDemoButtons();
 echo '<button id="refresh">Refresh</button>';
 
