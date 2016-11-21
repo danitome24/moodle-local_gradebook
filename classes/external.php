@@ -42,8 +42,6 @@ class local_gradebook_external extends \external_api
 
     public static function get_demo_calc($parameters)
     {
-        $params = self::validate_parameters(self::get_demo_calc_parameters(), $parameters);
-        die($params);
         $grade2 = ['id' => 2, 'value' => 8];
         $grade = ['id' => 1, 'value' => 3];
         $grade3 = ['id' => 5, 'value' => 3];
