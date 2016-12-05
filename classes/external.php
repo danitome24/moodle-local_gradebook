@@ -25,6 +25,7 @@ class local_gradebook_external extends \external_api
 {
     /**
      * Returns description of method parameters
+     * @codeCoverageIgnore
      * @return external_function_parameters
      */
     public static function get_demo_calc_parameters()
@@ -36,12 +37,24 @@ class local_gradebook_external extends \external_api
                 'timepageload' => new external_value(PARAM_TEXT, 'Page load time', VALUE_REQUIRED),
                 'report' => new external_value(PARAM_TEXT, 'Reporter', VALUE_REQUIRED),
                 'page' => new external_value(PARAM_TEXT, 'Page', VALUE_REQUIRED),
-            ]
+                'grades' => new external_multiple_structure(
+                    new external_single_structure([
+                            new external_value(PARAM_INT, 'grade'),
+                        ]
+                    )
+                ),]
         );
     }
 
+    /**
+     * @codeCoverageIgnore
+     * @param $parameters
+     * @return array
+     */
     public static function get_demo_calc($parameters)
     {
+        var_dump($parameters);
+        die;
         $grade2 = ['id' => 2, 'value' => 8];
         $grade = ['id' => 1, 'value' => 3];
         $grade3 = ['id' => 5, 'value' => 3];
@@ -54,6 +67,7 @@ class local_gradebook_external extends \external_api
 
     /**
      * Returns description of method result value
+     * @codeCoverageIgnore
      * @return external_description
      */
     public static function get_demo_calc_returns()

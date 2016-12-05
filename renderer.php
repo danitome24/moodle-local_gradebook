@@ -37,6 +37,7 @@ class local_gradebook_renderer extends plugin_renderer_base
         $demoTable = new html_table();
         $demoTable->head = ['Activitites', 'Grades'];
         $demoTable->colclasses = ['span4', 'span2'];
+        $courseId = (int)$grade_item->courseid;
 
         $elements = [];
         $row = new html_table_row();
@@ -50,10 +51,10 @@ class local_gradebook_renderer extends plugin_renderer_base
             $cell2 = new html_table_cell();
             if ($grade['type'] == 'category' || $grade['type'] == 'courseitem' || $grade['type'] == 'categoryitem') {
                 $cell2->text = html_writer::empty_tag('input',
-                    ['type' => 'text', 'id' => 'grade-' . $count, 'class' => 'span2 local-gradebook-demo-autogenerate-inputs', 'readonly' => 'readonly']);
+                    ['type' => 'text', 'id' => 'grade-' . $count, 'class' => 'span2 local-gradebook-demo-autogenerate-inputs', 'readonly' => 'readonly', 'name' => 'grade[' . $courseId . '][' . $grade['object']->id .']']);
             } else {
                 $cell2->text = html_writer::empty_tag('input',
-                    ['type' => 'text', 'id' => 'grade-' . $count, 'class' => 'span2 local-gradebook-demo-autogenerate-inputs']);
+                    ['type' => 'text', 'id' => 'grade-' . $count, 'class' => 'span2 local-gradebook-demo-autogenerate-inputs', 'name' => 'grade[' . $courseId . '][' . $grade['object']->id .']']);
             }
             $row->cells = [$cell, $cell2];
 
@@ -117,7 +118,7 @@ class local_gradebook_renderer extends plugin_renderer_base
         $output .= html_writer::empty_tag('input', ['id' => 'local-demo-courseid', 'type' => 'hidden', 'name' => 'courseid', 'value' => s($courseId)]);
         $output .= html_writer::empty_tag('input', ['id' => 'local-demo-timepageload', 'type' => 'hidden', 'name' => 'timepageload', 'value' => time()]);
         $output .= html_writer::empty_tag('input', ['id' => 'local-demo-report', 'type' => 'hidden', 'name' => 'report', 'value' => 'grader']);
-        $output .= html_writer::empty_tag('input', ['id' => 'local-demo-page' , 'type' => 'hidden', 'name' => 'page', 'value' => 0]);
+        $output .= html_writer::empty_tag('input', ['id' => 'local-demo-page', 'type' => 'hidden', 'name' => 'page', 'value' => 0]);
 
         return $output;
     }

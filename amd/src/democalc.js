@@ -10,11 +10,19 @@ define(['jquery', 'core/ajax', 'jqueryui'], function ($, ajax) {
                 var pageload = $('#local-demo-timepageload').val();
                 var report = $('#local-demo-report').val();
                 var page = $('#local-demo-page').val();
-                window.console.log(sesskey + '-' + courseid + '-' + pageload + '-' + report + '-' + page);
+                var values = {};
+                $.each($('input[name^=grade]').serializeArray(), function(i, field) {
+                    values[field.name] = field.value;
+                });
+                var grades = {};
+                grades[courseid] = values;
+
+                window.console.log(sesskey + '-' + courseid + '-' + pageload + '-' + report + '-' + page + '-'
+                    + JSON.stringify(grades));
                 var promises = ajax.call([
                     {
                         methodname: 'local_gradebook_get_demo_calc',
-                        args: {sesskey: sesskey, id: courseid, timepageload: pageload, report: report, page: page}
+                        args: {sesskey: sesskey, id: courseid, timepageload: pageload, report: report, page: page, grades: grades}
                     }
                 ]);
                 promises[0].done(function (response) {

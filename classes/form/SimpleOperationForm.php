@@ -26,6 +26,9 @@ class SimpleOperationForm extends \moodleform
 {
     protected $checkboxElements = [];
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function definition()
     {
         global $CFG;
@@ -73,6 +76,7 @@ class SimpleOperationForm extends \moodleform
 
     /**
      * Method to add grade_items to checkbox list.
+     * @codeCoverageIgnore
      * @param $mform
      * @param $gradeItems
      * @return array
@@ -92,6 +96,7 @@ class SimpleOperationForm extends \moodleform
 
     /**
      * Method to put into an array.
+     * @codeCoverageIgnore
      * @param $element
      * @return mixed
      */
@@ -103,6 +108,7 @@ class SimpleOperationForm extends \moodleform
 
     /**
      * Method to build grade items list in checkbox.
+     * @codeCoverageIgnore
      * @param $gtree
      * @param $element
      * @return array
