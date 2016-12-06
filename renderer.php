@@ -51,10 +51,12 @@ class local_gradebook_renderer extends plugin_renderer_base
             $cell2 = new html_table_cell();
             if ($grade['type'] == 'category' || $grade['type'] == 'courseitem' || $grade['type'] == 'categoryitem') {
                 $cell2->text = html_writer::empty_tag('input',
-                    ['type' => 'text', 'id' => 'grade-' . $count, 'class' => 'span2 local-gradebook-demo-autogenerate-inputs', 'readonly' => 'readonly', 'name' => 'grade[' . $courseId . '][' . $grade['object']->id .']']);
+                    ['type' => 'text', 'id' => 'grade-' . $count, 'class' => 'span2 local-demo-grades local-gradebook-demo-autogenerate-inputs',
+                        'readonly' => 'readonly', 'name' => $grade['object']->id]);
             } else {
                 $cell2->text = html_writer::empty_tag('input',
-                    ['type' => 'text', 'id' => 'grade-' . $count, 'class' => 'span2 local-gradebook-demo-autogenerate-inputs', 'name' => 'grade[' . $courseId . '][' . $grade['object']->id .']']);
+                    ['type' => 'text', 'id' => 'grade-' . $count, 'class' => 'span2 local-demo-grades local-gradebook-demo-autogenerate-inputs',
+                        'name' => $grade['object']->id]);
             }
             $row->cells = [$cell, $cell2];
 
