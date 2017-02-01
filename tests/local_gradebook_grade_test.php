@@ -31,7 +31,6 @@ class local_gradebook_grade_testcase extends advanced_testcase
 
     public function test_completeIdNumberOfGrade()
     {
-        global $CFG;
         $courseid = 24;
         $idnumber = 'idnum_' . 2709;
 
