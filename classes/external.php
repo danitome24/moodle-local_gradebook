@@ -50,18 +50,36 @@ class local_gradebook_external extends \external_api
     }
 
     /**
+     *
      * @codeCoverageIgnore
-     * @param $parameters
+     * @param $sesskey
+     * @param $id
+     * @param $timepageload
+     * @param $report
+     * @param $page
+     * @param $grades
+     *
      * @return array
+     *
      */
-    public static function get_demo_calc($parameters)
+    public static function get_demo_calc($sesskey, $id, $timepageload, $report, $page, $grades)
     {
+        $params = self::validate_parameters(self::get_demo_calc_parameters(),
+            [
+                'sesskey' => $sesskey,
+                'id' => $id,
+                'timepageload' => $timepageload,
+                'report' => $report,
+                'page' => $page,
+                'grades' => $grades,
+            ]);
+
         $grades = [
             ['id' => 2, 'value' => 8],
             ['id' => 1, 'value' => 3],
             ['id' => 5, 'value' => 4],
         ];
-        die($grades);
+
         return $grades;
     }
 
