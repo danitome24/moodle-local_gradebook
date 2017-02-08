@@ -74,6 +74,9 @@ class local_gradebook_external extends \external_api
                 'grades' => $grades,
             ]);
 
+//        Sample usage of DemoCalculator
+//        var_dump((new DemoCalculator())->calculateCategoryGrades([13 => 5.8, 14 => 8.3, 12 => 1]));
+
         $grades = [
             ['id' => 2, 'value' => 8],
             ['id' => 1, 'value' => 3],
@@ -98,4 +101,6 @@ class local_gradebook_external extends \external_api
                 ]
             ));
     }
+
+
 }
