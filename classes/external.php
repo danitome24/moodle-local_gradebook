@@ -20,6 +20,8 @@
  */
 
 require_once($CFG->libdir . "/externallib.php");
+require_once($CFG->dirroot . '/grade/lib.php');
+require_once($CFG->dirroot . '/grade/report/grader/lib.php');
 
 class local_gradebook_external extends \external_api
 {
@@ -74,16 +76,17 @@ class local_gradebook_external extends \external_api
                 'grades' => $grades,
             ]);
 
-//        Sample usage of DemoCalculator
-//        var_dump((new DemoCalculator())->calculateCategoryGrades([13 => 5.8, 14 => 8.3, 12 => 1]));
+        $gradesToCalculate = [];
+        foreach ($grades as $id => $grade) {
+            $gradesToCalculate[$grade['id']] = $grade['value'];
+        }
+        try {
+            $result = (new local_gradebook_demo_calculator())->calculateCategoryGrades($gradesToCalculate);
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        }
 
-        $grades = [
-            ['id' => 2, 'value' => 8],
-            ['id' => 1, 'value' => 3],
-            ['id' => 5, 'value' => 4],
-        ];
-
-        return $grades;
+        return $result;
     }
 
     /**
@@ -101,6 +104,4 @@ class local_gradebook_external extends \external_api
                 ]
             ));
     }
-
-
 }
