@@ -57,9 +57,9 @@ class SimpleOperationForm extends \moodleform
         $mform->addElement('static', 'description', '<h3>' . get_string('operations', 'local_gradebook'));
         $radioarray = [];
         $radioarray[] = $mform->createElement('radio', 'operation', '', get_string('op:average', 'local_gradebook'), 'op:average');
-        $radioarray[] = $mform->createElement('radio', 'operation', '', get_string('op:maximum', 'local_gradebook'), 'op:max');
-        $radioarray[] = $mform->createElement('radio', 'operation', '', get_string('op:minimum', 'local_gradebook'), 'op:min');
-        $radioarray[] = $mform->createElement('radio', 'operation', '', get_string('op:add', 'local_gradebook'), 'op:sum');
+        $radioarray[] = $mform->createElement('radio', 'operation', '', get_string('op:max', 'local_gradebook'), 'op:max');
+        $radioarray[] = $mform->createElement('radio', 'operation', '', get_string('op:min', 'local_gradebook'), 'op:min');
+        $radioarray[] = $mform->createElement('radio', 'operation', '', get_string('op:sum', 'local_gradebook'), 'op:sum');
         $mform->addGroup($radioarray, 'radioar', null, array(' '), false);
 
         $actionButtons = [];

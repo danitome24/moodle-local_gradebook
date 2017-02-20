@@ -61,7 +61,7 @@ if ($formData = $mform->get_data()) {
     if (empty($formData->grades) && !isset($formData->clearbutton)) {
         print_error('no_grades_selected', 'local_gradebook');
     }
-    if (isset($formData->clearbutton)) {
+    if (isset($formData->resetbutton)) {
         $calculation = '';
     } else {
         $localGrade = new local_gradebook\grade\Grade();
