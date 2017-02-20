@@ -52,7 +52,7 @@ class local_gradebook_grade_testcase extends advanced_testcase
     {
         $idnumberGrades = ['idnum_5', 'idnum_6'];
         $operation = 'op:add';
-        $expectedResult = '=add([[idnum_5]];[[idnum_6]])';
+        $expectedResult = '=add([[idnum_5]],[[idnum_6]])';
         $gradeClass = new local_gradebook\grade\Grade();
 
         $this->assertEquals($expectedResult,
