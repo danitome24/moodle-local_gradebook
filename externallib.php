@@ -100,7 +100,7 @@ class local_gradebook_externallib extends \external_api
             new external_single_structure(
                 [
                     'id' => new external_value(PARAM_INT, 'id of the note', VALUE_OPTIONAL),
-                    'value' => new external_value(PARAM_INT, 'id of the user the note is about', VALUE_OPTIONAL),
+                    'value' => new external_value(PARAM_FLOAT, 'id of the user the note is about', VALUE_OPTIONAL),
                 ]
             ));
     }

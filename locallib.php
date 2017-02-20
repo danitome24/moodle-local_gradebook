@@ -52,10 +52,6 @@ class grade_edit_tree_column_operation extends grade_edit_tree_column
         $item = $category->get_grade_item();
         $categorycell = parent::get_category_cell($category, $levelclass, $params);
 
-        if (!$item->is_category_item()) {
-            return $categorycell;
-        }
-
         if (!empty ($item->calculation)) {
             $categorycell->text = $this->getCalculationString($item);
 
