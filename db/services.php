@@ -20,9 +20,9 @@
  */
 $functions = [
     'local_gradebook_get_demo_calc' => [
-        'classname' => 'local_gradebook\external',
+        'classname' => 'local_gradebook_externallib',
         'methodname' => 'get_demo_calc',
-        'classpath' => '',
+        'classpath' => '/local/gradebook/externallib.php',
         'description' => 'Service to calculate the grades of a course',
         'type' => 'read',
         'ajax' => true,

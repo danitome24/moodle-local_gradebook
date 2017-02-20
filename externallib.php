@@ -23,7 +23,7 @@ require_once($CFG->libdir . "/externallib.php");
 require_once($CFG->dirroot . '/grade/lib.php');
 require_once($CFG->dirroot . '/grade/report/grader/lib.php');
 
-class local_gradebook_external extends \external_api
+class local_gradebook_externallib extends \external_api
 {
     /**
      * Returns description of method parameters
