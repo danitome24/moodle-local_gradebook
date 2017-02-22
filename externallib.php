@@ -44,6 +44,7 @@ class local_gradebook_externallib extends \external_api
                         [
                             'id' => new external_value(PARAM_INT, 'id of course'),
                             'value' => new external_value(PARAM_INT, 'grade'),
+                            'type' => new external_value(PARAM_STRINGID, 'type'),
                         ],
                         'Grades', VALUE_REQUIRED)
                 ),

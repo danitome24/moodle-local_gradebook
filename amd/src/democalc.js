@@ -11,10 +11,11 @@ define(['jquery', 'core/ajax', 'jqueryui'], function ($, ajax) {
                 var report = $('#local-demo-report').val();
                 var page = $('#local-demo-page').val();
                 var values = [];
-                $.each($('.local-demo-grades').serializeArray(), function (i, field) {
+                $.each($('.local-demo-grades'), function () {
                     var value = {
-                        id: parseInt(field.name),
-                        value: parseInt(field.value)
+                        id: parseInt($(this).attr('name')),
+                        value: parseInt($(this).val()),
+                        type: String($(this).attr('data-type'))
                     };
 
                     window.console.log(value);

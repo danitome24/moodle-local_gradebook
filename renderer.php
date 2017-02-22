@@ -49,13 +49,24 @@ class local_gradebook_renderer extends plugin_renderer_base
             $cell->text = $grade['object']->get_name();
 
             $cell2 = new html_table_cell();
-            if ($grade['type'] == 'category' || $grade['type'] == 'courseitem' || $grade['type'] == 'categoryitem') {
+            $gradeId = null;
+            if ($grade['type'] == 'category' || $grade['type'] == 'course' || $grade['type'] == 'courseitem') {
+                if ($grade['type'] == 'category' && $grade['children'] != null) {
+                    foreach ($grade['children'] as $child) {
+                        if ($child['type'] == 'categoryitem') {
+                            $gradeId = $child['object']->id;
+                            break;
+                        }
+                    }
+                } else {
+                    $gradeId = $grade['object']->id;
+                }
                 $cell2->text = html_writer::empty_tag('input',
-                    ['type' => 'text', 'id' => 'grade-' . $grade['object']->id, 'class' => 'span2 local-demo-grades local-gradebook-demo-autogenerate-inputs',
-                        'readonly' => 'readonly', 'name' => $grade['object']->id]);
+                    ['type' => 'text', 'id' => 'grade-' . $gradeId, 'class' => 'span2 local-demo-grades local-gradebook-demo-autogenerate-inputs',
+                        'readonly' => 'readonly', 'name' => $gradeId]);
             } else {
                 $cell2->text = html_writer::empty_tag('input',
-                    ['type' => 'text', 'id' => 'grade-' . $grade['object']->id, 'class' => 'span2 local-demo-grades local-gradebook-demo-autogenerate-inputs',
+                    ['type' => 'text', 'class' => 'span2 local-demo-grades local-gradebook-demo-autogenerate-inputs',
                         'name' => $grade['object']->id]);
             }
             $row->cells = [$cell, $cell2];
