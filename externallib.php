@@ -83,6 +83,7 @@ class local_gradebook_externallib extends \external_api
         }
         try {
             $result = (new local_gradebook_demo_calculator())->calculateCategoryGrades($gradesToCalculate);
+
         } catch (\Exception $exception) {
             echo $exception->getMessage();
         }

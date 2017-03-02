@@ -53,10 +53,13 @@ class local_gradebook_demo_calculator
                 ];
                 continue;
             }
+            if (empty($grade->calculation)) {
+                continue;
+            }
+
             $formula = preg_replace('/##(gi\d+)##/', '\1', $grade->calculation);
             $params = $this->setParamsToFormula($formula, $allGrades);
-            $formula = new \calc_formula($formula);
-            $formula->set_params($params);
+            $formula = new \calc_formula($formula, $params);
             $gradesCalculated[] = [
                 'id' => $gradeItemId,
                 'value' => $formula->evaluate()
