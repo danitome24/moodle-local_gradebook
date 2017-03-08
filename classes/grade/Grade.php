@@ -72,7 +72,9 @@ class Grade
         foreach ($iterator as $grade) {
             $calculation .= '[[' . $grade . ']]';
             if ($iterator->hasNext()) {
-                $calculation .= ',';
+                $calculation .= (current_language() == 'en')
+                    ? ','
+                    : ';';
             }
         }
         $calculation .= ')';
