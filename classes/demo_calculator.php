@@ -54,6 +54,10 @@ class local_gradebook_demo_calculator
                 continue;
             }
             if (empty($grade->calculation)) {
+                $gradesCalculated[] = [
+                    'id' => $gradeItemId,
+                    'value' => 0
+                ];
                 continue;
             }
 
