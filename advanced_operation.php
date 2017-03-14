@@ -47,55 +47,47 @@ echo $OUTPUT->header();
 echo '<h3>Configuració de càlcul avançat</h3>';
 
 echo '<div class="container-fluid advanced-operation">
-			<div class="row-fluid">
-				<div class="span12">
-					<!-- first row of graphic-->
-					<div class="row-fluid">
-						<div class="offset4">
-							    <div class="input-append" data-input="1">
-                                    <input class="local-gradebook-input" id="appendedInputButton" type="text">
-                                    <a href="' . new moodle_url('/local/gradebook/advanced_operation_define.php', ['id' => $courseId, 'gradeid' => $gradeId]) . '" data-toggle="modal" role="button" data-input="2" class="btn btn-default local-gradebook-openmodal" type="button">'
-    . get_string('add') . '</a>
-                                </div>
-						</div>
-					</div>
-					<!-- second row of graphic -->
-					<div class="row-fluid">
-					<div class="span12">
-						<div class="btn-group input-append">
-                                <input disabled id="appendedInputButton" type="text" value="' . $grade_item->get_parent_category()->get_name() . '">
-                            </div>
-							<div class="btn-group local-gradebook-margin-bottom">
-								<a class="local-gradebook-condition-button btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
-								<span id="operationSelected">
-									' . get_string('math_sign', 'local_gradebook') . ' </span> <span class="caret"></span>
-								</a>
-								<ul class="dropdown-menu">
-									<li><a href="#">></a></li>
-									<li><a href="#">>=</a></li>
-									<li><a href="#"><</a></li>
-									<li><a href="#"><=</a></li>
-								</ul>
-							</div>
-							<div class="btn-group">
-						        <input type="text" class="span2" name="firstname">
-						    </div>
-					    </div>
-					</div>
-
-					<!-- third row of graphic-->
-					<div class="row-fluid">
-						<div class="offset4">
-							<div class="input-append" data-input="2">
-                                <input class="local-gradebook-input" id="appendedInputButton" type="text">
-                                <a href="' . new moodle_url('/local/gradebook/advanced_operation_define.php', ['id' => $courseId, 'gradeid' => $gradeId]) . '" data-toggle="modal" role="button" data-input="2" class="btn btn-default local-gradebook-openmodal" type="button">'
-    . get_string('add') . '</a>
-                            </div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>';
+        <div class="row-fluid">
+            <form class="form-inline">
+                <p>Comparació entre elements de qualificació</p>
+                <select>
+                  <option>Activitat1</option>
+                  <option>Activitat2</option>
+                  <option>Categoria1</option>
+                  <option>Categoria2</option>
+                </select>
+                <select>
+                  <option> < </option>
+                  <option> > </option>
+                  <option> >= </option>
+                  <option> = </option>
+                  <option> <= </option>
+                </select>
+                <select>
+                  <option>Activitat1</option>
+                  <option>Activitat2</option>
+                  <option>Categoria1</option>
+                  <option>Categoria2</option>
+                </select>
+                <br><br>
+                <p>El resultat per la categoria o element en cas de ser comparació <strong>positiva</strong> serà:</p>
+			    <select>
+                  <option>Activitat1</option>
+                  <option>Activitat2</option>
+                  <option>Categoria1</option>
+                  <option>Categoria2</option>
+                </select>
+                <br><br>
+                <p>El resultat per la categoria o element en cas de ser comparació <strong>positiva</strong> serà:</p>
+			    <select>
+                  <option>Activitat1</option>
+                  <option>Activitat2</option>
+                  <option>Categoria1</option>
+                  <option>Categoria2</option>
+                </select>
+			</form>
+		    </div>
+	   </div>';
 echo '<br><br><br>';
 $backButton = new moodle_url('/local/gradebook/index.php', ['id' => $courseId]);
 echo '<div class="row-fluid">
@@ -103,7 +95,6 @@ echo '<div class="row-fluid">
             <a class="btn btn-default" href="' . $backButton . '">Enrere</a>
         </div>
         <div class="offset5">
-            <button id="local-gradebook-advop-clean" class="btn btn-warning">Neteja</button>
             <button class="btn btn-success">Guardar canvis</button>
         </div>
       </div>';
