@@ -231,20 +231,21 @@ class grade_edit_tree_column_advanced_actions extends grade_edit_tree_column
      * @param $params
      * @return html_table_cell
      */
-    public function get_category_cell($category, $levelclass, $params)
-    {
-        global $OUTPUT;
-
-        $item = $category->get_grade_item();
-        $categorycell = parent::get_category_cell($category, $levelclass, $params);
-
-        $pixelString = $this->getIconLink($item->courseid, $item->id);
-        if ($item->is_category_item()) {
-            $categorycell->text = $pixelString;
-        }
-
-        return $categorycell;
-    }
+//    public function get_category_cell($category, $levelclass, $params)
+//    {
+//        global $OUTPUT;
+//
+//        /** @var grade_item $item */
+//        $item = $category->get_grade_item();
+//        $categorycell = parent::get_category_cell($category, $levelclass, $params);
+//
+//        $pixelString = $this->getIconLink($item->courseid, $item->id);
+//        if ($item->is_category_item() || $item->itemtype == 'course') {
+//            $categorycell->text = $pixelString;
+//        }
+//
+//        return $categorycell;
+//    }
 
     /**
      * Function to display on item cell.
@@ -264,7 +265,7 @@ class grade_edit_tree_column_advanced_actions extends grade_edit_tree_column
         $itemcell = parent::get_item_cell($item, $params);
 
         $pixelString = $this->getIconLink($item->courseid, $item->id);
-        if (!empty($element->parent_category)) {
+        if ($item->itemtype !== 'mod') {
             $itemcell->text = $pixelString;
         }
 
