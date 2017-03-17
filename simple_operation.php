@@ -90,6 +90,7 @@ if (isset($calculation)) {
 
     $formDataToFillContent->grades = local_gradebook\grade\Grade::getIdNumbersInArrayFromCalculation($calculation);
     $formDataToFillContent->operation = local_gradebook\grade\Grade::getOperationFromCalculation($calculation);
+    $formDataToFillContent->calculation = grade_item::denormalize_formula($grade_item->calculation, $course->id);
 }
 
 // Get renderer on last step

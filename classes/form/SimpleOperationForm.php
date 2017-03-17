@@ -62,6 +62,11 @@ class SimpleOperationForm extends \moodleform
         $radioarray[] = $mform->createElement('radio', 'operation', '', get_string('op:sum', 'local_gradebook'), 'op:sum');
         $mform->addGroup($radioarray, 'radioar', null, array(' '), false);
 
+
+        //Text area with calculation
+        $mform->addElement('static', 'description', '<h3>Calculation</h3>');
+        $mform->addElement('textarea', 'calculation', null,'wrap="virtual" rows="5" cols="50"');
+
         $actionButtons = [];
         $backLink = new \moodle_url('/local/gradebook/index.php', ['id' => $id]);
         $actionButtons[] = &$mform->createElement('link', 'cancelbutton', '', $backLink, get_string('cancel'),
