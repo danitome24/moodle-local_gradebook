@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+use local_gradebook\grade\GradeCalculationFormatter;
 
 /**
  * @author Daniel Tome <danieltomefer@gmail.com>
@@ -72,64 +73,14 @@ class grade_edit_tree_column_operation extends grade_edit_tree_column
         $calculation = $item->calculation;
         $calculation = calc_formula::localize($calculation);
         $calculation = grade_item::denormalize_formula($calculation, $item->courseid);
-        $operation = get_string('op:' . $this->getTypeOperation($calculation), 'local_gradebook');
-        $appliedOperation = $operation . '(' . $this->getElementsInOperation($calculation) . ')';
+        $appliedOperation = GradeCalculationFormatter::getPrettyCalculation($calculation);
 
         return $appliedOperation;
     }
 
-    /**
-     * Function to get a grade given idnumber.
-     * @param int $id
-     * @return string with name.
-     */
-    protected function getGradeGivenId($id)
-    {
-        $grade = \grade_item::fetch(['idnumber' => $id]);
 
-        return $grade->get_name();
-    }
 
-    /**
-     * Function to get type of operation (sum, max, min...)
-     * @param string $str
-     * @return array mixed
-     */
-    protected function getTypeOperation($str)
-    {
-        $matches = [];
-        $regex = '~=(.*?)\(~';
-        preg_match($regex, $str, $matches);
 
-        return $matches[1];
-    }
-
-    /**
-     * Function to get idnumbers involved in an operation.
-     * @param string $calc
-     * @return string
-     */
-    protected function getElementsInOperation($calc)
-    {
-        $matches = [];
-        $regex = '~\[(.*?)\]]~';
-        preg_match_all($regex, $calc, $matches);
-        $string = '';
-        $numberOfElements = count($matches[0]);
-
-        foreach ($matches[0] as $element) {
-            $elem = ltrim($element, '[[');
-            $elem = rtrim($elem, ']]');
-            $name = $this->getGradeGivenId($elem);
-            //Remove all empty spaces
-            $string .= trim($name);
-            if (--$numberOfElements > 0) {
-                $string .= ',';
-            }
-        }
-
-        return $string;
-    }
 
     /**
      * Function to display on item cell.

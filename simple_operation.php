@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+use local_gradebook\grade\GradeCalculationFormatter;
+
 /**
  * @author Daniel Tome <danieltomefer@gmail.com>
  */
@@ -90,7 +92,9 @@ if (isset($calculation)) {
 
     $formDataToFillContent->grades = local_gradebook\grade\Grade::getIdNumbersInArrayFromCalculation($calculation);
     $formDataToFillContent->operation = local_gradebook\grade\Grade::getOperationFromCalculation($calculation);
-    $formDataToFillContent->calculation = grade_item::denormalize_formula($grade_item->calculation, $course->id);
+    $formDataToFillContent->calculation = GradeCalculationFormatter::getPrettyCalculation(
+        grade_item::denormalize_formula($grade_item->calculation, $course->id)
+    );
 }
 
 // Get renderer on last step
