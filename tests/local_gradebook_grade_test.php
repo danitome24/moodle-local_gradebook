@@ -50,7 +50,14 @@ class local_gradebook_grade_testcase extends advanced_testcase
 
     public function test_getCalculationFromParams()
     {
-        $idnumberGrades = ['idnum_5', 'idnum_6'];
+        $idnumberGrades = [
+            [
+                'id' => 'idnum_5',
+            ],
+            [
+                'id' => 'idnum_6'
+            ]
+        ];
         $operation = 'op:add';
         $expectedResult = '=add([[idnum_5]],[[idnum_6]])';
         $gradeClass = new local_gradebook\grade\Grade();
