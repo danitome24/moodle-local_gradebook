@@ -62,10 +62,14 @@ class SimpleOperationForm extends \moodleform
         $radioarray[] = $mform->createElement('radio', 'operation', '', get_string('op:sum', 'local_gradebook'), 'op:sum');
         $mform->addGroup($radioarray, 'radioar', null, array(' '), false);
 
+        // Generate calculation zone
+        $mform->addElement('static', 'description', '<h3>Calculation generated</h3>');
+        $mform->addElement('button', 'generate-calc', 'Generar', 'id="generate-calculation"');
+        $mform->addElement('textarea', 'calculation', null, 'wrap="virtual" rows="5" cols="50"');
 
         //Text area with calculation
         $mform->addElement('static', 'description', '<h3>Calculation</h3>');
-        $mform->addElement('textarea', 'calculation', null,'wrap="virtual" rows="5" cols="50"');
+        $mform->addElement('textarea', 'calculation', null, 'wrap="virtual" rows="5" cols="50"');
 
         $actionButtons = [];
         $backLink = new \moodle_url('/local/gradebook/index.php', ['id' => $id]);
@@ -135,7 +139,7 @@ class SimpleOperationForm extends \moodleform
         }
         if ($type != 'category' && $type != 'courseitem' && $type != 'categoryitem') {
             $elements[] = $form->createElement('checkbox', $grade_item->idnumber, null,
-                $icon = $gtree->get_element_icon($element, true) . $name);
+                $icon = $gtree->get_element_icon($element, true) . $name, 'data-id="' . $grade_item->idnumber . '"');
         }
         if ($type == 'category') {
             if ($current_itemid == $grade_item->id) {

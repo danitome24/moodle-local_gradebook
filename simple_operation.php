@@ -45,7 +45,7 @@ $url = new \moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/si
     ]);
 $PAGE->set_url($url);
 $PAGE->set_title(get_string('pluginname', 'local_gradebook'));
-$PAGE->requires->js('/local/gradebook/js/simple_op.js');
+$PAGE->requires->js_call_amd('local_gradebook/simple_op', 'initialise');
 
 $mform = new local_gradebook\form\SimpleOperationForm(null,
     ['gtree' => $gtree, 'element' => $gtree->top_element, 'gradeid' => $gradeid, 'id' => $id]);
@@ -65,11 +65,12 @@ if ($formData = $mform->get_data()) {
     }
     if (isset($formData->resetbutton)) {
         $calculation = '';
-    } else {
-        $localGrade = new local_gradebook\grade\Grade();
-        $calculation = $localGrade->getCalculationFromParams(array_keys($formData->grades), $formData->operation);
-        $calculation = \calc_formula::unlocalize($calculation);
     }
+//    } else {
+//        $localGrade = new local_gradebook\grade\Grade();
+//        $calculation = $localGrade->getCalculationFromParams(array_keys($formData->grades), $formData->operation);
+//        $calculation = \calc_formula::unlocalize($calculation);
+//    }
 
     if (!$grade_item->validate_formula($calculation)) {
         print_error('error');

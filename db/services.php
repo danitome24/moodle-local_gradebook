@@ -27,6 +27,14 @@ $functions = [
         'type' => 'read',
         'ajax' => true,
     ],
+    'local_gradebook_get_calc' => [
+        'classname' => 'local_gradebook_externallib',
+        'methodname' => 'get_calc',
+        'classpath' => '/local/gradebook/externallib.php',
+        'description' => 'Service to calculate calculation string ',
+        'type' => 'read',
+        'ajax' => true,
+    ],
 ];
 $services = [
     'Demo_calculation' => [

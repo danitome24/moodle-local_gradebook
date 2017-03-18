@@ -70,7 +70,7 @@ class Grade
         $calculation .= '(';
         $iterator = new \CachingIterator(new \ArrayIterator($gradesSelected));
         foreach ($iterator as $grade) {
-            $calculation .= '[[' . $grade . ']]';
+            $calculation .= '[[' . $grade['id'] . ']]';
             if ($iterator->hasNext()) {
                 $calculation .= (current_language() == 'en')
                     ? ','
