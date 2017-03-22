@@ -65,7 +65,7 @@ class SimpleOperationForm extends \moodleform
         // Generate calculation zone
         $mform->addElement('static', 'description', '<h3>Calculation generated</h3>');
         $mform->addElement('button', 'generate-calc', 'Generar', 'id="generate-calculation"');
-        $mform->addElement('textarea', 'calculation', null, 'wrap="virtual" rows="5" cols="50"');
+        $mform->addElement('textarea', 'generated-calculation', null, 'wrap="virtual" rows="5" cols="50"');
 
         //Text area with calculation
         $mform->addElement('static', 'description', '<h3>Calculation</h3>');

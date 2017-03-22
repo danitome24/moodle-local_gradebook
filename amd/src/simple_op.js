@@ -27,8 +27,8 @@ define(['jquery', 'core/ajax', 'jqueryui'], function ($, ajax) {
                         }
                     }
                 ]);
-                promises[0].done(function (response, data) {
-                    $('#id_calculation').val(response);
+                promises[0].done(function (response) {
+                    $('#id_generated-calculation').val(response);
                 }).fail(function (ex) {
                     window.console.log(ex);
                 });

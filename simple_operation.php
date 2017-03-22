@@ -66,11 +66,7 @@ if ($formData = $mform->get_data()) {
     if (isset($formData->resetbutton)) {
         $calculation = '';
     }
-//    } else {
-//        $localGrade = new local_gradebook\grade\Grade();
-//        $calculation = $localGrade->getCalculationFromParams(array_keys($formData->grades), $formData->operation);
-//        $calculation = \calc_formula::unlocalize($calculation);
-//    }
+    $calculation = $formData->calculation;
 
     if (!$grade_item->validate_formula($calculation)) {
         print_error('error');
@@ -90,18 +86,11 @@ if (isset($calculation)) {
     $formDataToFillContent = new stdClass();
     $formDataToFillContent->id = $id;
     $formDataToFillContent->gradeid = $gradeid;
-
-    $formDataToFillContent->grades = local_gradebook\grade\Grade::getIdNumbersInArrayFromCalculation($calculation);
-    $formDataToFillContent->operation = local_gradebook\grade\Grade::getOperationFromCalculation($calculation);
-    $formDataToFillContent->calculation = GradeCalculationFormatter::getPrettyCalculation(
-        grade_item::denormalize_formula($grade_item->calculation, $course->id)
-    );
+    $formDataToFillContent->calculation = grade_item::denormalize_formula($grade_item->calculation, $course->id);
 }
 
 // Get renderer on last step
 $output = $PAGE->get_renderer('local_gradebook');
-
-//require_once $CFG->dirroot . '/local/' . local_gradebook\Constants::PLUGIN_NAME . '/modals/remove_confirmation.php';
 
 echo $OUTPUT->header();
 if (isset($calculation)) {
