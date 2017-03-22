@@ -73,9 +73,9 @@ class grade_edit_tree_column_operation extends grade_edit_tree_column
         $calculation = $item->calculation;
         $calculation = calc_formula::localize($calculation);
         $calculation = grade_item::denormalize_formula($calculation, $item->courseid);
-        $appliedOperation = GradeCalculationFormatter::getPrettyCalculation($calculation);
+//        $appliedOperation = GradeCalculationFormatter::getPrettyCalculation($calculation);
 
-        return $appliedOperation;
+        return $calculation;
     }
 
 
