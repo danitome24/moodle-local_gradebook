@@ -79,9 +79,6 @@ class grade_edit_tree_column_operation extends grade_edit_tree_column
     }
 
 
-
-
-
     /**
      * Function to display on item cell.
      * @param $item
@@ -299,6 +296,39 @@ class grade_edit_tree_column_weight_local extends grade_edit_tree_column_weight
         if (!empty($element->parent_category)) {
             $itemcell->text = $item->aggregationcoef2 * 100.00;
         }
+
+        return $itemcell;
+    }
+}
+
+class grade_edit_tree_column_demo_input extends grade_edit_tree_column
+{
+
+    public function get_header_cell()
+    {
+        $headercell = clone($this->headercell);
+        $headercell->text = get_string('grade');
+        return $headercell;
+    }
+
+    public function get_item_cell($item, $params)
+    {
+        if (empty($params['element'])) {
+            throw new Exception('Array key (element) missing from 2nd param of grade_edit_tree_column_weightorextracredit::get_item_cell($item, $params)');
+        }
+        $itemcell = parent::get_item_cell($item, $params);
+        $attributes = [
+            'type' => 'text',
+            'class' => 'span2 local-demo-grades local-gradebook-demo-autogenerate-inputs',
+            'name' => $item->id,
+        ];
+        if ($item->itemtype == 'category' || $item->itemtype == 'course' || $item->itemtype == 'courseitem') {
+            $attributes['readonly'] = 'readonly';
+            $attributes['id'] = 'grade-' . $item->id;
+        }
+        $calc = html_writer::empty_tag('input', $attributes);
+        $itemcell->text = $calc;
+
 
         return $itemcell;
     }

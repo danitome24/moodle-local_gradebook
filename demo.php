@@ -21,6 +21,9 @@
  */
 require_once '../../config.php';
 require_once $CFG->dirroot . '/grade/lib.php';
+require_once $CFG->dirroot . '/grade/edit/tree/lib.php';
+require_once $CFG->dirroot . '/local/' . local_gradebook\Constants::PLUGIN_NAME . '/lib.php';
+require_once $CFG->dirroot . '/local/' . local_gradebook\Constants::PLUGIN_NAME . '/locallib.php';
 
 $courseid = required_param('id', PARAM_INT);
 
@@ -35,6 +38,7 @@ $context = context_course::instance($course->id);
 $url = new moodle_url('/local/gradebook/demo.php', array('id' => $courseid));
 $PAGE->set_url($url);
 $PAGE->set_pagelayout('admin');
+$PAGE->add_body_class('path-grade-edit-tree');
 $PAGE->set_title(get_string('pluginname', 'local_gradebook'));
 $PAGE->requires->js('/local/gradebook/js/demo.js');
 $PAGE->requires->js_call_amd('local_gradebook/democalc', 'initialise');
@@ -45,13 +49,28 @@ $returnurl = $gpr->get_return_url(null);
 
 // get the grading tree object
 // note: total must be first for moving to work correctly, if you want it last moving code must be rewritten!
+// get the grading tree object
+// note: total must be first for moving to work correctly, if you want it last moving code must be rewritten!
 $gtree = new grade_tree($courseid, false, false);
+
+$strgrades = get_string('grades');
+$strgraderreport = get_string('graderreport', 'grades');
+
+$grade_edit_tree = new local_gradebook\grade\tree\GradebookDemoTree($gtree, false, $gpr);
 
 $output = $PAGE->get_renderer('local_gradebook');
 
 echo $output->header();
 
-echo $output->getGradesDemoTree($gtree, false, $gpr);
+//echo $output->getGradesDemoTree($gtree, false, $gpr);
+echo $OUTPUT->box_start('gradetreebox generalbox');
+echo html_writer::start_tag('form', ['id' => 'gradetreeform']);
+echo html_writer::start_div();
+echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'sesskey', 'value' => sesskey()]);
+echo html_writer::table($grade_edit_tree->table);
+echo html_writer::end_div();
+echo html_writer::end_tag('form');
+echo $OUTPUT->box_end();
 echo $output->buildParametersToSendByAjax($courseid);
 echo $output->getDemoButtons();
 
