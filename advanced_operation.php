@@ -34,67 +34,32 @@ if (!$grade_item = grade_item::fetch(array('id' => $gradeId, 'courseid' => $cour
     print_error('invaliditemid');
 }
 
+$grades = grade_item::fetch_all(['courseid' => $courseId, 'itemtype' => 'mod']);
 require_login($course);
 $context = context_course::instance($course->id);
 
-$PAGE->set_context($context);
 $PAGE->set_pagelayout('admin');
+$PAGE->set_context($context);
 $PAGE->set_url(new moodle_url('/local/gradebook/advanced_operation.php', ['id' => $courseId, 'gradeid' => $gradeId]));
 $PAGE->set_title(get_string('pluginname', 'local_gradebook'));
 $PAGE->set_cacheable(false);
+$output = $PAGE->get_renderer('local_gradebook');
+
+$form = new local_gradebook\form\AdvancedOperationForm(
+    null,
+    [
+        'gradeid' => $gradeId,
+        'id' => $courseId
+    ],
+    'post'
+);
+
 echo $OUTPUT->header();
 echo '<h3>Configuració de càlcul avançat</h3>';
 
-echo '<div class="container-fluid advanced-operation">
-        <div class="row-fluid">
-            <form class="form-inline">
-                <p>Comparació entre elements de qualificació</p>
-                <select>
-                  <option>Activitat1</option>
-                  <option>Activitat2</option>
-                  <option>Categoria1</option>
-                  <option>Categoria2</option>
-                </select>
-                <select>
-                  <option> < </option>
-                  <option> > </option>
-                  <option> >= </option>
-                  <option> = </option>
-                  <option> <= </option>
-                </select>
-                <select>
-                  <option>Activitat1</option>
-                  <option>Activitat2</option>
-                  <option>Categoria1</option>
-                  <option>Categoria2</option>
-                </select>
-                <br><br>
-                <p>El resultat per la categoria o element en cas de ser comparació <strong>positiva</strong> serà:</p>
-			    <select>
-                  <option>Activitat1</option>
-                  <option>Activitat2</option>
-                  <option>Categoria1</option>
-                  <option>Categoria2</option>
-                </select>
-                <br><br>
-                <p>El resultat per la categoria o element en cas de ser comparació <strong>positiva</strong> serà:</p>
-			    <select>
-                  <option>Activitat1</option>
-                  <option>Activitat2</option>
-                  <option>Categoria1</option>
-                  <option>Categoria2</option>
-                </select>
-			</form>
-		    </div>
-	   </div>';
-echo '<br><br><br>';
-$backButton = new moodle_url('/local/gradebook/index.php', ['id' => $courseId]);
-echo '<div class="row-fluid">
-        <div class="span4">
-            <a class="btn btn-default" href="' . $backButton . '">Enrere</a>
-        </div>
-        <div class="offset5">
-            <button class="btn btn-success">Guardar canvis</button>
-        </div>
-      </div>';
+echo html_writer::start_div('container-fluid advanced-operation');
+echo html_writer::start_div('row-fluid');
+$form->display();
+echo html_writer::end_div();
+echo html_writer::end_div();
 echo $OUTPUT->footer();
