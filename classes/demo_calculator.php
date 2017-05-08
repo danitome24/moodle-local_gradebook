@@ -85,9 +85,10 @@ class local_gradebook_demo_calculator
      */
     protected function setParamsToFormula($formula, $allGrades)
     {
-        $items = explode(',', substr((substr($formula, strpos($formula, '('))), 1, -1));
+        //MODIFY
+        $items = preg_match_all('/(gi\d+)/', $formula, $matches);
         $params = [];
-        foreach ($items as $gi) {
+        foreach ($matches[0] as $gi) {
             $params[$gi] = $allGrades[$gi];
         }
 

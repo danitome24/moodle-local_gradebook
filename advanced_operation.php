@@ -54,6 +54,32 @@ $form = new local_gradebook\form\AdvancedOperationForm(
     'post'
 );
 
+if ($formData = $form->get_data()) {
+    //Make sure they can even access this course
+    if (!$course = $DB->get_record('course', array('id' => $formData->id))) {
+        print_error('nocourseid');
+    }
+    if (!$grade_item = grade_item::fetch(array('id' => $formData->gradeid, 'courseid' => $course->id))) {
+        print_error('invaliditemid');
+    }
+    if (!$grade_item_condition_1 = grade_item::fetch(array('idnumber' => $formData->grade_condition_1, 'courseid' => $course->id))) {
+        print_error('invaliditemid');
+    }
+    if (!$grade_item_condition_2 = grade_item::fetch(array('idnumber' => $formData->grade_condition_2, 'courseid' => $course->id))) {
+        print_error('invaliditemid');
+    }
+    $calculation = '[[' . $formData->positive_result . ']]*min(1,round([[' . $grade_item_condition_1->idnumber . ']]/(2*[[' . $grade_item_condition_2->idnumber . ']])))+[[' . $formData->negative_result . ']]*(1-min(1,round([[' . $grade_item_condition_1->idnumber . ']]/(2*[[' . $grade_item_condition_2->idnumber . ']]))))';
+    $calculation = '=' . $calculation;
+    if (!$grade_item->validate_formula($calculation)) {
+        print_error('error');
+    }
+    $grade_item->set_calculation($calculation);
+
+    $message = get_string('add_operation_success', 'local_gradebook');
+    $urlToRedirect = new \moodle_url('/local/gradebook/index.php', ['id' => $courseId]);
+    redirect($urlToRedirect, $message, null, \core\output\notification::NOTIFY_SUCCESS);
+}
+
 echo $OUTPUT->header();
 echo '<h3>Configuració de càlcul avançat</h3>';
 
