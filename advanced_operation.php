@@ -81,7 +81,7 @@ if ($formData = $form->get_data()) {
 }
 
 echo $OUTPUT->header();
-echo '<h3>Configuració de càlcul avançat</h3>';
+echo '<h3>' . get_string('advanced_operation_page_title', 'local_gradebook') . '</h3>';
 
 echo html_writer::start_div('container-fluid advanced-operation');
 echo html_writer::start_div('row-fluid');

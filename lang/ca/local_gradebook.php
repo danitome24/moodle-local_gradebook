@@ -43,3 +43,7 @@ $string['calculate'] = 'Calcular';
 $string['simple_operation'] = 'Operació simple';
 $string['advanced_operation'] = 'Operació avançada';
 $string['simple_op_delete'] = 'Estàs segur que vols esborrar l\'operació?';
+$string['advanced_operation_page_title'] = 'Configuració de càlcul avançat';
+$string['advanced_operation_comparation'] = 'Comparació entre elements de qualificació';
+$string['advanced_operation_comparation_positive'] = 'El resultat per la categoria o element en cas de ser comparació <b>positiva</b> serà:';
+$string['advanced_operation_comparation_negative'] = 'El resultat per la categoria o element en cas de ser comparació <b>negativa</b> serà:';

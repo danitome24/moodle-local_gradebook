@@ -33,19 +33,18 @@ class AdvancedOperationForm extends \moodleform
         foreach ($grades as $grade) {
             $gradesToForm[$grade->idnumber] = $grade->itemname;
         }
-//        var_dump($grades);die;
-        $mform->addElement('html', '<p>Comparació entre elements de qualificació</p>');
+        $mform->addElement('html', '<p>' . get_string('advanced_operation_comparation', 'local_gradebook') . '</p>');
         $mform->addElement('select', 'grade_condition_1', null, $gradesToForm);
         $mform->addElement('select', 'type', null, Conditional::inArray());
         $mform->addElement('select', 'grade_condition_2', null, $gradesToForm);
 
         $mform->addElement('html', '<br><br>');
         $mform->addElement('html', '');
-        $mform->addElement('select', 'positive_result', 'El resultat per la categoria o element en cas de ser comparació <b>positiva</b> serà:', $gradesToForm);
+        $mform->addElement('select', 'positive_result', get_string('advanced_operation_comparation_positive', 'local_gradebook'), $gradesToForm);
 
         $mform->addElement('html', '<br><br>');
 
-        $mform->addElement('select', 'negative_result', 'El resultat per la categoria o element en cas de ser comparació <b>negativa</b> serà:', $gradesToForm);
+        $mform->addElement('select', 'negative_result', get_string('advanced_operation_comparation_negative', 'local_gradebook'), $gradesToForm);
 
         $buttonarray = [];
         $backLink = new \moodle_url('/local/gradebook/index.php', ['id' => $id]);
