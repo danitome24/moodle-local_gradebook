@@ -29,6 +29,12 @@ class AdvancedOperationForm extends \moodleform
         $mform->addElement('hidden', 'gradeid', $gradeid);
         $mform->setType('gradeid', PARAM_INT);
 
+        $gradeSelected = \grade_item::fetch(['id' => $gradeid]);
+        $a = new \stdClass();
+        $a->name = $gradeSelected->get_name(true);
+        $mform->addElement('static', 'description', get_string('selected_element', 'local_gradebook', $a));
+        $mform->addElement('static', 'description', '<h3>' . get_string('advanced_operation_page_title', 'local_gradebook'). '</h3>');
+
         $grades = grade_item::fetch_all(['courseid' => $id, 'itemtype' => 'mod']);
         foreach ($grades as $grade) {
             $gradesToForm[$grade->idnumber] = $grade->itemname;

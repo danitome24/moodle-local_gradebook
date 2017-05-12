@@ -45,7 +45,7 @@ class GradebookTree extends \grade_edit_tree
 
         $this->columns = array(\grade_edit_tree_column::factory('name', array('deepest_level' => $this->deepest_level)));
 
-        $this->columns[] = \grade_edit_tree_column::factory('weight_local', array('adv' => 'weight'));
+        $this->columns[] = \grade_edit_tree_column::factory('idnumber');
         $this->columns[] = \grade_edit_tree_column::factory('operation');
         $this->columns[] = \grade_edit_tree_column::factory('simple_op');
         $this->columns[] = \grade_edit_tree_column::factory('advanced_actions');
