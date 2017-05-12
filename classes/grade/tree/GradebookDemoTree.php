@@ -19,7 +19,9 @@ class GradebookDemoTree extends \grade_edit_tree
         $this->gpr = $gpr;
         $this->deepest_level = $this->get_deepest_level($this->gtree->top_element);
 
-        $this->columns = array(\grade_edit_tree_column::factory('name', array('deepest_level' => $this->deepest_level)));
+        $this->columns = [\grade_edit_tree_column::factory('name', array('deepest_level' => $this->deepest_level))];
+        $this->columns[] = \grade_edit_tree_column::factory('idnumber');
+        $this->columns[] = \grade_edit_tree_column::factory('operation');
         $this->columns[] = \grade_edit_tree_column::factory('demo_input');
 
         $this->table = new \html_table();

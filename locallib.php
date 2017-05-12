@@ -333,3 +333,21 @@ class grade_edit_tree_column_demo_input extends grade_edit_tree_column
         return $itemcell;
     }
 }
+
+class grade_edit_tree_column_idnumber extends grade_edit_tree_column
+{
+    public function get_header_cell()
+    {
+        $headercell = clone($this->headercell);
+        $headercell->text = get_string('idnumber');
+        return $headercell;
+    }
+
+    public function get_item_cell($item, $params)
+    {
+        $itemcell = parent::get_item_cell($item, $params);
+        $itemcell->text = $item->idnumber;
+
+        return $itemcell;
+    }
+}
