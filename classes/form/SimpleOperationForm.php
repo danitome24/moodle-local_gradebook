@@ -25,6 +25,7 @@ namespace local_gradebook\form;
 class SimpleOperationForm extends \moodleform
 {
     protected $checkboxElements = [];
+    private $gradeId;
 
     /**
      * @codeCoverageIgnore
@@ -36,6 +37,7 @@ class SimpleOperationForm extends \moodleform
         $gtree = $this->_customdata['gtree'];
         $element = $this->_customdata['element'];
         $gradeid = $this->_customdata['gradeid'];
+        $this->gradeId = $gradeid;
         $id = $this->_customdata['id'];
 
         $mform = $this->_form; // Don't forget the underscore!
@@ -45,6 +47,11 @@ class SimpleOperationForm extends \moodleform
         $mform->addElement('hidden', 'gradeid', $gradeid);
         $mform->setType('gradeid', PARAM_INT);
 
+
+        $gradeSelected = \grade_item::fetch(['id' => $gradeid]);
+        $a = new \stdClass();
+        $a->name = $gradeSelected->get_name(true);
+        $mform->addElement('static', 'description', get_string('selected_element', 'local_gradebook', $a));
         $mform->addElement('static', 'description',
             '<h3>' . get_string('qualifier_elements', 'local_gradebook') . '</h3>');
 
@@ -63,12 +70,13 @@ class SimpleOperationForm extends \moodleform
         $mform->addGroup($radioarray, 'radioar', null, array(' '), false);
 
         // Generate calculation zone
-        $mform->addElement('static', 'description', '<h3>Calculation generated</h3>');
+        $mform->addElement('static', 'description', '<h3>' . get_string('generated_calc', 'local_gradebook') . '</h3>');
         $mform->addElement('button', 'generate-calc', 'Generar', 'id="generate-calculation"');
         $mform->addElement('textarea', 'generated-calculation', null, 'wrap="virtual" rows="5" cols="50"');
+        $mform->addElement('static', 'calculation-text', null, get_string('generated_calc_text', 'local_gradebook'));
 
         //Text area with calculation
-        $mform->addElement('static', 'description', '<h3>Calculation</h3>');
+        $mform->addElement('static', 'description', '<h3>' . get_string('current_calc', 'local_gradebook') . '</h3>');
         $mform->addElement('textarea', 'calculation', null, 'wrap="virtual" rows="5" cols="50"');
 
         $actionButtons = [];
@@ -144,8 +152,11 @@ class SimpleOperationForm extends \moodleform
         if ($type == 'category') {
             if ($current_itemid == $grade_item->id) {
                 $name = '<b>' . $name . '</b>';
+                $elements[] = $form->createElement('static', '', null, $icon = $gtree->get_element_icon($element, true) . $name);
+            } else {
+                $elements[] = $form->createElement('checkbox', $grade_item->idnumber, null,
+                    $icon = $gtree->get_element_icon($element, true) . $name, 'data-id="' . $grade_item->idnumber . '"');
             }
-            $elements[] = $form->createElement('static', '', null, $icon = $gtree->get_element_icon($element, true) . $name);
             foreach ($element['children'] as $child_el) {
                 $elements[] = $this->getGradeItemsList($gtree, $child_el, $current_itemid);
             }

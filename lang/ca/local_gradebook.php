@@ -47,3 +47,7 @@ $string['advanced_operation_page_title'] = 'Configuració de càlcul avançat';
 $string['advanced_operation_comparation'] = 'Comparació entre elements de qualificació';
 $string['advanced_operation_comparation_positive'] = 'El resultat per la categoria o element en cas de ser comparació <b>positiva</b> serà:';
 $string['advanced_operation_comparation_negative'] = 'El resultat per la categoria o element en cas de ser comparació <b>negativa</b> serà:';
+$string['current_calc'] = 'Càlcul actual';
+$string['generated_calc'] = 'Càlcul generat';
+$string['selected_element'] = 'Element seleccionat: {$a->name}';
+$string['generated_calc_text'] = 'Si vols aplicar aquest càlcul, enganxa-ho a la caixa de "current calculation"';

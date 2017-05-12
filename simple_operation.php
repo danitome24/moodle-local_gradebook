@@ -57,20 +57,25 @@ if ($formData = $mform->get_data()) {
     if (!$course = $DB->get_record('course', array('id' => $formData->id))) {
         print_error('nocourseid');
     }
+
     if (!$grade_item = grade_item::fetch(array('id' => $formData->gradeid, 'courseid' => $course->id))) {
         print_error('invaliditemid');
     }
-    if (empty($formData->grades) && !isset($formData->clearbutton)) {
-        print_error('no_grades_selected', 'local_gradebook');
-    }
+
     if (isset($formData->resetbutton)) {
         $calculation = '';
-    }
-    $calculation = $formData->calculation;
+    } else {
+        if (empty($formData->grades) && !isset($formData->clearbutton)) {
+            print_error('no_grades_selected', 'local_gradebook');
+        }
 
-    if (!$grade_item->validate_formula($calculation)) {
-        print_error('error');
+        $calculation = $formData->calculation;
+
+        if (!$grade_item->validate_formula($calculation)) {
+            print_error('error');
+        }
     }
+
     $grade_item->set_calculation($calculation);
     $message = get_string('add_operation_success', 'local_gradebook');
     $urlToRedirect = new \moodle_url('/local/gradebook/index.php', ['id' => $id]);
