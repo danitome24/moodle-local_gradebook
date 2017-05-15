@@ -26,6 +26,8 @@ require_once $CFG->libdir . '/pagelib.php';
 $courseId = required_param('id', PARAM_TEXT);
 $gradeId = required_param('gradeid', PARAM_TEXT);
 
+$gtree = new grade_tree($courseId, false, false);
+
 /// Make sure they can even access this course
 if (!$course = $DB->get_record('course', array('id' => $courseId))) {
     print_error('nocourseid');
@@ -49,7 +51,9 @@ $form = new local_gradebook\form\AdvancedOperationForm(
     null,
     [
         'gradeid' => $gradeId,
-        'id' => $courseId
+        'id' => $courseId,
+        'gtree' => $gtree,
+        'element' => $gtree->top_element,
     ],
     'post'
 );

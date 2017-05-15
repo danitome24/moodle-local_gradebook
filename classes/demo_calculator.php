@@ -41,7 +41,7 @@ class local_gradebook_demo_calculator
         foreach ($gradeItems as $gradeItemId => $value) {
             /** @var \grade_item $grade */
             $grade = \grade_item::fetch(['id' => $gradeItemId]);
-            $allGrades['gi' . $grade->id] = $value;
+            $allGrades['gi' . $grade->id] = (null == $value) ? '' : $value;
         }
 
         foreach ($gradeItems as $gradeItemId => $value) {
@@ -49,6 +49,7 @@ class local_gradebook_demo_calculator
             if ($grade->itemtype != 'course' && $grade->itemtype != 'category') {
                 $gradesCalculated[] = [
                     'id' => $gradeItemId,
+                    'gid' => 'gi' . $gradeItemId,
                     'value' => $value
                 ];
                 continue;
@@ -56,16 +57,18 @@ class local_gradebook_demo_calculator
             if (empty($grade->calculation)) {
                 $gradesCalculated[] = [
                     'id' => $gradeItemId,
+                    'gid' => 'gi' . $gradeItemId,
                     'value' => 0
                 ];
                 continue;
             }
 
             $formula = preg_replace('/##(gi\d+)##/', '\1', $grade->calculation);
-            $params = $this->setParamsToFormula($formula, $allGrades);
+            $params = $this->setParamsToFormula($formula, $allGrades, $gradesCalculated);
             $formula = new \calc_formula($formula, $params);
             $gradesCalculated[] = [
                 'id' => $gradeItemId,
+                'gid' => 'gi' . $gradeItemId,
                 'value' => $formula->evaluate()
             ];
             if ($error = $formula->get_error()) {
@@ -83,12 +86,23 @@ class local_gradebook_demo_calculator
      *
      * @return array
      */
-    protected function setParamsToFormula($formula, $allGrades)
+    protected function setParamsToFormula($formula, $allGrades, $gradesCalculated)
     {
         //MODIFY
         $items = preg_match_all('/(gi\d+)/', $formula, $matches);
         $params = [];
         foreach ($matches[0] as $gi) {
+            $continue = false;
+            foreach ($gradesCalculated as $gradeCalculated) {
+                if ($gradeCalculated['gid'] == $gi && !empty($gradeCalculated['value'])) {
+                    $params[$gi] = $gradeCalculated['value'];
+                    $continue = true;
+                }
+            }
+            if ($continue) {
+                continue;
+            }
+
             $params[$gi] = $allGrades[$gi];
         }
 
