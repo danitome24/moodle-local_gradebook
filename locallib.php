@@ -42,28 +42,6 @@ class grade_edit_tree_column_operation extends grade_edit_tree_column
     }
 
     /**
-     * Function to display category cell.
-     * @param $category
-     * @param $levelclass
-     * @param $params
-     * @return html_table_cell
-     */
-    public function get_category_cell($category, $levelclass, $params)
-    {
-        $item = $category->get_grade_item();
-        $categorycell = parent::get_category_cell($category, $levelclass, $params);
-
-        if (!empty ($item->calculation)) {
-            $categorycell->text = $this->getCalculationString($item);
-
-            return $categorycell;
-        }
-
-        $categorycell->text = '-';
-        return $categorycell;
-    }
-
-    /**
      * Function to build operation if a calculation is set.
      * @param grade_item $item
      * @return string
@@ -90,7 +68,7 @@ class grade_edit_tree_column_operation extends grade_edit_tree_column
         $element = array_shift($params['element']);
         $itemcell = parent::get_item_cell($item, $params);
 
-        if ($item->itemtype == 'manual' && !empty($item->calculation)) {
+        if (!empty($item->calculation)) {
             $itemcell->text = $this->getCalculationString($item);
             return $itemcell;
         }
