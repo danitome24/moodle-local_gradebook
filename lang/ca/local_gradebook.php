@@ -50,4 +50,4 @@ $string['advanced_operation_comparation_negative'] = 'El resultat per la categor
 $string['current_calc'] = 'Càlcul actual';
 $string['generated_calc'] = 'Càlcul generat';
 $string['selected_element'] = 'Element seleccionat: {$a->name}';
-$string['generated_calc_text'] = 'Si vols aplicar aquest càlcul, enganxa-ho a la caixa de "current calculation"';
+$string['generated_calc_text'] = 'Si vols aplicar aquest càlcul, enganxa-ho a la caixa de "Càlcul actual"';

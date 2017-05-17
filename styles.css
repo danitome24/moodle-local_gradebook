@@ -77,3 +77,7 @@ ul#local-gradebook-options li {
     *background-color: #bd362f;
     filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
+
+a.action-icon{
+    visibility: hidden;
+}

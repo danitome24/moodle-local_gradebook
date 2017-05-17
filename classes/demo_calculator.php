@@ -46,7 +46,7 @@ class local_gradebook_demo_calculator
 
         foreach ($gradeItems as $gradeItemId => $value) {
             $grade = \grade_item::fetch(['id' => $gradeItemId]);
-            if ($grade->itemtype != 'course' && $grade->itemtype != 'category') {
+            if ($grade->itemtype != 'course' && $grade->itemtype != 'category' && $grade->itemtype !== 'manual') {
                 $gradesCalculated[] = [
                     'id' => $gradeItemId,
                     'gid' => 'gi' . $gradeItemId,

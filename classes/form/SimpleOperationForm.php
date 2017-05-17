@@ -145,20 +145,22 @@ class SimpleOperationForm extends \moodleform
         if ($type == 'item' and !empty($object->outcomeid)) {
             $elements[] = $name . ' (' . get_string('outcome', 'grades') . ')';
         }
-        if ($type != 'category' && $type != 'courseitem' && $type != 'categoryitem') {
+        if ($type != 'category' && $type != 'courseitem' && $type != 'categoryitem' && $type != 'item') {
             $elements[] = $form->createElement('checkbox', $grade_item->idnumber, null,
-                $icon = $gtree->get_element_icon($element, true) . $name, 'data-id="' . $grade_item->idnumber . '"');
+                $icon = $gtree->get_element_icon($element, true) . '[[' . $grade_item->idnumber . ']] - ' . $name, 'data-id="' . $grade_item->idnumber . '"');
         }
-        if ($type == 'category') {
+        if ($type == 'category' || $type == 'item') {
             if ($current_itemid == $grade_item->id) {
                 $name = '<b>' . $name . '</b>';
                 $elements[] = $form->createElement('static', '', null, $icon = $gtree->get_element_icon($element, true) . $name);
             } else {
                 $elements[] = $form->createElement('checkbox', $grade_item->idnumber, null,
-                    $icon = $gtree->get_element_icon($element, true) . $name, 'data-id="' . $grade_item->idnumber . '"');
+                    $icon = $gtree->get_element_icon($element, true) . '[[' . $grade_item->idnumber . ']] - ' . $name, 'data-id="' . $grade_item->idnumber . '"');
             }
-            foreach ($element['children'] as $child_el) {
-                $elements[] = $this->getGradeItemsList($gtree, $child_el, $current_itemid);
+            if (!empty($element['children'])) {
+                foreach ($element['children'] as $child_el) {
+                    $elements[] = $this->getGradeItemsList($gtree, $child_el, $current_itemid);
+                }
             }
         }
 

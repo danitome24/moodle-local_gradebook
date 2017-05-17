@@ -89,6 +89,12 @@ class grade_edit_tree_column_operation extends grade_edit_tree_column
     {
         $element = array_shift($params['element']);
         $itemcell = parent::get_item_cell($item, $params);
+
+        if ($item->itemtype == 'manual' && !empty($item->calculation)) {
+            $itemcell->text = $this->getCalculationString($item);
+            return $itemcell;
+        }
+
         if (!empty($element->parent_category)) {
             $itemcell->text = ' - ';
         }
@@ -322,7 +328,7 @@ class grade_edit_tree_column_demo_input extends grade_edit_tree_column
             'class' => 'span2 local-demo-grades local-gradebook-demo-autogenerate-inputs',
             'name' => $item->id,
         ];
-        if ($item->itemtype == 'category' || $item->itemtype == 'course' || $item->itemtype == 'courseitem') {
+        if ($item->itemtype == 'category' || $item->itemtype == 'course' || $item->itemtype == 'courseitem' || $item->itemtype == 'manual') {
             $attributes['readonly'] = 'readonly';
             $attributes['id'] = 'grade-' . $item->id;
         }

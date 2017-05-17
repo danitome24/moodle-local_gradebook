@@ -55,9 +55,4 @@ class local_gradebook_renderer extends plugin_renderer_base
 
         return $output;
     }
-
-    public function getAdvanced()
-    {
-        
-    }
 }

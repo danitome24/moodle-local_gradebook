@@ -42,7 +42,7 @@ class AdvancedOperationForm extends \moodleform
 
         foreach ($dropDownGroup as $dropDownItem) {
             $category = \grade_category::fetch(['id' => $dropDownItem->id_parent]);
-            $dropDownElements[$category->get_name(true)][$dropDownItem->id_num] = $dropDownItem->name;
+            $dropDownElements[$category->get_name(true)][$dropDownItem->id_num] = '[[' .$dropDownItem->id_num . ']] - ' . $dropDownItem->name;
         }
         $mform->addElement('html', '<p>' . get_string('advanced_operation_comparation', 'local_gradebook') . '</p>');
         $mform->addElement('selectgroups', 'grade_condition_1', null, $dropDownElements);
@@ -124,20 +124,16 @@ class AdvancedOperationForm extends \moodleform
             $elements[] = $name . ' (' . get_string('outcome', 'grades') . ')';
         }
         if ($type != 'category' && $type != 'courseitem' && $type != 'categoryitem') {
-            $elem = new \stdClass();
-            $elem->id_num = $grade_item->get_idnumber();
-            $elem->name = $grade_item->get_name();
-            $elem->id_parent = (int)$grade_item->get_parent_category()->id;
-            $elements[] = $elem;
-        }
-        if ($type == 'category') {
-            if ($current_itemid == $grade_item->id) {
+            if ($type == 'item' && $current_itemid != $grade_item->id) {
                 $elem = new \stdClass();
                 $elem->id_num = $grade_item->get_idnumber();
-                $elem->name = $grade_item->get_name(true);
+                $elem->name = $grade_item->get_name();
                 $elem->id_parent = (int)$grade_item->get_parent_category()->id;
                 $elements[] = $elem;
-            } else {
+            }
+        }
+        if ($type == 'category') {
+            if ($current_itemid != $grade_item->id) {
                 $elem = new \stdClass();
                 $elem->id_num = $grade_item->get_idnumber();
                 $elem->name = $grade_item->get_name(true);
