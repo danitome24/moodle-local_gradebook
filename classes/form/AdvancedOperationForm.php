@@ -34,8 +34,8 @@ class AdvancedOperationForm extends \moodleform
         $gradeSelected = \grade_item::fetch(['id' => $gradeid]);
         $a = new \stdClass();
         $a->name = $gradeSelected->get_name(true);
-        $mform->addElement('static', 'description', get_string('selected_element', 'local_gradebook', $a));
         $mform->addElement('static', 'description', '<h3>' . get_string('advanced_operation_page_title', 'local_gradebook') . '</h3>');
+        $mform->addElement('static', 'description', get_string('selected_element', 'local_gradebook', $a));
 
         $gradeItems = $this->getGradeItemsList($gtree, $element, $gradeid);
         $dropDownGroup = $this->addToFormGradeItemsList($mform, $gradeItems);

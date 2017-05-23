@@ -19,10 +19,10 @@ class Conditional
     public static function inArray()
     {
         return [
-            self::GREATER_THAN => '>',
-            self::LESS_THAN => '<',
-//            self::GREATER_OR_EQUALS_THAN => '>=',
-//            self::LESS_OR_EQUALS_THAN => '<=',
+//            self::GREATER_THAN => '>',
+//            self::LESS_THAN => '<',
+            self::GREATER_OR_EQUALS_THAN => '>=',
+            self::LESS_OR_EQUALS_THAN => '<=',
 //            self::EQUALS_THAN => '='
         ];
     }

@@ -51,9 +51,9 @@ class SimpleOperationForm extends \moodleform
         $gradeSelected = \grade_item::fetch(['id' => $gradeid]);
         $a = new \stdClass();
         $a->name = $gradeSelected->get_name(true);
-        $mform->addElement('static', 'description', get_string('selected_element', 'local_gradebook', $a));
         $mform->addElement('static', 'description',
             '<h3>' . get_string('qualifier_elements', 'local_gradebook') . '</h3>');
+        $mform->addElement('static', 'description', get_string('selected_element', 'local_gradebook', $a));
 
         $gradeItems = $this->getGradeItemsList($gtree, $element, $gradeid);
         $checkboxGroup = $this->addToFormGradeItemsList($mform, $gradeItems);
