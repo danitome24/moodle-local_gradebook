@@ -1,10 +1,22 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: dtome
- * Date: 17/03/17
- * Time: 12:44
- */
+// This file is part of Moodle - http://moodle.org/
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+//
+// @author Daniel Tome <danieltomefer@gmail.com>
+//
 
 namespace local_gradebook\grade;
 
@@ -17,31 +29,29 @@ class GradeCalculationFormatter
      * @param string $calc
      * @return string
      */
-    public static function getPrettyCalculation($calc)
-    {
-        $operation = get_string('op:' . self::getTypeOperation($calc), 'local_gradebook');
-        return $operation . '(' . self::getElementsInOperation($calc) . ')';
+    public static function get_pretty_calculation($calc) {
+        $operation = get_string('op:' . self::get_type_operation($calc), 'local_gradebook');
+        return $operation . '(' . self::get_elements_in_operation($calc) . ')';
     }
     /**
      * Function to get idnumbers involved in an operation.
      * @param string $calc
      * @return string
      */
-    protected static function getElementsInOperation($calc)
-    {
+    protected static function get_elements_in_operation($calc) {
         $matches = [];
         $regex = '~\[(.*?)\]]~';
         preg_match_all($regex, $calc, $matches);
         $string = '';
-        $numberOfElements = count($matches[0]);
+        $numberofelements = count($matches[0]);
 
         foreach ($matches[0] as $element) {
             $elem = ltrim($element, '[[');
             $elem = rtrim($elem, ']]');
-            $name = self::getGradeGivenId($elem);
-            //Remove all empty spaces
+            $name = self::get_grade_given_id($elem);
+            // Remove all empty spaces
             $string .= trim($name);
-            if (--$numberOfElements > 0) {
+            if (--$numberofelements > 0) {
                 $string .= ',';
             }
         }
@@ -54,8 +64,7 @@ class GradeCalculationFormatter
      * @param string $str
      * @return array mixed
      */
-    protected static function getTypeOperation($str)
-    {
+    protected static function get_type_operation($str) {
         $matches = [];
         $regex = '~=(.*?)\(~';
         preg_match($regex, $str, $matches);
@@ -68,8 +77,7 @@ class GradeCalculationFormatter
      * @param int $id
      * @return string with name.
      */
-    protected static function getGradeGivenId($id)
-    {
+    protected static function get_grade_given_id($id) {
         $grade = \grade_item::fetch(['idnumber' => $id]);
 
         return $grade->get_name();

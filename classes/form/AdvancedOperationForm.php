@@ -1,10 +1,22 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: dtome
- * Date: 6/05/17
- * Time: 10:28
- */
+// This file is part of Moodle - http://moodle.org/
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+//
+// @author Daniel Tome <danieltomefer@gmail.com>
+//
 
 namespace local_gradebook\form;
 
@@ -17,8 +29,7 @@ class AdvancedOperationForm extends \moodleform
     /**
      * Form definition. Abstract method - always override!
      */
-    protected function definition()
-    {
+    protected function definition() {
         $gradeid = $this->_customdata['gradeid'];
         $id = $this->_customdata['id'];
         $gtree = $this->_customdata['gtree'];
@@ -31,35 +42,35 @@ class AdvancedOperationForm extends \moodleform
         $mform->addElement('hidden', 'gradeid', $gradeid);
         $mform->setType('gradeid', PARAM_INT);
 
-        $gradeSelected = \grade_item::fetch(['id' => $gradeid]);
+        $gradeselected = \grade_item::fetch(['id' => $gradeid]);
         $a = new \stdClass();
-        $a->name = $gradeSelected->get_name(true);
+        $a->name = $gradeselected->get_name(true);
         $mform->addElement('static', 'description', '<h3>' . get_string('advanced_operation_page_title', 'local_gradebook') . '</h3>');
         $mform->addElement('static', 'description', get_string('selected_element', 'local_gradebook', $a));
 
-        $gradeItems = $this->getGradeItemsList($gtree, $element, $gradeid);
-        $dropDownGroup = $this->addToFormGradeItemsList($mform, $gradeItems);
+        $gradeitems = $this->get_grade_items_list($gtree, $element, $gradeid);
+        $dropdowngroup = $this->add_to_form_grade_items_list($mform, $gradeitems);
 
-        foreach ($dropDownGroup as $dropDownItem) {
-            $category = \grade_category::fetch(['id' => $dropDownItem->id_parent]);
-            $dropDownElements[$category->get_name(true)][$dropDownItem->id_num] = '[[' .$dropDownItem->id_num . ']] - ' . $dropDownItem->name;
+        foreach ($dropdowngroup as $dropdownitem) {
+            $category = \grade_category::fetch(['id' => $dropdownitem->id_parent]);
+            $dropdownelements[$category->get_name(true)][$dropdownitem->id_num] = '[[' .$dropdownitem->id_num . ']] - ' . $dropdownitem->name;
         }
         $mform->addElement('html', '<p>' . get_string('advanced_operation_comparation', 'local_gradebook') . '</p>');
-        $mform->addElement('selectgroups', 'grade_condition_1', null, $dropDownElements);
-        $mform->addElement('select', 'type', null, Conditional::inArray());
-        $mform->addElement('selectgroups', 'grade_condition_2', null, $dropDownElements);
+        $mform->addElement('selectgroups', 'grade_condition_1', null, $dropdownelements);
+        $mform->addElement('select', 'type', null, Conditional::in_array());
+        $mform->addElement('selectgroups', 'grade_condition_2', null, $dropdownelements);
 
         $mform->addElement('html', '<br><br>');
         $mform->addElement('html', '');
-        $mform->addElement('selectgroups', 'positive_result', get_string('advanced_operation_comparation_positive', 'local_gradebook'), $dropDownElements);
+        $mform->addElement('selectgroups', 'positive_result', get_string('advanced_operation_comparation_positive', 'local_gradebook'), $dropdownelements);
 
         $mform->addElement('html', '<br><br>');
 
-        $mform->addElement('selectgroups', 'negative_result', get_string('advanced_operation_comparation_negative', 'local_gradebook'), $dropDownElements);
+        $mform->addElement('selectgroups', 'negative_result', get_string('advanced_operation_comparation_negative', 'local_gradebook'), $dropdownelements);
 
         $buttonarray = [];
-        $backLink = new \moodle_url('/local/gradebook/index.php', ['id' => $id]);
-        $buttonarray[] = &$mform->createElement('link', 'cancelbutton', '', $backLink, get_string('cancel'),
+        $backlink = new \moodle_url('/local/gradebook/index.php', ['id' => $id]);
+        $buttonarray[] = &$mform->createElement('link', 'cancelbutton', '', $backlink, get_string('cancel'),
             'class="btn btn-default"');
         $buttonarray[] = &$mform->createElement('submit', 'submitbutton', get_string('savechanges'));
         $mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
@@ -72,16 +83,15 @@ class AdvancedOperationForm extends \moodleform
      * Method to add grade_items to checkbox list.
      * @codeCoverageIgnore
      * @param $mform
-     * @param $gradeItems
+     * @param $gradeitems
      * @return array
      */
-    protected function &addToFormGradeItemsList($mform, $gradeItems)
-    {
-        foreach ($gradeItems as $element) {
+    protected function &add_to_form_grade_items_list($mform, $gradeitems) {
+        foreach ($gradeitems as $element) {
             if (is_array($element)) {
-                $this->addToFormGradeItemsList($mform, $element);
+                $this->add_to_form_grade_items_list($mform, $element);
             } else {
-                $this->putIntoArray($element);
+                $this->put_into_array($element);
             }
         }
 
@@ -94,8 +104,7 @@ class AdvancedOperationForm extends \moodleform
      * @param $element
      * @return mixed
      */
-    protected function &putIntoArray($element)
-    {
+    protected function &put_into_array($element) {
         $this->checkboxElements[] =& $element;
         return $this->checkboxElements[0];
     }
@@ -107,43 +116,41 @@ class AdvancedOperationForm extends \moodleform
      * @param $element
      * @return array
      */
-    protected function getGradeItemsList(&$gtree, $element, $current_itemid)
-    {
+    protected function get_grade_items_list(&$gtree, $element, $currentitemid) {
         global $OUTPUT;
 
         $object = $element['object'];
         $type = $element['type'];
-        /** @var grade_item $grade_item */
-        $grade_item = $object->get_grade_item();
+        /** @var grade_item $gradeitem */
+        $gradeitem = $object->get_grade_item();
         $elements = [];
         $form = $this->_form;
         $name = $object->get_name();
 
-        //TODO: improve outcome visualisation
         if ($type == 'item' and !empty($object->outcomeid)) {
             $elements[] = $name . ' (' . get_string('outcome', 'grades') . ')';
         }
         if ($type != 'category' && $type != 'courseitem' && $type != 'categoryitem') {
-            if ($type == 'item' && $current_itemid != $grade_item->id) {
+            if ($type == 'item' && $currentitemid != $gradeitem->id) {
                 $elem = new \stdClass();
-                $elem->id_num = $grade_item->get_idnumber();
-                $elem->name = $grade_item->get_name();
-                $elem->id_parent = (int)$grade_item->get_parent_category()->id;
+                $elem->id_num = $gradeitem->get_idnumber();
+                $elem->name = $gradeitem->get_name();
+                $elem->id_parent = (int)$gradeitem->get_parent_category()->id;
                 $elements[] = $elem;
             }
         }
         if ($type == 'category') {
-            if ($current_itemid != $grade_item->id) {
+            if ($currentitemid != $gradeitem->id) {
                 $elem = new \stdClass();
-                $elem->id_num = $grade_item->get_idnumber();
-                $elem->name = $grade_item->get_name(true);
-                $elem->id_parent = (int)$grade_item->get_parent_category()->id;
+                $elem->id_num = $gradeitem->get_idnumber();
+                $elem->name = $gradeitem->get_name(true);
+                $elem->id_parent = (int)$gradeitem->get_parent_category()->id;
                 $elements[] = $elem;
             }
-            foreach ($element['children'] as $child_el) {
-                $elementToAdd = $this->getGradeItemsList($gtree, $child_el, $current_itemid);
-                if (!empty($elementToAdd)) {
-                    $elements[] = $elementToAdd;
+            foreach ($element['children'] as $childel) {
+                $elementtoadd = $this->get_grade_items_list($gtree, $childel, $currentitemid);
+                if (!empty($elementtoadd)) {
+                    $elements[] = $elementtoadd;
                 }
             }
         }

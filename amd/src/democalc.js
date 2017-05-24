@@ -22,8 +22,6 @@ define(['jquery', 'core/ajax', 'jqueryui'], function ($, ajax) {
                     values.push(value);
                 });
 
-                window.console.log(sesskey + '-' + courseid + '-' + pageload + '-' + report + '-' + page + '-'
-                    + JSON.stringify(values));
                 var promises = ajax.call([
                     {
                         methodname: 'local_gradebook_get_demo_calc',

@@ -1,33 +1,32 @@
 <?php
-/**
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- */
+// This file is part of Moodle - http://moodle.org/
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+//
+// @author Daniel Tome <danieltomefer@gmail.com>
+//
 use local_gradebook\grade\GradeCalculationFormatter;
 
-/**
- * @author Daniel Tome <danieltomefer@gmail.com>
- */
-require_once '../../config.php';
-require_once $CFG->dirroot . '/grade/lib.php';
-require_once $CFG->libdir . '/mathslib.php';
+require_once('../../config.php');
+require_once($CFG->dirroot . '/grade/lib.php');
+require_once($CFG->libdir . '/mathslib.php');
 
 $id = required_param('id', PARAM_TEXT);
 $gradeid = required_param('gradeid', PARAM_TEXT);
 
-/// Make sure they can even access this course
+// Make sure they can even access this course
 if (!$course = $DB->get_record('course', array('id' => $id))) {
     print_error('nocourseid');
 }
@@ -49,49 +48,47 @@ $PAGE->requires->js_call_amd('local_gradebook/simple_op', 'initialise');
 
 $mform = new local_gradebook\form\SimpleOperationForm(null,
     ['gtree' => $gtree, 'element' => $gtree->top_element, 'gradeid' => $gradeid, 'id' => $id]);
-/**
- * If post data is given
- */
-if ($formData = $mform->get_data()) {
-    //Make sure they can even access this course
-    if (!$course = $DB->get_record('course', array('id' => $formData->id))) {
+
+if ($formdata = $mform->get_data()) {
+    // Make sure they can even access this course
+    if (!$course = $DB->get_record('course', array('id' => $formdata->id))) {
         print_error('nocourseid');
     }
 
-    if (!$grade_item = grade_item::fetch(array('id' => $formData->gradeid, 'courseid' => $course->id))) {
+    if (!$gradeitem = grade_item::fetch(array('id' => $formdata->gradeid, 'courseid' => $course->id))) {
         print_error('invaliditemid');
     }
 
-    if (isset($formData->resetbutton)) {
+    if (isset($formdata->resetbutton)) {
         $calculation = '';
     } else {
-        if (empty($formData->grades) && !isset($formData->clearbutton)) {
+        if (empty($formdata->grades) && !isset($formdata->clearbutton)) {
             print_error('no_grades_selected', 'local_gradebook');
         }
 
-        $calculation = $formData->calculation;
+        $calculation = $formdata->calculation;
 
-        if (!$grade_item->validate_formula($calculation)) {
+        if (!$gradeitem->validate_formula($calculation)) {
             print_error('error');
         }
     }
 
-    $grade_item->set_calculation($calculation);
+    $gradeitem->set_calculation($calculation);
     $message = get_string('add_operation_success', 'local_gradebook');
-    $urlToRedirect = new \moodle_url('/local/gradebook/index.php', ['id' => $id]);
-    redirect($urlToRedirect, $message, null, \core\output\notification::NOTIFY_SUCCESS);
+    $urltoredirect = new \moodle_url('/local/gradebook/index.php', ['id' => $id]);
+    redirect($urltoredirect, $message, null, \core\output\notification::NOTIFY_SUCCESS);
 }
 
 // Get info to display in form
-if (!$grade_item = grade_item::fetch(array('id' => $gradeid, 'courseid' => $id))) {
+if (!$gradeitem = grade_item::fetch(array('id' => $gradeid, 'courseid' => $id))) {
     print_error('invaliditemid');
 }
-$calculation = $grade_item->get_calculation();
+$calculation = $gradeitem->get_calculation();
 if (isset($calculation)) {
-    $formDataToFillContent = new stdClass();
-    $formDataToFillContent->id = $id;
-    $formDataToFillContent->gradeid = $gradeid;
-    $formDataToFillContent->calculation = grade_item::denormalize_formula($grade_item->calculation, $course->id);
+    $formdatatofillcontent = new stdClass();
+    $formdatatofillcontent->id = $id;
+    $formdatatofillcontent->gradeid = $gradeid;
+    $formdatatofillcontent->calculation = grade_item::denormalize_formula($gradeitem->calculation, $course->id);
 }
 
 // Get renderer on last step
@@ -99,7 +96,7 @@ $output = $PAGE->get_renderer('local_gradebook');
 
 echo $OUTPUT->header();
 if (isset($calculation)) {
-    $mform->set_data($formDataToFillContent);
+    $mform->set_data($formdatatofillcontent);
 }
 $mform->display();
 
