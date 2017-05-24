@@ -15,8 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 //
-// @author Daniel Tome <danieltomefer@gmail.com>
-//
+// @author Daniel Tome <danieltomefer@gmail.com>.
+
 use local_gradebook\grade\GradeCalculationFormatter;
 
 require_once('../../config.php');
@@ -123,7 +123,8 @@ class grade_edit_tree_column_simple_op extends grade_edit_tree_column
     protected function get_calc_url($item) {
         global $OUTPUT;
 
-        $simpleopurl = new moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/simple_operation.php', ['id' => $item->courseid, 'gradeid' => $item->id]);
+        $simpleopurl = new moodle_url('/local/' . local_gradebook\Constants::PLUGIN_NAME . '/simple_operation.php',
+            ['id' => $item->courseid, 'gradeid' => $item->id]);
         $pixelstring = '<a href=" ' . $simpleopurl . '">';
         $pixicon = new pix_icon('t/calc', get_string('name'));
         $pixelstring .= $OUTPUT->render($pixicon) . '</a>';
@@ -267,7 +268,8 @@ class grade_edit_tree_column_demo_input extends grade_edit_tree_column
             'class' => 'span2 local-demo-grades local-gradebook-demo-autogenerate-inputs',
             'name' => $item->id,
         ];
-        if ($item->itemtype == 'category' || $item->itemtype == 'course' || $item->itemtype == 'courseitem' || $item->itemtype == 'manual') {
+        if ($item->itemtype == 'category' || $item->itemtype == 'course' || $item->itemtype == 'courseitem'
+            || $item->itemtype == 'manual') {
             $attributes['readonly'] = 'readonly';
             $attributes['id'] = 'grade-' . $item->id;
         }

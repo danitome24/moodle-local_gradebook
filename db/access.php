@@ -15,8 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 //
-// @author Daniel Tome <danieltomefer@gmail.com>
-//
+// @author Daniel Tome <danieltomefer@gmail.com>.
 
 defined('MOODLE_INTERNAL') || die();
 

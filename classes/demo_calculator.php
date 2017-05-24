@@ -15,11 +15,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 //
-// @author Daniel Tome <danieltomefer@gmail.com>
-//
+// @author Daniel Tome <danieltomefer@gmail.com>.
 
 require_once('../../config.php');
 require_once($CFG->dirroot . '/lib/mathslib.php');
+
+defined('MOODLE_INTERNAL') || die();
 
 class local_gradebook_demo_calculator
 {

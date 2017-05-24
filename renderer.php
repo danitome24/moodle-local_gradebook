@@ -15,8 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 //
-// @author Daniel Tome <danieltomefer@gmail.com>
-//
+// @author Daniel Tome <danieltomefer@gmail.com>.
 
 defined('MOODLE_INTERNAL') || die;
 
@@ -44,11 +43,16 @@ class local_gradebook_renderer extends plugin_renderer_base
     }
 
     public function build_parameters_to_send_by_ajax($courseid) {
-        $output = html_writer::empty_tag('input', ['id' => 'local-demo-sesskey', 'type' => 'hidden', 'name' => 'sesskey', 'value' => sesskey()]);
-        $output .= html_writer::empty_tag('input', ['id' => 'local-demo-courseid', 'type' => 'hidden', 'name' => 'courseid', 'value' => s($courseid)]);
-        $output .= html_writer::empty_tag('input', ['id' => 'local-demo-timepageload', 'type' => 'hidden', 'name' => 'timepageload', 'value' => time()]);
-        $output .= html_writer::empty_tag('input', ['id' => 'local-demo-report', 'type' => 'hidden', 'name' => 'report', 'value' => 'grader']);
-        $output .= html_writer::empty_tag('input', ['id' => 'local-demo-page', 'type' => 'hidden', 'name' => 'page', 'value' => 0]);
+        $output = html_writer::empty_tag('input',
+            ['id' => 'local-demo-sesskey', 'type' => 'hidden', 'name' => 'sesskey', 'value' => sesskey()]);
+        $output .= html_writer::empty_tag('input',
+            ['id' => 'local-demo-courseid', 'type' => 'hidden', 'name' => 'courseid', 'value' => s($courseid)]);
+        $output .= html_writer::empty_tag('input',
+            ['id' => 'local-demo-timepageload', 'type' => 'hidden', 'name' => 'timepageload', 'value' => time()]);
+        $output .= html_writer::empty_tag('input',
+            ['id' => 'local-demo-report', 'type' => 'hidden', 'name' => 'report', 'value' => 'grader']);
+        $output .= html_writer::empty_tag('input',
+            ['id' => 'local-demo-page', 'type' => 'hidden', 'name' => 'page', 'value' => 0]);
 
         return $output;
     }

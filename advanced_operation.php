@@ -15,19 +15,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 //
-// @author Daniel Tome <danieltomefer@gmail.com>
-//
+// @author Daniel Tome <danieltomefer@gmail.com>.
 
 require_once('../../config.php');
 require_once($CFG->dirroot . '/grade/lib.php');
 require_once($CFG->libdir . '/pagelib.php');
-// Id of course
+// Id of course.
 $courseid = required_param('id', PARAM_TEXT);
 $gradeid = required_param('gradeid', PARAM_TEXT);
 
 $gtree = new grade_tree($courseid, false, false);
 
-// Make sure they can even access this course
+// Make sure they can even access this course.
 if (!$course = $DB->get_record('course', array('id' => $courseid))) {
     print_error('nocourseid');
 }
@@ -58,17 +57,19 @@ $form = new local_gradebook\form\AdvancedOperationForm(
 );
 
 if ($formdata = $form->get_data()) {
-    // Make sure they can even access this course
+    // Make sure they can even access this course.
     if (!$course = $DB->get_record('course', array('id' => $formdata->id))) {
         print_error('nocourseid');
     }
     if (!$gradeitem = grade_item::fetch(array('id' => $formdata->gradeid, 'courseid' => $course->id))) {
         print_error('invaliditemid');
     }
-    if (!$gradeitemfirstcondition = grade_item::fetch(array('idnumber' => $formdata->grade_condition_1, 'courseid' => $course->id))) {
+    if (!$gradeitemfirstcondition = grade_item::fetch(array('idnumber' => $formdata->grade_condition_1,
+        'courseid' => $course->id))) {
         print_error('invaliditemid');
     }
-    if (!$gradeitemsecondcondition = grade_item::fetch(array('idnumber' => $formdata->grade_condition_2, 'courseid' => $course->id))) {
+    if (!$gradeitemsecondcondition = grade_item::fetch(array('idnumber' => $formdata->grade_condition_2,
+        'courseid' => $course->id))) {
         print_error('invaliditemid');
     }
     $calculation = '[[' . $formdata->positive_result . ']]*min(1,round([[' . $gradeitemfirstcondition->idnumber .

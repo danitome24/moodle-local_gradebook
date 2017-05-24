@@ -15,13 +15,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 //
-// @author Daniel Tome <danieltomefer@gmail.com>
-//
+// @author Daniel Tome <danieltomefer@gmail.com>.
 
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->version  = 2016060915;   // The (date) version of this plugin
-$plugin->requires = 2016052300;   // Requires this Moodle version
+$plugin->version  = 2016060915;   // The (date) version of this plugin.
+$plugin->requires = 2016052300;   // Requires this Moodle version.
 $plugin->cron = 0;
 $plugin->component = 'local_gradebook';
 $plugin->maturity = MATURITY_STABLE;

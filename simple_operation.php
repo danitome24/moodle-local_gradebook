@@ -15,8 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 //
-// @author Daniel Tome <danieltomefer@gmail.com>
-//
+// @author Daniel Tome <danieltomefer@gmail.com>.
+
 use local_gradebook\grade\GradeCalculationFormatter;
 
 require_once('../../config.php');
@@ -26,7 +26,7 @@ require_once($CFG->libdir . '/mathslib.php');
 $id = required_param('id', PARAM_TEXT);
 $gradeid = required_param('gradeid', PARAM_TEXT);
 
-// Make sure they can even access this course
+// Make sure they can even access this course.
 if (!$course = $DB->get_record('course', array('id' => $id))) {
     print_error('nocourseid');
 }
@@ -50,7 +50,7 @@ $mform = new local_gradebook\form\SimpleOperationForm(null,
     ['gtree' => $gtree, 'element' => $gtree->top_element, 'gradeid' => $gradeid, 'id' => $id]);
 
 if ($formdata = $mform->get_data()) {
-    // Make sure they can even access this course
+    // Make sure they can even access this course.
     if (!$course = $DB->get_record('course', array('id' => $formdata->id))) {
         print_error('nocourseid');
     }
@@ -79,7 +79,7 @@ if ($formdata = $mform->get_data()) {
     redirect($urltoredirect, $message, null, \core\output\notification::NOTIFY_SUCCESS);
 }
 
-// Get info to display in form
+// Get info to display in form.
 if (!$gradeitem = grade_item::fetch(array('id' => $gradeid, 'courseid' => $id))) {
     print_error('invaliditemid');
 }
@@ -91,7 +91,7 @@ if (isset($calculation)) {
     $formdatatofillcontent->calculation = grade_item::denormalize_formula($gradeitem->calculation, $course->id);
 }
 
-// Get renderer on last step
+// Get renderer on last step.
 $output = $PAGE->get_renderer('local_gradebook');
 
 echo $OUTPUT->header();

@@ -15,8 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 //
-// @author Daniel Tome <danieltomefer@gmail.com>
-//
+// @author Daniel Tome <danieltomefer@gmail.com>.
 $string['pluginname'] = 'Grade Book';
 $string['activity'] = 'Actividades';
 $string['category'] = 'Categorías';
