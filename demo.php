@@ -23,6 +23,10 @@ require_once($CFG->dirroot . '/grade/edit/tree/lib.php');
 require_once($CFG->dirroot . '/local/' . local_gradebook\Constants::PLUGIN_NAME . '/lib.php');
 require_once($CFG->dirroot . '/local/' . local_gradebook\Constants::PLUGIN_NAME . '/locallib.php');
 
+// Always check if grade_items.idnumber is set. Otherwise we create one.
+$localgrade = new local_gradebook\grade\Grade();
+$localgrade->complete_grade_idnumbers($courseid);
+
 $courseid = required_param('id', PARAM_INT);
 
 // Make sure they can even access this course

@@ -26,6 +26,10 @@ require_once($CFG->libdir . '/mathslib.php');
 $id = required_param('id', PARAM_TEXT);
 $gradeid = required_param('gradeid', PARAM_TEXT);
 
+// Always check if grade_items.idnumber is set. Otherwise we create one.
+$localgrade = new local_gradebook\grade\Grade();
+$localgrade->complete_grade_idnumbers($id);
+
 // Make sure they can even access this course.
 if (!$course = $DB->get_record('course', array('id' => $id))) {
     print_error('nocourseid');

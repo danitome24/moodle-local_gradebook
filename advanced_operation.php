@@ -24,6 +24,10 @@ require_once($CFG->libdir . '/pagelib.php');
 $courseid = required_param('id', PARAM_TEXT);
 $gradeid = required_param('gradeid', PARAM_TEXT);
 
+// Always check if grade_items.idnumber is set. Otherwise we create one.
+$localgrade = new local_gradebook\grade\Grade();
+$localgrade->complete_grade_idnumbers($courseid);
+
 $gtree = new grade_tree($courseid, false, false);
 
 // Make sure they can even access this course.
